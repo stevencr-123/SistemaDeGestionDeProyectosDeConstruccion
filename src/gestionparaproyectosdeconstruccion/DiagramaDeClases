@@ -1,0 +1,129 @@
+@startuml
+
+' --------------------------
+' Clases de Dominio
+' --------------------------
+class Empresa {
+    -String nit
+    -String tipo
+    -String nombre
+    -int telefono
+    -String email
+    -String direccion
+    -List<Proyecto> listaDeProyectos
+    +agregarProyecto(Proyecto proyecto)
+    +eliminarProyecto(String nombreClave)
+}
+
+class Proyecto {
+    -String nombreClave
+    -String denominacion
+    -LocalDate fechaInicio
+    -LocalDate fechaFin
+    -String estado
+    -Empresa empresa
+    -Promotor empleadoPromotor
+    -List<EtapaConstructiva> etapas
+    -List<Empleado> empleados
+    +agregarEtapa(EtapaConstructiva etapa)
+    +cambiarEstado(String nuevoEstado)
+}
+
+class EtapaConstructiva {
+    -String nombre
+    -String descripcion
+    -LocalDate fechaInicio
+    -LocalDate fechaFin
+    -Proyecto proyecto
+    -List<Tarea> tareas
+    +agregarTarea(Tarea tarea)
+    +calcularDuracionTotal()
+}
+
+class Tarea {
+    -String descripcion
+    -String tipo
+    -LocalDate fechaInicioReal
+    -LocalDate fechaInicioEstimado
+    -int duracionReal
+    -int duracionEstimada
+    -EtapaConstructiva etapa
+    -List<Documento> listaDeDocumentos
+    -List<Material> materiales
+    -String estado
+    +agregarDocumento(Documento documento)
+    +actualizarEstado(String nuevoEstado)
+}
+
+class Material {
+    -String codigo
+    -String nombre
+    -String tipo
+    -double cantidad
+    -double costoUnitario
+    +calcularCostoTotal()
+}
+
+class Documento {
+    -String codigo
+    -String descripcion
+    -String tipo
+    -Tarea tarea
+    +asociarTarea(Tarea tarea)
+}
+
+class Usuario {
+    #String dni
+    #String tipoId
+    #String primerNombre
+    #String segundoNombre
+    #String primerApellido
+    #String segundoApellido
+    #String email
+    #String direccion
+    #LocalDate fechaContrato
+    #Empresa empresa
+    +autenticar(): boolean
+}
+
+class Empleado extends Usuario {
+    +asignarAProyecto(Proyecto proyecto)
+    +obtenerProyectosAsignados()
+}
+
+class Promotor extends Empleado {
+    -List<Proyecto> listaDeProyectos
+    +enviarNotificacion(mensaje: String)
+}
+
+class Administrador extends Usuario {
+    +gestionarEmpleados()
+    +gestionarProyectos()
+}
+
+class Reporte {
+    -int id
+    -String descripcion
+    -String prioridad
+    -String estado
+    -LocalDate fechaCreacion
+    -LocalDate fechaResolucion
+    +cambiarPrioridad(String nuevaPrioridad)
+    +marcarComoResuelto()
+}
+
+' --------------------------
+' Relaciones
+' --------------------------
+Empresa "1" -- "*" Proyecto: Gestiona
+Proyecto "1" -- "*" EtapaConstructiva: Contiene
+EtapaConstructiva "1" -- "*" Tarea: Contiene
+Tarea "1" -- "*" Documento: Genera
+Tarea "1" -- "*" Material: Utiliza
+Usuario <|-- Empleado
+Empleado <|-- Promotor
+Usuario <|-- Administrador
+Promotor "1" -- "*" Proyecto: Supervisa
+Reporte "1" -- "*" Proyecto: Documenta
+
+@enduml
