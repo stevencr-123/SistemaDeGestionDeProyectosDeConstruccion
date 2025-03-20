@@ -13,5 +13,5 @@ public class Usuario {
     protected String email;
     protected String direccion;
     protected LocalDate fechaContrato;
-    //protected Empresa empresa;
+    protected Empresa empresa;
 }
