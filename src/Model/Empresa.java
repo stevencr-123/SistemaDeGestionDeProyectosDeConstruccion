@@ -1,6 +1,8 @@
 
 package Model;
 
+import java.util.List;
+
 public class Empresa {
     private String nit;
     private String tipo;
@@ -8,5 +10,5 @@ public class Empresa {
     private int telefono;
     private String email;
     private String direccion;
-  //private List<Proyecto> listaDeProyectos;
+  private List<Proyecto> listaDeProyectos;
 }

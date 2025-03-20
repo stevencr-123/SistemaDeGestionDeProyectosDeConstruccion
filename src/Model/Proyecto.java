@@ -1,13 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author HP
- */
+import java.util.List;
+import java.time.LocalDate;
+
 public class Proyecto {
-    
+    private String nombreClave;
+    private String denominacion;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
+    private String estado;
+    private Empresa empresa;
+    private Promotor empleadoPromotor;
+    private List<EtapaConstructiva> etapas;
+    private List<Empleado> empleados;
 }
