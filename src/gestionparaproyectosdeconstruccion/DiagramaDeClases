@@ -1,129 +1,272 @@
 @startuml
 
-' --------------------------
-' Clases de Dominio
-' --------------------------
-class Empresa {
-    -String nit
-    -String tipo
-    -String nombre
-    -int telefono
-    -String email
-    -String direccion
-    -List<Proyecto> listaDeProyectos
-    +agregarProyecto(Proyecto proyecto)
-    +eliminarProyecto(String nombreClave)
+' #############################
+' #         ENUMS            #
+' #############################
+
+enum TipoIdentificacion {
+    CEDULA
+    PASAPORTE
+    RUC
+    TI
+
 }
 
-class Proyecto {
-    -String nombreClave
-    -String denominacion
-    -LocalDate fechaInicio
-    -LocalDate fechaFin
-    -String estado
-    -Empresa empresa
-    -Promotor empleadoPromotor
-    -List<EtapaConstructiva> etapas
-    -List<Empleado> empleados
-    +agregarEtapa(EtapaConstructiva etapa)
-    +cambiarEstado(String nuevoEstado)
+enum RolSistema {
+    ADMINISTRADOR
+    FUNCIONARIO_PUBLICO
+    PROMOTOR
+    OBRERO
+    INSPECTOR_MUNICIPAL
+    CIUDADANO
 }
 
-class EtapaConstructiva {
-    -String nombre
-    -String descripcion
-    -LocalDate fechaInicio
-    -LocalDate fechaFin
-    -Proyecto proyecto
-    -List<Tarea> tareas
-    +agregarTarea(Tarea tarea)
-    +calcularDuracionTotal()
+enum Prioridad {
+    URGENTE
+    ALTA
+    MEDIA
+    BAJA
+}
+
+enum EstadoTarea {
+    PENDIENTE
+    EN_PROGRESO
+    COMPLETADA
+    RETRASADA
+}
+
+enum TipoReparacion {
+    ESTRUCTURAL
+    ELECTRICA
+    HIDRAULICA
+    PAVIMENTACION
+    OTROS
+}
+
+' #############################
+' #         CLASES           #
+' #############################
+
+class Usuario {
+    - nombre
+    - password
+    - fechaRegistro: LocalDate
+    - activo: boolean
+    - Rolsistema rol
+    + login()
+    + cambiarPassword()
+}
+
+class Persona{
+    - tipoIdentificacion: TipoIdentificacion
+    - numeroIdentificacion: String
+    - primerNombre: String
+    - segundoNombre: String
+    - primerApellido: String
+    - segundoApellido: String
+    - email: String
+    - telefono: String
+}
+
+class Obrero {
+    - especialidad: String
+    - fechaContratacion: LocalDate
+    - salarioHora: double
+    - seguroLaboral: boolean
+    - certificaciones: List<String>
+    + calcularHorasTrabajadas()
+}
+
+class Administrador {
+    - esSuperAdmin: boolean = true
+    - fechaCreacionCuenta: LocalDate
+    - ultimoAcceso: LocalDateTime
+    - ipUltimoAcceso: String
+    + crearUsuario(Usuario): boolean
+    + bloquearProyecto(Proyecto): void
+    + generarBackup(): String
+}
+
+class InspectorMunicipal {
+    - areaEspecializacion: String
+    - instrumentosCertificados: List<String>
+    + realizarInspeccion()
+    + generarActa()
+}
+
+class Promotor {
+    - matriculaProfesional: String
+    - departamento: String
+    - proyectosActivos: int
+    + asignarTarea()
+    + generarReporte()
+}
+
+class FuncionarioPublico {
+    - cargo: String
+    - nivelAcceso: int
+    - departamento: String
+    + aprobarLicencia()
+    + fiscalizarObra()
+}
+
+class ProyectoReparacion {
+    - codigo: String
+    - nombre: String
+    - direccion: String
+    - tipoReparacion: TipoReparacion
+    - fechaInicio: LocalDate
+    - fechaFinEstimada: LocalDate
+    - prioridad: Prioridad
+    - presupuesto: double
+    + calcularAvance()
+    + actualizarPresupuesto()
 }
 
 class Tarea {
-    -String descripcion
-    -String tipo
-    -LocalDate fechaInicioReal
-    -LocalDate fechaInicioEstimado
-    -int duracionReal
-    -int duracionEstimada
-    -EtapaConstructiva etapa
-    -List<Documento> listaDeDocumentos
-    -List<Material> materiales
-    -String estado
-    +agregarDocumento(Documento documento)
-    +actualizarEstado(String nuevoEstado)
+    - codigo: String
+    - descripcion: String
+    - horasEstimadas: double
+    - horasReales: double
+    - estado: EstadoTarea
+    - fechaAsignacion: LocalDate
+    - fechaFinalizacion: LocalDate
+    + actualizarEstado()
+    + registrarHoras()
 }
 
 class Material {
-    -String codigo
-    -String nombre
-    -String tipo
-    -double cantidad
-    -double costoUnitario
-    +calcularCostoTotal()
+    - codigo: String
+    - nombre: String
+    - cantidad: double
+    - unidad: String
+    - costoUnitario: double
+    - proveedor: String
+    - normativa: String
+    + validarStock()
+    + actualizarCantidad()
 }
 
-class Documento {
-    -String codigo
-    -String descripcion
-    -String tipo
-    -Tarea tarea
-    +asociarTarea(Tarea tarea)
+class LicenciaReparacion {
+    - codigo: String
+    - fechaEmision: LocalDate
+    - fechaExpiracion: LocalDate
+    - documentos: List<String>
+    + estaVencida()
+    + renovar()
 }
 
-class Usuario {
-    #String dni
-    #String tipoId
-    #String primerNombre
-    #String segundoNombre
-    #String primerApellido
-    #String segundoApellido
-    #String email
-    #String direccion
-    #LocalDate fechaContrato
-    #Empresa empresa
-    +autenticar(): boolean
+class ReporteCiudadano {
+    - codigo: String
+    - descripcion: String
+    - direccion: String
+    - fechaReporte: LocalDate
+    - estado: String
+    + cambiarEstado()
+    + asignarResponsable()
 }
 
-class Empleado extends Usuario {
-    +asignarAProyecto(Proyecto proyecto)
-    +obtenerProyectosAsignados()
-}
+' #############################
+' #        RELACIONES        #
+' #############################
 
-class Promotor extends Empleado {
-    -List<Proyecto> listaDeProyectos
-    +enviarNotificacion(mensaje: String)
-}
+Usuario <|-- Obrero
+Usuario <|-- Promotor
+Usuario <|-- FuncionarioPublico
 
-class Administrador extends Usuario {
-    +gestionarEmpleados()
-    +gestionarProyectos()
-}
+ProyectoReparacion "1" -- "*" Tarea
+ProyectoReparacion "1" -- "1" LicenciaReparacion
+ProyectoReparacion "1" -- "*" Material
 
-class Reporte {
-    -int id
-    -String descripcion
-    -String prioridad
-    -String estado
-    -LocalDate fechaCreacion
-    -LocalDate fechaResolucion
-    +cambiarPrioridad(String nuevaPrioridad)
-    +marcarComoResuelto()
-}
+Tarea "1" -- "1" Obrero
+Tarea "1" -- "*" Material
 
-' --------------------------
-' Relaciones
-' --------------------------
-Empresa "1" -- "*" Proyecto: Gestiona
-Proyecto "1" -- "*" EtapaConstructiva: Contiene
-EtapaConstructiva "1" -- "*" Tarea: Contiene
-Tarea "1" -- "*" Documento: Genera
-Tarea "1" -- "*" Material: Utiliza
-Usuario <|-- Empleado
-Empleado <|-- Promotor
-Usuario <|-- Administrador
-Promotor "1" -- "*" Proyecto: Supervisa
-Reporte "1" -- "*" Proyecto: Documenta
+FuncionarioPublico "1" -- "*" LicenciaReparacion
+FuncionarioPublico "1" -- "*" ProyectoReparacion
+
+Promotor "1" -- "*" ProyectoReparacion
+Promotor "1" -- "*" Tarea
+
+ReporteCiudadano "1" -- "1" ProyectoReparacion
+
+' #############################
+' #         NOTAS            #
+' #############################
+
+note top of Usuario
+  **Clase base para todos los roles**:
+  - Todos los usuarios comparten
+    propiedades básicas de identificación
+  - Métodos comunes de autenticación
+end note
+
+note right of Obrero
+  **Datos clave**:
+  - Certificaciones validadas por
+    el municipio
+  - Seguro laboral obligatorio
+end note
+
+note left of ProyectoReparacion
+  **Gestión completa**:
+  - Prioridad determina recursos
+  - Presupuesto actualizable
+  - Tipos de reparación específicos
+end note
 
 @enduml
+
+Diagrama de Funcionalidades
+
+@startuml
+
+left to right direction
+
+rectangle "ADMINISTRADOR" {
+    (Gestionar Usuarios)
+    (Configurar Sistema)
+    (Generar Backups)
+}
+
+rectangle "FUNCIONARIO PÚBLICO" {
+    (Emitir Licencias)
+    (Fiscalizar Obras)
+    (Atender Ciudadanos)
+}
+
+rectangle "PROMOTOR" {
+    (Asignar Tareas)
+    (Gestionar Materiales)
+    (Actualizar Proyectos)
+}
+
+rectangle "OBRERO" {
+    (Registrar Avances)
+    (Reportar Problemas)
+    (Consultar Tareas)
+}
+
+rectangle "INSPECTOR" {
+    (Verificar Calidad)
+    (Generar Auditorías)
+}
+
+rectangle "CIUDADANO" {
+    (Reportar Daños)
+    (Consultar Proyectos)
+}
+
+' Relaciones
+(ADMINISTRADOR) --> (Gestionar Usuarios)
+(FUNCIONARIO PÚBLICO) --> (Emitir Licencias)
+(PROMOTOR) --> (Asignar Tareas)
+(OBRERO) --> (Registrar Avances)
+(INSPECTOR) --> (Verificar Calidad)
+(CIUDADANO) --> (Reportar Daños)
+
+@enduml
+
+
+
+
+
