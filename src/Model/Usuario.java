@@ -1,0 +1,63 @@
+
+package Model;
+
+import java.time.LocalDate;
+
+public class Usuario {
+    private String nombre;
+    private String password;
+    private LocalDate fechaRegistro;
+    private boolean activo;
+    private RolSistema rol;
+
+    public Usuario(String nombre, String password, RolSistema rol) {
+        this.nombre = nombre;
+        this.password = password;
+        this.rol = rol;
+    }
+
+    public Usuario() {
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public LocalDate getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(LocalDate fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+
+    public RolSistema getRol() {
+        return rol;
+    }
+
+    public void setRol(RolSistema rol) {
+        this.rol = rol;
+    }
+    
+    
+}
