@@ -9,6 +9,7 @@ public class Usuario {
     private LocalDate fechaRegistro;
     private boolean activo;
     private RolSistema rol;
+    private Persona persona;
 
     public Usuario(String nombre, String password, RolSistema rol) {
         this.nombre = nombre;
@@ -17,6 +18,14 @@ public class Usuario {
     }
 
     public Usuario() {
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 
     public String getNombre() {
