@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package View;
 
 import Dao.UsuarioDAO;
@@ -9,7 +6,7 @@ import Model.Usuario;
 import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
-
+ 
     public Login() {
         initComponents();
     }
@@ -132,9 +129,28 @@ public class Login extends javax.swing.JFrame {
              JOptionPane.showMessageDialog(this, "Bienvenido Administrador", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
         //new admin().setVisible(true);
             this.dispose();
-      
-         }
-     }else{
+         }else if(usuarioDAO.esFuncionarioPublico(usuario)){
+           JOptionPane.showMessageDialog(this, "Bienvenido Funcionario Publico", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
+          //new funcionario().setVisible(true);
+          this.dispose();
+     }else if(usuarioDAO.esInspectorMunicipal(usuario)){
+           JOptionPane.showMessageDialog(this, "Bienvenido Inspector Municipal", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
+          //new inspector().setVisible(true);
+          this.dispose();
+     }else if(usuarioDAO.esPromotor(usuario)){
+           JOptionPane.showMessageDialog(this, "Bienvenido Promotor", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
+          //new promotor().setVisible(true);
+          this.dispose();
+     }else if(usuarioDAO.esObrero(usuario)){
+           JOptionPane.showMessageDialog(this, "Bienvenido Obrero", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
+          //new obrero().setVisible(true);
+          this.dispose();
+     }else if(usuarioDAO.esCiudadano(usuario)){
+           JOptionPane.showMessageDialog(this, "Bienvenido Ciudadano", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
+          //new ciudadano().setVisible(true);
+          this.dispose();
+     }
+  }else{
          JOptionPane.showConfirmDialog(this, "Email o contraseña incorrectos", "Error login", JOptionPane.ERROR_MESSAGE);
      }
      

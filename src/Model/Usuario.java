@@ -10,9 +10,10 @@ public class Usuario {
     private boolean activo;
     private RolSistema rol;
     private Persona persona;
+    private String email;
 
-    public Usuario(String nombre, String password, RolSistema rol) {
-        this.nombre = nombre;
+    public Usuario(String email, String password, RolSistema rol) {
+        this.email = email;
         this.password = password;
         this.rol = rol;
     }
@@ -22,6 +23,14 @@ public class Usuario {
 
     public Persona getPersona() {
         return persona;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setPersona(Persona persona) {

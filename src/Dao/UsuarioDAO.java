@@ -7,6 +7,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.FileReader;
+
 public class UsuarioDAO {
 
     private static final String JSON_FILE = "C:\\Users\\HP\\OneDrive\\Documentos\\NetBeansProjects\\GestionParaProyectosDeConstruccion\\src\\Resource\\usuarios.json";
@@ -38,6 +39,26 @@ public class UsuarioDAO {
     
     public boolean esAdministrador (Usuario usuario){
         return usuario != null && usuario.getRol() == RolSistema.ADMINISTRADOR;
+    }
+    
+    public boolean esFuncionarioPublico (Usuario usuario){
+        return usuario != null && usuario.getRol() == RolSistema.FUNCIONARIO_PUBLICO;
+    }
+    
+    public boolean esObrero (Usuario usuario){
+        return usuario != null && usuario.getRol() == RolSistema.OBRERO;
+    }
+    
+    public boolean esCiudadano (Usuario usuario){
+        return usuario != null && usuario.getRol() == RolSistema.CIUDADANO;
+    }
+    
+    public boolean esInspectorMunicipal (Usuario usuario){
+        return usuario != null && usuario.getRol() == RolSistema.INSPECTOR_MUNICIPAL;
+    }
+    
+    public boolean esPromotor (Usuario usuario){
+        return usuario != null && usuario.getRol() == RolSistema.PROMOTOR;
     }
     
 }
