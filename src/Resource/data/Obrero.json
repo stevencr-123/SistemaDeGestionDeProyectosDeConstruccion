@@ -1,0 +1,78 @@
+[
+  {
+    "especialidad": "Promotor",
+    "fechaContratacion": "2023-10-25",
+    "salarioHora": 9990.0,
+    "seguroLaboral": true,
+    "tipoIdentificacion": "CEDULA",
+    "numeroIdentificacion": "123456789",
+    "primerNombre": "Juan",
+    "primerApellido": "Pérez",
+    "email": "juan@example.com"
+  },
+  {
+    "especialidad": "Promotor",
+    "salarioHora": 61520.0,
+    "seguroLaboral": true,
+    "tipoIdentificacion": "CEDULA",
+    "numeroIdentificacion": "3284738473",
+    "primerNombre": "carlos",
+    "primerApellido": "marrugo",
+    "email": "carlos@gmail.com"
+  },
+  {
+    "especialidad": "Promotor",
+    "fechaContratacion": "2025-04-06",
+    "salarioHora": 23740.0,
+    "seguroLaboral": true,
+    "tipoIdentificacion": "CEDULA",
+    "numeroIdentificacion": "3827384938",
+    "primerNombre": "carlos",
+    "primerApellido": "marrugo",
+    "email": "carlos@gmail.com"
+  },
+  {
+    "especialidad": "Mano de obra",
+    "fechaContratacion": "2025-04-06",
+    "salarioHora": 52340.0,
+    "seguroLaboral": true,
+    "tipoIdentificacion": "CEDULA",
+    "numeroIdentificacion": "3294837482",
+    "primerNombre": "haider",
+    "primerApellido": "pavon",
+    "email": "haider@gmail.com"
+  },
+  {
+    "especialidad": "Promotor",
+    "fechaContratacion": "2025-04-06",
+    "salarioHora": 10000.0,
+    "seguroLaboral": true,
+    "tipoIdentificacion": "CEDULA",
+    "numeroIdentificacion": "1234567890",
+    "primerNombre": "c",
+    "primerApellido": "c",
+    "email": "c@gmail.com"
+  },
+  {
+    "especialidad": "Promotor",
+    "fechaContratacion": "2025-04-07",
+    "salarioHora": 1000.0,
+    "seguroLaboral": true,
+    "tipoIdentificacion": "CEDULA",
+    "numeroIdentificacion": "3849384938",
+    "primerNombre": "maria",
+    "primerApellido": "leon",
+    "email": "maria@gmail.com"
+  },
+  {
+    "especialidad": "Promotor",
+    "fechaContratacion": "2025-04-07",
+    "salarioHora": 65000.0,
+    "seguroLaboral": true,
+    "tipoIdentificacion": "CEDULA",
+    "numeroIdentificacion": "3928374839",
+    "primerNombre": "ronaldo",
+    "primerApellido": "cano",
+    "email": "cano@gmail.con"
+  }
+]
