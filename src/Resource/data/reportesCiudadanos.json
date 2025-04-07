@@ -1,0 +1,10 @@
+{
+ "usuarios": [
+    {
+      "email": "admin@constructora.com",
+      "password": "admin123",
+      "rol": "ADMINISTRADOR"
+    }
+     
+  ]
+}
