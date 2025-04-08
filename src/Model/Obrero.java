@@ -12,10 +12,11 @@ public class Obrero extends Persona{
     private List<String> certificaciones;
 
     public Obrero(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion, String primerNombre, 
-            String primerApellido, String email, String especialidad, boolean seguroLaboral) {
+            String primerApellido, String email, String especialidad, boolean seguroLaboral, double salarioHora) {
         super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email);
         this.seguroLaboral = seguroLaboral;
         this.especialidad = especialidad;
+        this.salarioHora = salarioHora;
     }
 
     public String getEspecialidad() {
