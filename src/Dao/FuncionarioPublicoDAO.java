@@ -1,7 +1,7 @@
 
 package DAO;
 
-import Model.Obrero;
+import Model.FuncionarioPublico;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -17,9 +17,9 @@ import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 
 
-public class ObreroDAO {
+public class FuncionarioPublicoDAO {
     
-    private static final String ARCHIVO_JSON = "C:\\Users\\HP\\OneDrive\\Documentos\\NetBeansProjects\\GestionParaProyectosDeConstruccion\\src\\Resource\\data\\Obrero.json";
+    private static final String ARCHIVO_JSON = "C:\\Users\\HP\\OneDrive\\Documentos\\NetBeansProjects\\GestionParaProyectosDeConstruccion\\src\\Resource\\data\\funcionariosPublicos.json";
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
     
     public class LocalDateAdapter extends TypeAdapter<LocalDate> {
@@ -44,29 +44,29 @@ public class ObreroDAO {
     }
 }
     
-    public ObreroDAO() {
+    public FuncionarioPublicoDAO() {
         this.gson = new GsonBuilder()
             .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
             .setPrettyPrinting()
             .create();
     }
-    public List<Obrero> cargarTodos() {
+    public List<FuncionarioPublico> cargarTodos() {
         try (Reader reader = new FileReader(ARCHIVO_JSON)) {
-            Type tipoLista = new TypeToken<ArrayList<Obrero>>(){}.getType();
+            Type tipoLista = new TypeToken<ArrayList<FuncionarioPublico>>(){}.getType();
             return gson.fromJson(reader, tipoLista);
         } catch (IOException e) {
-            System.err.println("Error al cargar obreros: " + e.getMessage());
+            System.err.println("Error al cargar funcionarios publicos: " + e.getMessage());
             return new ArrayList<>();
         }
     }
 
-    public void guardarObrero(Obrero obrero) {
-        List<Obrero> obreros = cargarTodos();
-        obreros.add(obrero);
+    public void guardarObrero(FuncionarioPublico funcionario) {
+        List<FuncionarioPublico> funcionarios = cargarTodos();
+        funcionarios.add(funcionario);
         try (Writer writer = new FileWriter(ARCHIVO_JSON)) {
-            gson.toJson(obreros, writer);
+            gson.toJson(funcionarios, writer);
         } catch (IOException e) {
-            System.err.println("Error al guardar obrero: " + e.getMessage());
+            System.err.println("Error al guardar Funcionario Publico: " + e.getMessage());
         }
     }
 }

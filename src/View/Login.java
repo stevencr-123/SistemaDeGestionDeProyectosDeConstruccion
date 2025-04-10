@@ -4,17 +4,8 @@ package View;
 import Dao.UsuarioDAO;
 import Model.Usuario;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 
 public class Login extends javax.swing.JFrame {
- 
-    static {
-    try {
-        UIManager.setLookAndFeel("com.jtattoo.plaf.graphite.GraphiteLookAndFeel");
-    } catch (Exception ex) {
-        ex.printStackTrace();
-    }
-}
     
     public Login() {
         
@@ -137,7 +128,7 @@ public class Login extends javax.swing.JFrame {
      if(usuario != null){
          if(usuarioDAO.esAdministrador(usuario)){
              JOptionPane.showMessageDialog(this, "Bienvenido Administrador", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
-        //new admin().setVisible(true);
+        new Administrador().setVisible(true);
             this.dispose();
          }else if(usuarioDAO.esFuncionarioPublico(usuario)){
            JOptionPane.showMessageDialog(this, "Bienvenido Funcionario Publico", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
@@ -161,14 +152,12 @@ public class Login extends javax.swing.JFrame {
           this.dispose();
      }
   }else{
-         JOptionPane.showConfirmDialog(this, "Email o contraseña incorrectos", "Error login", JOptionPane.ERROR_MESSAGE);
+         JOptionPane.showMessageDialog(this, "Email o contraseña incorrectos", "Error login", JOptionPane.ERROR_MESSAGE);
      }
      
     }//GEN-LAST:event_jButtonIngresarActionPerformed
 
     private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
-        txtPassword.putClientProperty("JComponent.roundRect", true);
-
 
     }//GEN-LAST:event_txtPasswordActionPerformed
 

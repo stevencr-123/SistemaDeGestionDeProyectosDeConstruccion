@@ -34,6 +34,7 @@ public class Administrador extends javax.swing.JFrame {
         initComponents();
         setupTableModel();
         cargarDatosEnTabla();
+       
     }
      private void setupTableModel() {
         tableModel = (DefaultTableModel) jTable2.getModel();

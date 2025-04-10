@@ -1,40 +1,5 @@
 {
- "usuarios": [
-    {
-      "email": "admin@constructora.com",
-      "password": "admin123",
-      "rol": "ADMINISTRADOR"
-    }
-  ,
-    {
-      "email": "funcionario@constructora.com",
-      "password": "funcionario123",
-      "rol": "FUNCIONARIO_PUBLICO"
-    }
- ,
-    {
-        "email":"promotor@constructora.com",
-        "password":"promotor123",
-        "rol":"PROMOTOR"
-    }
-    ,
-     {
-      "email": "obrero@constructora.com",
-      "password": "obrero123",
-      "rol": "OBRERO"
-    }
-    ,
-     {
-      "email": "inspector@constructora.com",
-      "password": "inspector123",
-      "rol": "INSPECTOR_MUNICIPAL"
-    }
-     ,
-     {
-      "email": "ciudadano@constructora.com",
-      "password": "ciudadano123",
-      "rol": "CIUDADANO"
-    }
-     
+ "Licencias": [
+    
   ]
 }
