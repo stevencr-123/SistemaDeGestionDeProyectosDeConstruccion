@@ -1,19 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package View;
 
 import DAO.ObreroDAO;
 import Model.Obrero;
 import Model.TipoIdentificacion;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -34,8 +34,57 @@ public class Administrador extends javax.swing.JFrame {
         initComponents();
         setupTableModel();
         cargarDatosEnTabla();
-       
+        inicializarMenu();
     }
+    
+    
+    public void inicializarMenu() {
+    JMenuItem eliminar = new JMenuItem("Despedir");
+    ppmenutabla.add(eliminar);
+    jTable2.setComponentPopupMenu(ppmenutabla);
+
+    eliminar.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int selectedRow = jTable2.getSelectedRow();
+
+            if (selectedRow != -1) {
+                
+                String cedula = (String) jTable2.getValueAt(selectedRow, 3);
+                System.out.println("Debug - Cédula a eliminar: " + cedula);
+
+                
+                int confirm = JOptionPane.showConfirmDialog(null, 
+                    "¿Está seguro de eliminar al obrero con cédula " + cedula + "?", 
+                    "Confirmación", 
+                    JOptionPane.YES_NO_OPTION);
+                
+                if (confirm == JOptionPane.YES_OPTION) {
+                    
+                    ObreroDAO obreroDAO = new ObreroDAO();
+                    boolean eliminado = obreroDAO.borrarObrero(cedula);
+                    
+                    if (eliminado) {
+                        JOptionPane.showMessageDialog(null, "Obrero eliminado correctamente");
+                         obreroDAO.borrarObrero(cedula);
+                         cargarDatosEnTabla();
+                    } else {
+                        JOptionPane.showMessageDialog(null, 
+                            "No se pudo eliminar el obrero", 
+                            "Error", 
+                            JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, 
+                    "Seleccione un obrero primero", 
+                    "Advertencia", 
+                    JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    });
+}                     
+    
      private void setupTableModel() {
         tableModel = (DefaultTableModel) jTable2.getModel();
     }
@@ -146,6 +195,7 @@ public class Administrador extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        ppmenutabla = new javax.swing.JPopupMenu();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -363,7 +413,7 @@ public class Administrador extends javax.swing.JFrame {
         jLabel13.setText("Correo:");
         jPanel10.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
 
-        jComboTrabajo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Promotor", "Mano de obra" }));
+        jComboTrabajo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Promotor", "Obrero" }));
         jComboTrabajo.setBorder(null);
         jPanel10.add(jComboTrabajo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 100, -1));
 
@@ -487,7 +537,7 @@ public class Administrador extends javax.swing.JFrame {
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(53, Short.MAX_VALUE)
+                .addContainerGap(23, Short.MAX_VALUE)
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
@@ -515,7 +565,7 @@ public class Administrador extends javax.swing.JFrame {
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("tab2", jPanel8);
@@ -541,12 +591,12 @@ public class Administrador extends javax.swing.JFrame {
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("tab3", jPanel9);
 
-        jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 100, 860, 500));
+        jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, 860, 470));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -706,5 +756,6 @@ cargarDatosEnTabla();
     private javax.swing.JTextField jTextcorreo;
     private javax.swing.JTextField jTextnombre;
     private javax.swing.JTextField jTextsalario;
+    private javax.swing.JPopupMenu ppmenutabla;
     // End of variables declaration//GEN-END:variables
 }
