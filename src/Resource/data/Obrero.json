@@ -11,17 +11,6 @@
     "email": "carlos@gmail.com"
   },
   {
-    "especialidad": "Mano de obra",
-    "fechaContratacion": "2025-04-06",
-    "salarioHora": 52340.0,
-    "seguroLaboral": true,
-    "tipoIdentificacion": "CEDULA",
-    "numeroIdentificacion": "3294837482",
-    "primerNombre": "haider",
-    "primerApellido": "pavon",
-    "email": "haider@gmail.com"
-  },
-  {
     "especialidad": "Promotor",
     "fechaContratacion": "2025-04-07",
     "salarioHora": 1000.0,
