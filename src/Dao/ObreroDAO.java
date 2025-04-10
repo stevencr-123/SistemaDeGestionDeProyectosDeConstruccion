@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package DAO;
 
 import Model.Obrero;
@@ -75,4 +72,24 @@ public class ObreroDAO {
             System.err.println("Error al guardar obrero: " + e.getMessage());
         }
     }
+    public boolean borrarObrero(String numeroIdentificacion) {
+        List<Obrero> obreros = cargarTodos();
+        
+        boolean eliminado = obreros.removeIf(obrero -> 
+            obrero.getNumeroIdentificacion().equals(numeroIdentificacion));
+        
+        if (eliminado) {
+            try (Writer writer = new FileWriter(ARCHIVO_JSON)) {
+                gson.toJson(obreros, writer);
+                return true;
+            } catch (IOException e) {
+                System.err.println("Error al guardar los cambios después de eliminar: " + e.getMessage());
+                return false;
+            }
+        }
+        
+        return eliminado;
+    }
+    
+    
 }
