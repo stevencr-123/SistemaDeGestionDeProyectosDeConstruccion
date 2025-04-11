@@ -69,4 +69,24 @@ public class InspectorMunicipalDAO {
             System.err.println("Error al guardar inspector: " + e.getMessage());
         }
     }
+    
+     
+    public boolean borrarInspectorMunicipal(String numeroIdentificacion) {
+        List<InspectorMunicipal> inspectores = cargarTodos();
+        
+        boolean eliminado = inspectores.removeIf(inspector -> 
+            inspector.getNumeroIdentificacion().equals(numeroIdentificacion));
+        
+        if (eliminado) {
+            try (Writer writer = new FileWriter(ARCHIVO_JSON)) {
+                gson.toJson(inspectores, writer);
+                return true;
+            } catch (IOException e) {
+                System.err.println("Error al guardar los cambios después de eliminar: " + e.getMessage());
+                return false;
+            }
+        }
+        
+        return eliminado;
+    }
 }
