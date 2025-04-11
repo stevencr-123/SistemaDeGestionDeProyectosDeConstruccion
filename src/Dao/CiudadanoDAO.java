@@ -60,7 +60,7 @@ public class CiudadanoDAO {
         }
     }
 
-    public void guardarObrero(Persona persona) {
+    public void guardarCiudadanos(Persona persona) {
         List<Persona> personas = cargarTodos();
         personas.add(persona);
         try (Writer writer = new FileWriter(ARCHIVO_JSON)) {
@@ -68,5 +68,25 @@ public class CiudadanoDAO {
         } catch (IOException e) {
             System.err.println("Error al guardar ciudadano: " + e.getMessage());
         }
+    }
+    
+     
+    public boolean borrarObrero(String numeroIdentificacion) {
+        List<Persona> personas = cargarTodos();
+        
+        boolean eliminado = personas.removeIf(persona -> 
+            persona.getNumeroIdentificacion().equals(numeroIdentificacion));
+        
+        if (eliminado) {
+            try (Writer writer = new FileWriter(ARCHIVO_JSON)) {
+                gson.toJson(personas, writer);
+                return true;
+            } catch (IOException e) {
+                System.err.println("Error al guardar los cambios después de eliminar: " + e.getMessage());
+                return false;
+            }
+        }
+        
+        return eliminado;
     }
 }
