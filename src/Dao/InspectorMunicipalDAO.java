@@ -60,7 +60,7 @@ public class InspectorMunicipalDAO {
         }
     }
 
-    public void guardarObrero(InspectorMunicipal inspector) {
+    public void guardarInspectorMunicipal(InspectorMunicipal inspector) {
         List<InspectorMunicipal> inspectores = cargarTodos();
         inspectores.add(inspector);
         try (Writer writer = new FileWriter(ARCHIVO_JSON)) {

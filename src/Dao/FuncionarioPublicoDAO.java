@@ -60,7 +60,7 @@ public class FuncionarioPublicoDAO {
         }
     }
 
-    public void guardarObrero(FuncionarioPublico funcionario) {
+    public void guardarFuncionarioPublico(FuncionarioPublico funcionario) {
         List<FuncionarioPublico> funcionarios = cargarTodos();
         funcionarios.add(funcionario);
         try (Writer writer = new FileWriter(ARCHIVO_JSON)) {
@@ -68,5 +68,25 @@ public class FuncionarioPublicoDAO {
         } catch (IOException e) {
             System.err.println("Error al guardar Funcionario Publico: " + e.getMessage());
         }
+    }
+    
+     
+    public boolean borrarFuncionarioPublico(String numeroIdentificacion) {
+        List<FuncionarioPublico> funcionarios = cargarTodos();
+        
+        boolean eliminado = funcionarios.removeIf(funcionario -> 
+            funcionario.getNumeroIdentificacion().equals(numeroIdentificacion));
+        
+        if (eliminado) {
+            try (Writer writer = new FileWriter(ARCHIVO_JSON)) {
+                gson.toJson(funcionarios, writer);
+                return true;
+            } catch (IOException e) {
+                System.err.println("Error al guardar los cambios después de eliminar: " + e.getMessage());
+                return false;
+            }
+        }
+        
+        return eliminado;
     }
 }
