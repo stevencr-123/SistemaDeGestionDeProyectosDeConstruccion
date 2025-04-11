@@ -60,7 +60,7 @@ public class PromotorDAO {
         }
     }
 
-    public void guardarObrero(Promotor promotor) {
+    public void guardarPromotor(Promotor promotor) {
         List<Promotor> promotores = cargarTodos();
         promotores.add(promotor);
         try (Writer writer = new FileWriter(ARCHIVO_JSON)) {
@@ -68,6 +68,25 @@ public class PromotorDAO {
         } catch (IOException e) {
             System.err.println("Error al guardar promotor: " + e.getMessage());
         }
+    }
+    
+        public boolean borrarPromotor(String numeroIdentificacion) {
+        List<Promotor> promotores = cargarTodos();
+        
+        boolean eliminado = promotores.removeIf(promotor -> 
+            promotor.getNumeroIdentificacion().equals(numeroIdentificacion));
+        
+        if (eliminado) {
+            try (Writer writer = new FileWriter(ARCHIVO_JSON)) {
+                gson.toJson(promotores, writer);
+                return true;
+            } catch (IOException e) {
+                System.err.println("Error al guardar los cambios después de eliminar: " + e.getMessage());
+                return false;
+            }
+        }
+        
+        return eliminado;
     }
 }
     

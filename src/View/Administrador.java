@@ -41,16 +41,16 @@ public class Administrador extends javax.swing.JFrame {
     public void inicializarMenu() {
     JMenuItem eliminar = new JMenuItem("Despedir");
     ppmenutabla.add(eliminar);
-    jTable2.setComponentPopupMenu(ppmenutabla);
+    jTable_Empleados.setComponentPopupMenu(ppmenutabla);
 
     eliminar.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int selectedRow = jTable2.getSelectedRow();
+            int selectedRow = jTable_Empleados.getSelectedRow();
 
             if (selectedRow != -1) {
                 
-                String cedula = (String) jTable2.getValueAt(selectedRow, 3);
+                String cedula = (String) jTable_Empleados.getValueAt(selectedRow, 3);
                 System.out.println("Debug - Cédula a eliminar: " + cedula);
 
                 
@@ -86,7 +86,7 @@ public class Administrador extends javax.swing.JFrame {
 }                     
     
      private void setupTableModel() {
-        tableModel = (DefaultTableModel) jTable2.getModel();
+        tableModel = (DefaultTableModel) jTable_Empleados.getModel();
     }
      
     private void guardarObrerosDesdeFormulario() {
@@ -138,6 +138,7 @@ public class Administrador extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
+    
     private void limpiar(){
         jTextnombre.setText("");
         jTextapellido.setText("");
@@ -157,7 +158,7 @@ public class Administrador extends javax.swing.JFrame {
                 return false;
             }
         };
-        jTable2.setModel(tableModel); 
+        jTable_Empleados.setModel(tableModel); 
     }
     
     private void cargarDatosEnTabla() {
@@ -240,7 +241,7 @@ public class Administrador extends javax.swing.JFrame {
         jSeparator5 = new javax.swing.JSeparator();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jTable_Empleados = new javax.swing.JTable();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -279,8 +280,6 @@ public class Administrador extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 233, 127));
         jLabel2.setText("Proyectos");
-
-        jLabel7.setIcon(new javax.swing.ImageIcon("C:\\Users\\Camilo Jurado\\OneDrive\\Desktop\\Resource\\construccion.png")); // NOI18N
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -322,8 +321,6 @@ public class Administrador extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 233, 127));
         jLabel3.setText("Empleados");
 
-        jLabel6.setIcon(new javax.swing.ImageIcon("C:\\Users\\Camilo Jurado\\OneDrive\\Desktop\\Resource\\ingenieria.png")); // NOI18N
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -364,8 +361,6 @@ public class Administrador extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(255, 233, 127));
         jLabel4.setText("Contratar");
 
-        jLabel5.setIcon(new javax.swing.ImageIcon("C:\\Users\\Camilo Jurado\\OneDrive\\Desktop\\Resource\\contratar.png")); // NOI18N
-
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -388,8 +383,6 @@ public class Administrador extends javax.swing.JFrame {
         );
 
         jPanel3.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 200, 60));
-
-        jLabel8.setIcon(new javax.swing.ImageIcon("C:\\Users\\Camilo Jurado\\OneDrive\\Desktop\\Resource\\construction-company-logo-realestate-company-design-template-cbabb56ff90f567111582056caf94176_screen__1_-removebg-preview (1).png")); // NOI18N
         jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 0, 130, 150));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 600));
@@ -544,7 +537,7 @@ public class Administrador extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab1", jPanel7);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_Empleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null},
@@ -555,7 +548,7 @@ public class Administrador extends javax.swing.JFrame {
                 "Nombre", "Apellido", "Correo", "Cedula", "Especialidad", "Seguro Laboral", "Tipo identificacion", "Fecha contratacion", "Salario"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(jTable_Empleados);
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -749,7 +742,7 @@ cargarDatosEnTabla();
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable_Empleados;
     private javax.swing.JTextField jTextFieldtelefono;
     private javax.swing.JTextField jTextapellido;
     private javax.swing.JTextField jTextcedula;
