@@ -10,6 +10,7 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
    
@@ -144,7 +145,7 @@ public class Login extends javax.swing.JFrame {
           this.dispose();
      }else if(usuarioDAO.esObrero(usuario)){
            JOptionPane.showMessageDialog(this, "Bienvenido Obrero", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
-          //new obrero().setVisible(true);
+          new Obrero().setVisible(true);
           this.dispose();
      }else if(usuarioDAO.esCiudadano(usuario)){
            JOptionPane.showMessageDialog(this, "Bienvenido Ciudadano", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
@@ -192,6 +193,7 @@ public class Login extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Login().setVisible(true);
+                
             }
         });
     }

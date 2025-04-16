@@ -32,6 +32,7 @@ public class Administrador extends javax.swing.JFrame {
      */
     public Administrador() {
         initComponents();
+        this.setLocationRelativeTo(null);
         setupTableModel();
         cargarDatosEnTabla();
         inicializarMenu();
@@ -176,7 +177,7 @@ public class Administrador extends javax.swing.JFrame {
             obrero.getEmail(),
             obrero.getNumeroIdentificacion(),
             obrero.getEspecialidad(),
-            obrero.isSeguroLaboral() ? "Sí" : "No",
+            obrero.isSeguroLaboral(),
             obrero.getTipoIdentificacion(),
             fechaStr,      
             obrero.getSalarioHora(),
@@ -523,16 +524,16 @@ public class Administrador extends javax.swing.JFrame {
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(48, 48, 48)
+                .addGap(42, 42, 42)
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(507, Short.MAX_VALUE))
+                .addContainerGap(516, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(23, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab1", jPanel7);

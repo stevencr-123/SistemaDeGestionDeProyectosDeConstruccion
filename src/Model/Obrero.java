@@ -10,7 +10,8 @@ public class Obrero extends Persona{
     private double salarioHora;
     private boolean seguroLaboral;
     private List<String> certificaciones;
-
+    private Usuario usuario;
+    
     public Obrero(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion, String primerNombre, 
             String primerApellido, String email, String especialidad, boolean seguroLaboral, double salarioHora) {
         super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email);
@@ -19,6 +20,14 @@ public class Obrero extends Persona{
         this.salarioHora = salarioHora;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
     public String getEspecialidad() {
         return especialidad;
     }

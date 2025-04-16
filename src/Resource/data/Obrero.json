@@ -33,7 +33,7 @@
     "email": "cano@gmail.con"
   },
   {
-    "especialidad": "Mano de obra",
+    "especialidad": "Maestro de obra",
     "fechaContratacion": "2025-04-07",
     "salarioHora": 25000.0,
     "seguroLaboral": true,
@@ -42,5 +42,16 @@
     "primerNombre": "luz",
     "primerApellido": "dary",
     "email": "luz@gmail.com"
+  },
+  {
+    "especialidad": "Obrero",
+    "fechaContratacion": "2025-04-16",
+    "salarioHora": 1500000.0,
+    "seguroLaboral": true,
+    "tipoIdentificacion": "CEDULA",
+    "numeroIdentificacion": "1143281200",
+    "primerNombre": "Ismael",
+    "primerApellido": "Palacios",
+    "email": "ismael@gmail.com"
   }
 ]
