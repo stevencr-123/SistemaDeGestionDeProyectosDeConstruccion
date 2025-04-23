@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 
 public class InspectorMunicipalDAO {
     
-    private static final String ARCHIVO_JSON = "C:\\Users\\HP\\OneDrive\\Documentos\\NetBeansProjects\\GestionParaProyectosDeConstruccion\\src\\Resource\\data\\inspectores.json";
+    private static final String ARCHIVO_JSON = "C:\\Users\\Camilo Jurado\\OneDrive\\Desktop\\SistemaDeGestionDeProyectosDeConstruccion\\src\\Resource\\data\\inspectores.json";
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
     
     public class LocalDateAdapter extends TypeAdapter<LocalDate> {

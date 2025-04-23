@@ -1,17 +1,6 @@
 [
   {
     "especialidad": "Promotor",
-    "fechaContratacion": "2025-04-06",
-    "salarioHora": 23740.0,
-    "seguroLaboral": true,
-    "tipoIdentificacion": "CEDULA",
-    "numeroIdentificacion": "3827384938",
-    "primerNombre": "carlos",
-    "primerApellido": "marrugo",
-    "email": "carlos@gmail.com"
-  },
-  {
-    "especialidad": "Promotor",
     "fechaContratacion": "2025-04-07",
     "salarioHora": 1000.0,
     "seguroLaboral": true,
@@ -19,18 +8,7 @@
     "numeroIdentificacion": "3849384938",
     "primerNombre": "maria",
     "primerApellido": "leon",
-    "email": "maria@gmail.com"
-  },
-  {
-    "especialidad": "Promotor",
-    "fechaContratacion": "2025-04-07",
-    "salarioHora": 65000.0,
-    "seguroLaboral": true,
-    "tipoIdentificacion": "CEDULA",
-    "numeroIdentificacion": "3928374839",
-    "primerNombre": "ronaldo",
-    "primerApellido": "cano",
-    "email": "cano@gmail.con"
+    "email": "Haide@gmail.com"
   },
   {
     "especialidad": "Maestro de obra",
@@ -53,5 +31,16 @@
     "primerNombre": "Ismael",
     "primerApellido": "Palacios",
     "email": "ismael@gmail.com"
+  },
+  {
+    "especialidad": "Promotor",
+    "fechaContratacion": "2025-04-21",
+    "salarioHora": 10254.0,
+    "seguroLaboral": true,
+    "tipoIdentificacion": "CEDULA",
+    "numeroIdentificacion": "12312312313",
+    "primerNombre": "asdad",
+    "primerApellido": "asdasd",
+    "email": "camilos@gmail.com"
   }
 ]

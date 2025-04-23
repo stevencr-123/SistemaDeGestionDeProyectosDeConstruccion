@@ -1,0 +1,33 @@
+[
+  {
+    "codigo": "ASD",
+    "nombre": "asd",
+    "direccion": "asd",
+    "tipoReparacion": "ESTRUCTURAL",
+    "fechaInicio": "2025-04-19",
+    "fechaFinEstimada": "2007-12-12",
+    "prioridad": "URGENTE",
+    "presupuesto": 121212.0
+  },
+  {
+    "codigo": "0001",
+    "nombre": "cyber",
+    "direccion": "el sao",
+    "tipoReparacion": "ESTRUCTURAL",
+    "fechaInicio": "2025-04-19",
+    "fechaFinEstimada": "1311-12-12",
+    "prioridad": "URGENTE",
+    "presupuesto": 1.21212545E8
+  },
+  {
+    "codigo": "asdasdads",
+    "nombre": "asdasdasda",
+    "direccion": "fsdasdasda",
+    "tipoReparacion": "ESTRUCTURAL",
+    "fechaInicio": "2025-04-21",
+    "fechaFinEstimada": "2222-12-12",
+    "prioridad": "URGENTE",
+    "presupuesto": 1.0E7,
+    "estado": "PLANEACION"
+  }
+]
