@@ -1,0 +1,49 @@
+Diagrama de Funcionalidades
+
+@startuml
+
+left to right direction
+
+rectangle "ADMINISTRADOR" {
+    (Gestionar Usuarios)
+    (Configurar Sistema)
+    (Generar Backups)
+}
+
+rectangle "FUNCIONARIO PÚBLICO" {
+    (Emitir Licencias)
+    (Fiscalizar Obras)
+    (Atender Ciudadanos)
+}
+
+rectangle "PROMOTOR" {
+    (Asignar Tareas)
+    (Gestionar Materiales)
+    (Actualizar Proyectos)
+}
+
+rectangle "OBRERO" {
+    (Registrar Avances)
+    (Reportar Problemas)
+    (Consultar Tareas)
+}
+
+rectangle "INSPECTOR" {
+    (Verificar Calidad)
+    (Generar Auditorías)
+}
+
+rectangle "CIUDADANO" {
+    (Reportar Daños)
+    (Consultar Proyectos)
+}
+
+' Relaciones
+(ADMINISTRADOR) --> (Gestionar Usuarios)
+(FUNCIONARIO PÚBLICO) --> (Emitir Licencias)
+(PROMOTOR) --> (Asignar Tareas)
+(OBRERO) --> (Registrar Avances)
+(INSPECTOR) --> (Verificar Calidad)
+(CIUDADANO) --> (Reportar Daños)
+
+@enduml
