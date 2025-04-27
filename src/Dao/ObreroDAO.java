@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 
 public class ObreroDAO {
     private static final int MIN_PASSWORD_LENGTH = 8;
-    private static final String ARCHIVO_JSON = "C:\\Users\\HP\\OneDrive\\Documentos\\NetBeansProjects\\GestionParaProyectosDeConstruccion\\src\\Resource\\data\\Obrero.json";
+    private static final String ARCHIVO_JSON = "C:\\Users\\Camilo Jurado\\OneDrive\\Desktop\\SistemaDeGestionDeProyectosDeConstruccion\\src\\Resource\\data\\Obrero.json";
     private final Gson gson;
     
     public ObreroDAO() {
@@ -212,4 +212,5 @@ public class ObreroDAO {
             return LocalDate.parse(dateStr, formatter);
         }
     }
+    
 }

@@ -10,7 +10,7 @@ import java.io.FileReader;
 
 public class UsuarioDAO {
 
-    private static final String JSON_FILE = "C:\\Users\\HP\\OneDrive\\Documentos\\NetBeansProjects\\GestionParaProyectosDeConstruccion\\src\\Resource\\data\\usuarios.json";
+    private static final String JSON_FILE = "C:\\Users\\Camilo Jurado\\OneDrive\\Desktop\\SistemaDeGestionDeProyectosDeConstruccion\\src\\Resource\\data\\usuarios.json";
     
     public Usuario validarCredenciales (String email, String password){
         try (FileReader reader = new FileReader(JSON_FILE)){
