@@ -1,5 +1,5 @@
 
-package Model;
+package model;
 
 public class Promotor extends Persona {
     private String matriculaProfesional;

@@ -1,7 +1,7 @@
 
-package DAO;
+package dao;
 
-import Model.InspectorMunicipal;
+import model.InspectorMunicipal;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;

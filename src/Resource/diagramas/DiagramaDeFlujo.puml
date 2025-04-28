@@ -1,0 +1,43 @@
+@startuml
+start
+:Usuario ingresa credenciales;
+if (Credenciales válidas?) then (Sí)
+    :Mostrar menú principal según rol;
+    if (Administrador?) then (Sí)
+        :Gestionar usuarios;
+        :Configurar sistema;
+        :Generar backups;
+    else (No)
+        if (Funcionario?) then (Sí)
+            :Emitir licencias;
+            :Fiscalizar obras;
+        else (No)
+            if (Promotor?) then (Sí)
+                :Asignar tareas;
+                :Gestionar materiales;
+                :Actualizar proyectos;
+            else (No)
+                if (Obrero?) then (Sí)
+                    :Registrar avances;
+                    :Reportar problemas;
+                    :Consultar tareas;
+                else (No)
+                    if (Inspector?) then (Sí)
+                        :Verificar calidad;
+                        :Generar auditorías;
+                    else (No)
+                        if (Ciudadano?) then (Sí)
+                            :Reportar daños;
+                            :Consultar proyectos;
+                        endif
+                    endif
+                endif
+            endif
+        endif
+    endif
+    :Finalizar sesión;
+else (No)
+    :Mostrar error de autenticación;
+endif
+stop
+@enduml

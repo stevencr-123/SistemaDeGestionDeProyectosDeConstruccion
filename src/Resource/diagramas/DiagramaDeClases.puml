@@ -1,7 +1,6 @@
 @startuml
-
 ' #############################
-' #         ENUMS            #
+' #         ENUMS             #
 ' #############################
 
 enum TipoIdentificacion {
@@ -28,7 +27,7 @@ enum Prioridad {
     BAJA
 }
 
-enum EstprioadoTarea {
+enum EstadoTarea {
     PENDIENTE
     EN_PROGRESO
     COMPLETADA
@@ -44,22 +43,10 @@ enum TipoReparacion {
 }
 
 ' #############################
-' #         CLASES           #
+' #         CLASES            #
 ' #############################
 
-class Usuario {
-    - nombre
-    - password
-    - fechaRegistro: LocalDate
-    - activo: boolean
-    - Rolsistema rol
-    + login()
-    + cambiarPassword()
-}
-
-
-
-class Persona{
+abstract class Persona {
     - tipoIdentificacion: TipoIdentificacion
     - numeroIdentificacion: String
     - primerNombre: String
@@ -70,46 +57,15 @@ class Persona{
     - telefono: String
 }
 
-class Obrero {
-    - especialidad: String
-    - fechaContratacion: LocalDate
-    - salarioHora: double
-    - seguroLaboral: boolean
-    - certificaciones: List<String>
-    + calcularHorasTrabajadas()
-}
-
-class Administrador {
-    - esSuperAdmin: boolean = true
-    - fechaCreacionCuenta: LocalDate
-    - ultimoAcceso: LocalDateTime
-    - ipUltimoAcceso: String
-    + crearUsuario(Usuario): boolean
-    + bloquearProyecto(Proyecto): void
-    + generarBackup(): String
-}
-
-class InspectorMunicipal {
-    - areaEspecializacion: String
-    - instrumentosCertificados: List<String>
-    + realizarInspeccion()
-    + generarActa()
-}
-
-class Promotor {
-    - matriculaProfesional: String
-    - departamento: String
-    - proyectosActivos: int
-    + asignarTarea()
-    + generarReporte()
-}
-
-class FuncionarioPublico {
-    - cargo: String
-    - nivelAcceso: int
-    - departamento: String
-    + aprobarLicencia()
-    + fiscalizarObra()
+class Usuario {
+    - nombreUsuario: String
+    - password: String
+    - fechaRegistro: LocalDate
+    - activo: boolean
+    - roles: List<RolSistema>
+    + login()
+    + cambiarPassword()
+    + tieneRol(RolSistema): boolean
 }
 
 class ProyectoReparacion {
@@ -154,7 +110,7 @@ class LicenciaReparacion {
     - fechaEmision: LocalDate
     - fechaExpiracion: LocalDate
     - documentos: List<String>
-    + estaVencida()
+    + estaVigente(): boolean
     + renovar()
 }
 
@@ -169,58 +125,17 @@ class ReporteCiudadano {
 }
 
 ' #############################
-' #        RELACIONES        #
+' #        RELACIONES         #
 ' #############################
 
-Usuario <|-- Obrero
-Usuario <|-- Promotor
-Usuario <|-- FuncionarioPublico
-
+Usuario "1" -- "*" ProyectoReparacion : "Promotor asignado"
+Usuario "1" -- "*" Tarea : "Obrero asignado"
+Usuario "1" -- "*" LicenciaReparacion : "Funcionario asignado"
+Usuario "1" -- "*" ReporteCiudadano : "Ciudadano que reporta"
 
 ProyectoReparacion "1" -- "*" Tarea
-ProyectoReparacion "1" -- "1" LicenciaReparacion
 ProyectoReparacion "1" -- "*" Material
-
-Tarea "1" -- "1" Obrero
-Tarea "1" -- "*" Material
-
-FuncionarioPublico "1" -- "*" LicenciaReparacion
-FuncionarioPublico "1" -- "*" ProyectoReparacion
- 
-Promotor "1" -- "*" ProyectoReparacion
-Promotor "1" -- "*" Tarea
-
+ProyectoReparacion "1" -- "1" LicenciaReparacion
 ReporteCiudadano "1" -- "1" ProyectoReparacion
 
-' #############################
-' #         NOTAS            #
-' #############################
-
-note top of Usuario
-  **Clase base para todos los roles**:
-  - Todos los usuarios comparten
-    propiedades básicas de identificación
-  - Métodos comunes de autenticación
-end note
-
-note right of Obrero
-  **Datos clave**:
-  - Certificaciones validadas por
-    el municipio
-  - Seguro laboral obligatorio
-end note
-
-note left of ProyectoReparacion
-  **Gestión completa**:
-  - Prioridad determina recursos
-  - Presupuesto actualizable
-  - Tipos de reparación específicos
-end note
-
 @enduml
-
-
-
-
-
-

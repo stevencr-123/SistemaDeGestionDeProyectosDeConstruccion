@@ -1,8 +1,8 @@
 
-package View;
+package view;
 
-import Dao.UsuarioDAO;
-import Model.Usuario;
+import dao.UsuarioDAO;
+import model.Usuario;
 import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
@@ -79,7 +79,6 @@ public class Login extends javax.swing.JFrame {
         jPanel_Login.add(jButtonIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 430, -1, 30));
 
         lbl_SubTitulo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lbl_SubTitulo.setForeground(new java.awt.Color(204, 204, 204));
         lbl_SubTitulo.setText("Sistema integral de reparaciones");
         jPanel_Login.add(lbl_SubTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 220, 200, 20));
 

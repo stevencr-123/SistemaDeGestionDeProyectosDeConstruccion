@@ -1,14 +1,14 @@
 
-package View;
+package view;
 
-import DAO.ObreroDAO;
-import Dao.ProyectoDAO;
-import Model.EstadoProyecto;
-import Model.Obrero;
-import Model.Prioridad;
-import Model.ProyectoReparacion;
-import Model.TipoIdentificacion;
-import Model.TipoReparacion;
+import dao.ObreroDAO;
+import dao.ProyectoDAO;
+import model.EstadoProyecto;
+import model.Obrero;
+import model.Prioridad;
+import model.ProyectoReparacion;
+import model.TipoIdentificacion;
+import model.TipoReparacion;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

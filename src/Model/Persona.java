@@ -1,5 +1,5 @@
 
-package Model;
+package model;
 
 public class Persona {
     private TipoIdentificacion tipoIdentificacion;

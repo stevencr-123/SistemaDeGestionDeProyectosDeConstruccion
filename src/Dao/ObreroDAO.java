@@ -1,6 +1,6 @@
-package DAO;
+package dao;
 
-import Model.Obrero;
+import model.Obrero;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;

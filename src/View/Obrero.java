@@ -1,7 +1,7 @@
 
-package View;
+package view;
 
-import DAO.ObreroDAO;
+import dao.ObreroDAO;
 import java.awt.Color;
 
 public class Obrero extends javax.swing.JFrame {

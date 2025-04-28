@@ -1,7 +1,5 @@
 package model;
 
-import model.entities.Usuario;
-
 /**
  * Clase singleton para almacenar el usuario autenticado durante la sesión.
  */

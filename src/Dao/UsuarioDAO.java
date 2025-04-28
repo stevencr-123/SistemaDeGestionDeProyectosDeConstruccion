@@ -1,8 +1,8 @@
 
-package Dao;
+package dao;
 
-import Model.RolSistema;
-import Model.Usuario;
+import model.RolSistema;
+import model.Usuario;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

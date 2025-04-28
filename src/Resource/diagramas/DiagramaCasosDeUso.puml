@@ -1,0 +1,48 @@
+@startuml
+left to right direction
+actor Administrador
+actor FuncionarioPublico
+actor Promotor
+actor Obrero
+actor InspectorMunicipal
+actor Ciudadano
+
+rectangle "Sistema de Gestión de Reconstrucciones" {
+    (Gestionar Usuarios) as GU
+    (Configurar Sistema) as CS
+    (Generar Backups) as GB
+    (Emitir Licencias) as EL
+    (Fiscalizar Obras) as FO
+    (Asignar Tareas) as AT
+    (Gestionar Materiales) as GM
+    (Actualizar Proyectos) as AP
+    (Registrar Avances) as RA
+    (Reportar Problemas) as RP
+    (Consultar Tareas) as CT
+    (Verificar Calidad de Obra) as VC
+    (Generar Auditorías) as GA
+    (Reportar Daños) as RD
+    (Consultar Proyectos) as CP
+}
+
+Administrador --> GU
+Administrador --> CS
+Administrador --> GB
+
+FuncionarioPublico --> EL
+FuncionarioPublico --> FO
+
+Promotor --> AT
+Promotor --> GM
+Promotor --> AP
+
+Obrero --> RA
+Obrero --> RP
+Obrero --> CT
+
+InspectorMunicipal --> VC
+InspectorMunicipal --> GA
+
+Ciudadano --> RD
+Ciudadano --> CP
+@enduml

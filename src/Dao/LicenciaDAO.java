@@ -1,5 +1,5 @@
 
-package Dao;
+package dao;
 
 public class LicenciaDAO {
     

@@ -1,0 +1,53 @@
+@startuml
+left to right direction
+
+rectangle "Administrador" {
+    (Gestionar Usuarios)
+    (Configurar Sistema)
+    (Generar Backups)
+}
+
+rectangle "Funcionario Público" {
+    (Emitir Licencias)
+    (Fiscalizar Obras)
+}
+
+rectangle "Promotor" {
+    (Asignar Tareas)
+    (Gestionar Materiales)
+    (Actualizar Proyectos)
+}
+
+rectangle "Obrero" {
+    (Registrar Avances)
+    (Reportar Problemas)
+    (Consultar Tareas)
+}
+
+rectangle "Inspector Municipal" {
+    (Verificar Calidad de Obra)
+    (Generar Auditorías)
+}
+
+rectangle "Ciudadano" {
+    (Reportar Daños)
+    (Consultar Proyectos)
+}
+
+' Relaciones
+(Administrador) --> (Gestionar Usuarios)
+(Administrador) --> (Configurar Sistema)
+(Administrador) --> (Generar Backups)
+(Funcionario Público) --> (Emitir Licencias)
+(Funcionario Público) --> (Fiscalizar Obras)
+(Promotor) --> (Asignar Tareas)
+(Promotor) --> (Gestionar Materiales)
+(Promotor) --> (Actualizar Proyectos)
+(Obrero) --> (Registrar Avances)
+(Obrero) --> (Reportar Problemas)
+(Obrero) --> (Consultar Tareas)
+(Inspector Municipal) --> (Verificar Calidad de Obra)
+(Inspector Municipal) --> (Generar Auditorías)
+(Ciudadano) --> (Reportar Daños)
+(Ciudadano) --> (Consultar Proyectos)
+@enduml
