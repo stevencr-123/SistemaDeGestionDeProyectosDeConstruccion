@@ -132,7 +132,7 @@ public class Login extends javax.swing.JFrame {
             this.dispose();
          }else if(usuarioDAO.esFuncionarioPublico(usuario)){
            JOptionPane.showMessageDialog(this, "Bienvenido Funcionario Publico", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
-          //new funcionario().setVisible(true);
+          new Funcionario_Publico().setVisible(true);
           this.dispose();
      }else if(usuarioDAO.esInspectorMunicipal(usuario)){
            JOptionPane.showMessageDialog(this, "Bienvenido Inspector Municipal", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);

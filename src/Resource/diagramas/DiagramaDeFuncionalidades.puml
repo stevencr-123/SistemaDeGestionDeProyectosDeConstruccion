@@ -1,53 +1,53 @@
 @startuml
+
 left to right direction
 
-rectangle "Administrador" {
+rectangle "ADMINISTRADOR" {
     (Gestionar Usuarios)
     (Configurar Sistema)
     (Generar Backups)
+    (Crear Proyectos)
 }
 
-rectangle "Funcionario Público" {
+rectangle "FUNCIONARIO PÚBLICO" {
     (Emitir Licencias)
     (Fiscalizar Obras)
+    (Atender Ciudadanos)
+    (Aprobar Proyectos)
 }
 
-rectangle "Promotor" {
+rectangle "PROMOTOR" {
     (Asignar Tareas)
     (Gestionar Materiales)
     (Actualizar Proyectos)
+    (Poner en Marcha Proyectos)
 }
 
-rectangle "Obrero" {
+rectangle "OBRERO" {
     (Registrar Avances)
     (Reportar Problemas)
     (Consultar Tareas)
 }
 
-rectangle "Inspector Municipal" {
-    (Verificar Calidad de Obra)
+rectangle "INSPECTOR MUNICIPAL" {
+    (Verificar Calidad)
     (Generar Auditorías)
 }
 
-rectangle "Ciudadano" {
+rectangle "CIUDADANO" {
     (Reportar Daños)
     (Consultar Proyectos)
 }
 
 ' Relaciones
-(Administrador) --> (Gestionar Usuarios)
-(Administrador) --> (Configurar Sistema)
-(Administrador) --> (Generar Backups)
-(Funcionario Público) --> (Emitir Licencias)
-(Funcionario Público) --> (Fiscalizar Obras)
-(Promotor) --> (Asignar Tareas)
-(Promotor) --> (Gestionar Materiales)
-(Promotor) --> (Actualizar Proyectos)
-(Obrero) --> (Registrar Avances)
-(Obrero) --> (Reportar Problemas)
-(Obrero) --> (Consultar Tareas)
-(Inspector Municipal) --> (Verificar Calidad de Obra)
-(Inspector Municipal) --> (Generar Auditorías)
-(Ciudadano) --> (Reportar Daños)
-(Ciudadano) --> (Consultar Proyectos)
+(ADMINISTRADOR) --> (Gestionar Usuarios)
+(ADMINISTRADOR) --> (Crear Proyectos)
+(FUNCIONARIO PÚBLICO) --> (Emitir Licencias)
+(FUNCIONARIO PÚBLICO) --> (Aprobar Proyectos)
+(PROMOTOR) --> (Asignar Tareas)
+(PROMOTOR) --> (Poner en Marcha Proyectos)
+(OBRERO) --> (Registrar Avances)
+(INSPECTOR MUNICIPAL) --> (Verificar Calidad)
+(CIUDADANO) --> (Reportar Daños)
+
 @enduml

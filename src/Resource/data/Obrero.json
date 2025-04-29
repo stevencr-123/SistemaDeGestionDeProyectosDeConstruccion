@@ -30,17 +30,17 @@
     "numeroIdentificacion": "1143281200",
     "primerNombre": "Ismael",
     "primerApellido": "Palacios",
-    "email": "ismael@gmail.com"
+    "email": "ism@gmail.com"
   },
   {
     "especialidad": "Promotor",
-    "fechaContratacion": "2025-04-21",
-    "salarioHora": 10254.0,
+    "fechaContratacion": "2025-04-28",
+    "salarioHora": 12345.0,
     "seguroLaboral": true,
     "tipoIdentificacion": "CEDULA",
-    "numeroIdentificacion": "12312312313",
-    "primerNombre": "asdad",
-    "primerApellido": "asdasd",
-    "email": "camilos@gmail.com"
+    "numeroIdentificacion": "1234567890",
+    "primerNombre": "nicolle",
+    "primerApellido": "lopez",
+    "email": "nicolle@gmail.com"
   }
 ]

@@ -1,6 +1,8 @@
 
 package model;
 
+
+
 public class FuncionarioPublico extends Persona {
     private String cargo;
     private int nivelAcceso;

@@ -1,0 +1,27 @@
+@startuml
+start
+
+:Administrador inicia sesión;
+:Administrador crea nuevo Proyecto;
+:Proyecto queda en estado "EN_ESPERA";
+
+:Funcionario Público inicia sesión;
+:Funcionario Público revisa Proyecto;
+
+if (Proyecto cumple requisitos?) then (Sí)
+    :Funcionario Público aprueba el Proyecto;
+    :Proyecto cambia a estado "APROBADO";
+else (No)
+    :Funcionario Público rechaza el Proyecto;
+    :Proyecto cambia a estado "RECHAZADO";
+    stop
+endif
+
+:Promotor inicia sesión;
+:Promotor asigna tareas y materiales;
+:Promotor pone en marcha el Proyecto;
+:Proyecto cambia a estado "EN_PROGRESO";
+
+stop
+
+@enduml

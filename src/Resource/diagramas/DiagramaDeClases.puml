@@ -76,6 +76,7 @@ class ProyectoReparacion {
     - fechaInicio: LocalDate
     - fechaFinEstimada: LocalDate
     - prioridad: Prioridad
+    - aprobado: boolean
     - presupuesto: double
     + calcularAvance()
     + actualizarPresupuesto()

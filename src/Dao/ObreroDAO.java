@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 package dao;
+=======
+package Dao;
+>>>>>>> af830d53fc38cda2232a7510a65db2206e1b047e
 
 import model.Obrero;
 import com.google.gson.*;
