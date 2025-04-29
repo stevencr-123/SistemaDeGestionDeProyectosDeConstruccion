@@ -338,6 +338,19 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JButton" name="jButton4">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Cerrar"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton4ActionPerformed"/>
+              </Events>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                  <AbsoluteConstraints x="20" y="560" width="-1" height="-1"/>
+                </Constraint>
+              </Constraints>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
@@ -866,9 +879,12 @@
                             </Column>
                           </TableColumnModel>
                         </Property>
+                        <Property name="opaque" type="boolean" value="false"/>
+                        <Property name="requestFocusEnabled" type="boolean" value="false"/>
                         <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                           <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                         </Property>
+                        <Property name="updateSelectionOnSort" type="boolean" value="false"/>
                       </Properties>
                     </Component>
                   </SubComponents>
@@ -907,7 +923,7 @@
                     <Component class="javax.swing.JTable" name="jTable_Proyectos">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="9" rowCount="4">
+                          <Table columnCount="10" rowCount="4">
                             <Column editable="true" title="Codigo" type="java.lang.Object"/>
                             <Column editable="true" title="Nombre" type="java.lang.Object"/>
                             <Column editable="true" title="Direccion" type="java.lang.Object"/>
@@ -917,10 +933,16 @@
                             <Column editable="true" title="Prioridad" type="java.lang.Object"/>
                             <Column editable="true" title="Presupuesto" type="java.lang.Object"/>
                             <Column editable="true" title="Estado" type="java.lang.Object"/>
+                            <Column editable="true" title="Evaluacion" type="java.lang.Object"/>
                           </Table>
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="0">
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
                             <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                               <Title/>
                               <Editor/>
@@ -1166,12 +1188,13 @@
                     <Component class="javax.swing.JComboBox" name="txtTiporeparacion">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                          <StringArray count="5">
-                            <StringItem index="0" value="ESTRUCTURAL"/>
-                            <StringItem index="1" value="ELECTRICA"/>
-                            <StringItem index="2" value="HIDRAULICA"/>
-                            <StringItem index="3" value="PAVIMENTACION"/>
-                            <StringItem index="4" value="OTROS"/>
+                          <StringArray count="6">
+                            <StringItem index="0" value="&lt;Seleccionar&gt;"/>
+                            <StringItem index="1" value="ESTRUCTURAL"/>
+                            <StringItem index="2" value="ELECTRICA"/>
+                            <StringItem index="3" value="HIDRAULICA"/>
+                            <StringItem index="4" value="PAVIMENTACION"/>
+                            <StringItem index="5" value="OTROS"/>
                           </StringArray>
                         </Property>
                       </Properties>
@@ -1180,7 +1203,7 @@
                       </AuxValues>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                          <AbsoluteConstraints x="192" y="132" width="-1" height="-1"/>
+                          <AbsoluteConstraints x="192" y="132" width="120" height="-1"/>
                         </Constraint>
                       </Constraints>
                     </Component>
@@ -1199,11 +1222,12 @@
                     <Component class="javax.swing.JComboBox" name="txtPrioridad">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                          <StringArray count="4">
-                            <StringItem index="0" value="URGENTE"/>
-                            <StringItem index="1" value="ALTA"/>
-                            <StringItem index="2" value="MEDIA"/>
-                            <StringItem index="3" value="BAJA;"/>
+                          <StringArray count="5">
+                            <StringItem index="0" value="&lt;Seleccionar&gt;"/>
+                            <StringItem index="1" value="URGENTE"/>
+                            <StringItem index="2" value="ALTA"/>
+                            <StringItem index="3" value="MEDIA"/>
+                            <StringItem index="4" value="BAJA"/>
                           </StringArray>
                         </Property>
                       </Properties>
@@ -1319,11 +1343,12 @@
                     <Component class="javax.swing.JComboBox" name="txtEstado">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                          <StringArray count="4">
-                            <StringItem index="0" value="PLANEACION"/>
-                            <StringItem index="1" value="EN PROCESO"/>
-                            <StringItem index="2" value="SUSPENDIDO"/>
-                            <StringItem index="3" value="FINALIZADO"/>
+                          <StringArray count="5">
+                            <StringItem index="0" value="&lt;Seleccionar&gt;"/>
+                            <StringItem index="1" value="PLANEACION"/>
+                            <StringItem index="2" value="EN PROCESO"/>
+                            <StringItem index="3" value="SUSPENDIDO"/>
+                            <StringItem index="4" value="FINALIZADO"/>
                           </StringArray>
                         </Property>
                       </Properties>
@@ -1332,7 +1357,7 @@
                       </AuxValues>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                          <AbsoluteConstraints x="30" y="210" width="-1" height="-1"/>
+                          <AbsoluteConstraints x="30" y="210" width="120" height="-1"/>
                         </Constraint>
                       </Constraints>
                     </Component>

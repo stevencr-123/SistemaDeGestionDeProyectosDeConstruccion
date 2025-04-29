@@ -43,6 +43,12 @@ enum TipoReparacion {
     OTROS
 }
 
+enum Solicitud{
+    APROBADO
+    DENEGADO
+    EN_ESPERA
+}    
+
 ' #############################
 ' #         CLASES           #
 ' #############################

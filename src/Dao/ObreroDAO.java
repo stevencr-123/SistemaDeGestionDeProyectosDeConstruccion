@@ -1,4 +1,4 @@
-package DAO;
+package Dao;
 
 import Model.Obrero;
 import com.google.gson.*;

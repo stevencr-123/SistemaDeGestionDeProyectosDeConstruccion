@@ -73,7 +73,7 @@ public class ProyectoDAO {
             o.getNombre().equalsIgnoreCase(nuevoProyecto.getNombre()));
         
         if (existe) {
-            mostrarError("Ya existe un obrero con este número de identificación o email");
+            mostrarError("Ya existe un Proyecto con este nombre o codigo");
             return false;
         }
         

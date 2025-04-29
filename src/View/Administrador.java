@@ -1,15 +1,20 @@
 
 package View;
 
-import DAO.ObreroDAO;
+import Controller.AdminController;
+import DAO.FuncionarioPublicoDAO;
+import Dao.ObreroDAO;
 import Dao.ProyectoDAO;
 import Model.EstadoProyecto;
 import Model.Obrero;
 import Model.Prioridad;
 import Model.ProyectoReparacion;
+import Model.ReporteFuncionario;
+import Model.Solicitud;
 import Model.TipoIdentificacion;
 import Model.TipoReparacion;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -22,7 +27,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
+import java.awt.Component;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import java.awt.Color;
+import java.awt.Font;
 
 /**
  *
@@ -30,25 +39,49 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Administrador extends javax.swing.JFrame {
     
+    
+    private FuncionarioPublicoDAO funcionarioDAO = new FuncionarioPublicoDAO();
+    private EstadoProyecto estado;
     private DefaultTableModel tableModelEmpleados;
     private DefaultTableModel tableModelProyectos;
     private ObreroDAO obreroDAO = new ObreroDAO();
     private ProyectoDAO proyectoDAO = new ProyectoDAO();
-    ;
+    private AdminController adminController = new AdminController();
+
     
     
     public Administrador() {
-        initComponents();
-        this.setLocationRelativeTo(null);
-        setupTableModel();
-        cargarDatosEnTabla();
-        inicializarMenu();
-        cargarProyectosEnTabla();
-        inicializarMenuProyecto();
-    }
+    initComponents(); // Primero crear todos los botones, tablas, etc.
+    this.setLocationRelativeTo(null);
+
+    adminController = new AdminController(); // Instanciar el controlador después de initComponents
+    
+    // Asignar componentes a adminController
+    adminController.setTablaObreros(jTable_Empleados);
+    adminController.setTxtNombre(jTextnombre);
+    adminController.setTxtApellido(jTextapellido);
+    adminController.setTxtCedula(jTextcedula);
+    adminController.setTxtCorreo(jTextcorreo);
+    adminController.setTxtTelefono(jTextFieldtelefono);
+    adminController.setTxtSalario(jTextsalario);
+    adminController.setCbTipoCedula(jComboBox1);
+    adminController.setCbEspecialidad(jComboTrabajo);
+
+    adminController.initTableObreros();      
+    adminController.cargarDatosEnTabla();    
+    adminController.inicializarPopupMenu();  
+
+    setupTableModel();
+    cargarDatosEnTabla();
+    inicializarMenu();
+    cargarProyectosEnTabla();
+    inicializarMenuProyecto();
+    configurarColoresTablaProyectos();
+}
+
     
     
-   public void inicializarMenu() {
+    public void inicializarMenu() {
     JMenuItem eliminar = new JMenuItem("Despedir");
     JMenuItem modificar = new JMenuItem("Modificar");
     
@@ -163,10 +196,89 @@ public class Administrador extends javax.swing.JFrame {
     });
 
 }
+   
+   /*
+    private void guardarObrerosDesdeFormulario() {
+        
+        try {
+            String nombre = jTextnombre.getText().trim();
+            String apellido = jTextapellido.getText().trim();
+            String Cedula = jTextcedula.getText().trim();
+            String telefono = jTextFieldtelefono.getText().trim();
+            TipoIdentificacion tipoCedula = TipoIdentificacion.valueOf(jComboBox1.getSelectedItem().toString());
+            String correo = jTextcorreo.getText().trim();
+            String especialidad = jComboTrabajo.getSelectedItem().toString();
+            double salario = Double.parseDouble(jTextsalario.getText().trim());
+    
 
-   
-   
-   public void inicializarMenuProyecto() {
+            if (nombre.isEmpty() || correo.isEmpty()|| Cedula.isEmpty() || telefono.isEmpty() || correo.isEmpty() || especialidad.isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                        "Todos los campos son obligatorios",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            boolean seguroLaboral = true;
+            Obrero nuevoObrero = new Obrero(
+            tipoCedula,        
+            Cedula,            
+            nombre,            
+            apellido,          
+            correo,            
+            especialidad,      
+            seguroLaboral,
+            salario
+);
+            nuevoObrero.setFechaContratacion(LocalDate.now());
+            obreroDAO.guardarObrero(nuevoObrero);
+
+            JOptionPane.showMessageDialog(this,
+                    "Obrero guardado exitosamente:\n"
+                    +
+                    JOptionPane.INFORMATION_MESSAGE);
+
+            
+            
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al guardar obrero: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    } 
+    
+    */
+    private void cargarDatosEnTabla() {
+        tableModelEmpleados.setRowCount(0);
+        
+        List<Obrero> obreros = obreroDAO.cargarTodos();
+        
+        for (Obrero obrero : obreros) {
+             String fechaStr = (obrero.getFechaContratacion() != null)
+            ? obrero.getFechaContratacion().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+            : "No especificada";
+        Object[] row = {
+            obrero.getPrimerNombre(),        
+            obrero.getPrimerApellido(),      
+            obrero.getEmail(),
+            obrero.getNumeroIdentificacion(),
+            obrero.getEspecialidad(),
+            obrero.isSeguroLaboral(),
+            obrero.getTipoIdentificacion(),
+            fechaStr,      
+            obrero.getSalarioHora(),
+            
+            
+            
+            };
+            tableModelEmpleados.addRow(row);
+        }
+    
+    }
+    
+    
+    public void inicializarMenuProyecto() {
 
     JMenuItem modificar = new JMenuItem("Modificar");
     JMenuItem eliminar = new JMenuItem("Eliminar");
@@ -192,10 +304,13 @@ public class Administrador extends javax.swing.JFrame {
                 if (proyecto != null) {
                     String nuevoNombre = JOptionPane.showInputDialog(null, "Nuevo nombre del proyecto:", proyecto.getNombre());
                     String nuevaDireccion = JOptionPane.showInputDialog(null, "Nueva dirección:", proyecto.getDireccion());
-
-                    if (nuevoNombre != null && nuevaDireccion != null) {
+                    String nuevoEstado = JOptionPane.showInputDialog(null, "Nuevo estado:", proyecto.getEstado());
+                    
+                    if (nuevoNombre != null && nuevaDireccion != null && nuevoEstado != null) {
                         proyecto.setNombre(nuevoNombre);
                         proyecto.setDireccion(nuevaDireccion);
+                        EstadoProyecto nuevoestado = EstadoProyecto.valueOf(nuevoEstado.toUpperCase());
+                        proyecto.setEstado(nuevoestado);
 
                         List<ProyectoReparacion> lista = proyectodao.cargarTodos();
                         for (int i = 0; i < lista.size(); i++) {
@@ -258,64 +373,11 @@ public class Administrador extends javax.swing.JFrame {
     
    
    }
-
    
     
-     private void setupTableModel() {
+    private void setupTableModel() {
         tableModelEmpleados = (DefaultTableModel) jTable_Empleados.getModel();
-    }
-     
-     
-       private void guardarObrerosDesdeFormulario() {
-        
-        try {
-            String nombre = jTextnombre.getText().trim();
-            String apellido = jTextapellido.getText().trim();
-            String Cedula = jTextcedula.getText().trim();
-            String telefono = jTextFieldtelefono.getText().trim();
-            TipoIdentificacion tipoCedula = TipoIdentificacion.valueOf(jComboBox1.getSelectedItem().toString());
-            String correo = jTextcorreo.getText().trim();
-            String especialidad = jComboTrabajo.getSelectedItem().toString();
-            double salario = Double.parseDouble(jTextsalario.getText().trim());
-    
-
-            if (nombre.isEmpty() || correo.isEmpty()|| Cedula.isEmpty() || telefono.isEmpty() || correo.isEmpty() || especialidad.isEmpty()) {
-                JOptionPane.showMessageDialog(this,
-                        "Todos los campos son obligatorios",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            boolean seguroLaboral = true;
-            Obrero nuevoObrero = new Obrero(
-            tipoCedula,        
-            Cedula,            
-            nombre,            
-            apellido,          
-            correo,            
-            especialidad,      
-            seguroLaboral,
-            salario
-);
-            nuevoObrero.setFechaContratacion(LocalDate.now());
-            obreroDAO.guardarObrero(nuevoObrero);
-
-            JOptionPane.showMessageDialog(this,
-                    "Obrero guardado exitosamente:\n"
-                    +
-                    JOptionPane.INFORMATION_MESSAGE);
-
-            
-            
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                    "Error al guardar obrero: " + e.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
-     
+    } 
     
     
     private void limpiar(){
@@ -330,7 +392,6 @@ public class Administrador extends javax.swing.JFrame {
     }
     
     
-    
     private void initTableModelEmpleados() {
     tableModelEmpleados = new DefaultTableModel(
         new Object[]{"tipo identificacion", "Nombre", "Apellidos", "Correo", "Cédula", "Teléfono", "Especialidad", "Seguro Laboral","salario"}, 0) {
@@ -341,38 +402,13 @@ public class Administrador extends javax.swing.JFrame {
     };
     jTable_Empleados.setModel(tableModelEmpleados); 
 }
-
     
-    private void cargarDatosEnTabla() {
-        tableModelEmpleados.setRowCount(0);
-        
-        List<Obrero> obreros = obreroDAO.cargarTodos();
-        
-        for (Obrero obrero : obreros) {
-             String fechaStr = (obrero.getFechaContratacion() != null)
-            ? obrero.getFechaContratacion().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-            : "No especificada";
-        Object[] row = {
-            obrero.getPrimerNombre(),        
-            obrero.getPrimerApellido(),      
-            obrero.getEmail(),
-            obrero.getNumeroIdentificacion(),
-            obrero.getEspecialidad(),
-            obrero.isSeguroLaboral(),
-            obrero.getTipoIdentificacion(),
-            fechaStr,      
-            obrero.getSalarioHora(),
-            
-            
-            
-            };
-            tableModelEmpleados.addRow(row);
-        }
     
-    }
     private void setupTableMode() {
         tableModelProyectos = (DefaultTableModel) jTable_Proyectos.getModel();
     }
+    
+    
     private void guardarProyectoDesdeFormulario() {
         
         try {
@@ -383,7 +419,7 @@ public class Administrador extends javax.swing.JFrame {
             LocalDate fechafin = LocalDate.parse(txtFechaestimada.getText());
             Prioridad prioridad = Prioridad.valueOf(txtPrioridad.getSelectedItem().toString());
             double presupuesto = Double.parseDouble(txtPresupuesto.getText().trim());
-            EstadoProyecto estadoproyecto = EstadoProyecto.valueOf(txtEstado.getSelectedItem().toString());
+            EstadoProyecto estado = EstadoProyecto.valueOf(txtEstado.getSelectedItem().toString());
 
             if (codigo.isEmpty() || nombre.isEmpty()|| direccion.isEmpty() ) {
                 JOptionPane.showMessageDialog(this,
@@ -392,7 +428,7 @@ public class Administrador extends javax.swing.JFrame {
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            //boolean seguroLaboral = true;
+            
             ProyectoReparacion nuevoProyecto = new ProyectoReparacion(
             codigo, 
             nombre, 
@@ -402,7 +438,8 @@ public class Administrador extends javax.swing.JFrame {
             fechafin, 
             prioridad, 
             presupuesto,
-            estadoproyecto);
+            estado
+            );
             
             
             proyectoDAO.guardarProyecto(nuevoProyecto);
@@ -422,9 +459,11 @@ public class Administrador extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+    
     private void initTableModelProyectos() {
     tableModelProyectos = new DefaultTableModel(
-        new Object[]{"Codigo", "Nombre", "Direccion", "Tipo", "Inicio", "Fin", "Prioridad", "Presupuesto","Estado"}, 0) {
+        new Object[]{"Codigo", "Nombre", "Direccion", "Tipo", "Inicio", "Fin", "Prioridad", "Presupuesto","Estado","Evaluacion"}, 0) {
         @Override
         public boolean isCellEditable(int row, int column) {
             return false;
@@ -435,15 +474,23 @@ public class Administrador extends javax.swing.JFrame {
 
     
     private void cargarProyectosEnTabla() {
-        
     if (tableModelProyectos == null) {
         initTableModelProyectos();
     }
-    tableModelProyectos.setRowCount(0);  
+    tableModelProyectos.setRowCount(0);
 
     List<ProyectoReparacion> proyectos = proyectoDAO.cargarTodos();
-    
+
     for (ProyectoReparacion proyecto : proyectos) {
+        
+        List<ReporteFuncionario> reportes = funcionarioDAO.obtenerReportesPorCodigo(proyecto.getCodigo());
+
+        String evaluacion = "Sin evaluación";
+        if (!reportes.isEmpty()) {
+            ReporteFuncionario ultimoReporte = reportes.get(reportes.size() - 1);
+            evaluacion = ultimoReporte.getEvaluacion();
+        }
+
         Object[] row = {
             proyecto.getCodigo(),
             proyecto.getNombre(),
@@ -455,15 +502,78 @@ public class Administrador extends javax.swing.JFrame {
             proyecto.getFechaFinEstimada(),
             proyecto.getPrioridad(),
             proyecto.getPresupuesto(),
-            proyecto.getEstado()
+            proyecto.getEstado(),
+            evaluacion 
         };
+
         tableModelProyectos.addRow(row);
+    }
+}
+    
+    
+    private void configurarColoresTablaProyectos() {
+        
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+                
+                Component c = super.getTableCellRendererComponent(table, value, 
+                        isSelected, hasFocus, row, column);
+                
+
+                int columnaEvaluacion = obtenerColumnaEvaluacion();
+                if (columnaEvaluacion == -1) return c; 
+                
+                String evaluacion = table.getModel().getValueAt(row, columnaEvaluacion).toString();
+                
+                if (isSelected) {
+                    c.setBackground(new Color(57, 105, 138)); 
+                    c.setForeground(Color.WHITE);
+                } else if ("Aprobada".equalsIgnoreCase(evaluacion)) {
+                    c.setBackground(new Color(144, 238, 144)); 
+                    c.setForeground(Color.BLACK);
+                } else if ("Denegada".equalsIgnoreCase(evaluacion)) {
+                    c.setBackground(new Color(255, 182, 193));
+                    c.setForeground(Color.BLACK);
+                } else if ("En espera".equalsIgnoreCase(evaluacion)) {
+                    c.setBackground(new Color(204,204,204));
+                    c.setForeground(Color.BLACK);    
+                } else {
+                    c.setBackground(table.getBackground());
+                    c.setForeground(table.getForeground());
+                }
+                
+                return c;
+            }
+        };
+        
+        
+        for (int i = 0; i < jTable_Proyectos.getColumnCount(); i++) {
+            jTable_Proyectos.getColumnModel().getColumn(i).setCellRenderer(renderer);
+        }
     }
     
     
+    private int obtenerColumnaEvaluacion() {
+        for (int i = 0; i < jTable_Proyectos.getColumnCount(); i++) {
+            if ("Evaluacion".equalsIgnoreCase(jTable_Proyectos.getColumnName(i))) {
+                return i;
+            }
+        }
+        return -1; 
+    }
+    
+    
+    
 
-}
+      
+    
 
+
+    
+    
+             
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -491,6 +601,7 @@ public class Administrador extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel7 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
@@ -725,6 +836,14 @@ public class Administrador extends javax.swing.JFrame {
 
         jPanel3.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 410, 200, 50));
 
+        jButton4.setText("Cerrar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 560, -1, -1));
+
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 600));
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
@@ -888,6 +1007,9 @@ public class Administrador extends javax.swing.JFrame {
                 "Nombre", "Apellido", "Correo", "Cedula", "Rol", "Seguro Laboral", "Tipo identificacion", "Fecha contratacion", "Salario"
             }
         ));
+        jTable_Empleados.setOpaque(false);
+        jTable_Empleados.setRequestFocusEnabled(false);
+        jTable_Empleados.setUpdateSelectionOnSort(false);
         jScrollPane2.setViewportView(jTable_Empleados);
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
@@ -905,13 +1027,13 @@ public class Administrador extends javax.swing.JFrame {
 
         jTable_Proyectos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Codigo", "Nombre", "Direccion", "Tipo", "Inicio", "Fin", "Prioridad", "Presupuesto", "Estado"
+                "Codigo", "Nombre", "Direccion", "Tipo", "Inicio", "Fin", "Prioridad", "Presupuesto", "Estado", "Evaluacion"
             }
         ));
         jScrollPane1.setViewportView(jTable_Proyectos);
@@ -979,13 +1101,13 @@ public class Administrador extends javax.swing.JFrame {
         txtDireccion.setBorder(null);
         jPanel12.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(27, 132, 100, -1));
 
-        txtTiporeparacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ESTRUCTURAL", "ELECTRICA", "HIDRAULICA", "PAVIMENTACION", "OTROS" }));
-        jPanel12.add(txtTiporeparacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(192, 132, -1, -1));
+        txtTiporeparacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Seleccionar>", "ESTRUCTURAL", "ELECTRICA", "HIDRAULICA", "PAVIMENTACION", "OTROS" }));
+        jPanel12.add(txtTiporeparacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(192, 132, 120, -1));
 
         txtFechaestimada.setBorder(null);
         jPanel12.add(txtFechaestimada, new org.netbeans.lib.awtextra.AbsoluteConstraints(193, 212, 100, -1));
 
-        txtPrioridad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "URGENTE", "ALTA", "MEDIA", "BAJA;" }));
+        txtPrioridad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Seleccionar>", "URGENTE", "ALTA", "MEDIA", "BAJA" }));
         jPanel12.add(txtPrioridad, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, -1, -1));
 
         txtPresupuesto.setBorder(null);
@@ -1015,8 +1137,8 @@ public class Administrador extends javax.swing.JFrame {
         jLabel25.setText("Estado");
         jPanel12.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, -1, 20));
 
-        txtEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PLANEACION", "EN PROCESO", "SUSPENDIDO", "FINALIZADO" }));
-        jPanel12.add(txtEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, -1, -1));
+        txtEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Seleccionar>", "PLANEACION", "EN PROCESO", "SUSPENDIDO", "FINALIZADO" }));
+        jPanel12.add(txtEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, 120, -1));
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -1090,7 +1212,8 @@ public class Administrador extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel4MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        guardarObrerosDesdeFormulario();
+        adminController.guardarObreroDesdeFormulario();
+        //guardarObrerosDesdeFormulario();
         cargarDatosEnTabla();
         limpiar();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -1150,6 +1273,12 @@ cargarDatosEnTabla();
         jPanel13.setBackground(new Color(0, 51, 102));
     }//GEN-LAST:event_jPanel13MouseExited
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        this.dispose();
+        new Login().setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     
                                        
         
@@ -1171,6 +1300,7 @@ cargarDatosEnTabla();
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboTrabajo;
     private javax.swing.JLabel jLabel1;

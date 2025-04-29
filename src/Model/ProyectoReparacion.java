@@ -21,6 +21,8 @@ public class ProyectoReparacion {
     private Prioridad prioridad;
     private double presupuesto;
     private EstadoProyecto estado;
+    
+
 
     public ProyectoReparacion(String codigo, String nombre, String direccion, TipoReparacion tipoReparacion, LocalDate fechaInicio, LocalDate fechaFinEstimada, Prioridad prioridad, double presupuesto, EstadoProyecto estado) {
         this.codigo = codigo;
@@ -32,6 +34,7 @@ public class ProyectoReparacion {
         this.prioridad = prioridad;
         this.presupuesto = presupuesto;
         this.estado = estado;
+        
     }
 
     public String getCodigo() {
