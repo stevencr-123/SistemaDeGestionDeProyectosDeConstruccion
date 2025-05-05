@@ -1,0 +1,28 @@
+{
+  "proyectos": [
+    {
+      "codigo": "0000000002",
+      "nombre": "Hospital",
+      "direccion": "Piedra de Bolivar",
+      "tipoReparacion": "estructural",
+      "fechaInicio": "2025-05-01",
+      "fechaFinEstimada": "2026-02-18",
+      "prioridad": "alta",
+      "presupuesto": 2.0E8,
+      "estado": "planeacion",
+      "descripcion": "Ninguna."
+    },
+    {
+      "codigo": "0000000003",
+      "nombre": "Edificio",
+      "direccion": "ninguna",
+      "tipoReparacion": "estructural",
+      "fechaInicio": "2025-05-01",
+      "fechaFinEstimada": "2025-08-31",
+      "prioridad": "baja",
+      "presupuesto": 1.0E8,
+      "estado": "planeacion",
+      "descripcion": "Ninguna."
+    }
+  ]
+}

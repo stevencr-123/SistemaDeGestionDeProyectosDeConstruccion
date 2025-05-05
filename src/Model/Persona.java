@@ -1,7 +1,10 @@
-
 package model;
 
-public class Persona {
+import model.TipoIdentificacion;
+
+public abstract class Persona {
+
+    // atributos
     private TipoIdentificacion tipoIdentificacion;
     private String numeroIdentificacion;
     private String primerNombre;
@@ -11,6 +14,7 @@ public class Persona {
     private String email;
     private String telefono;
 
+    // Constructor completo (campos obligatorios)
     public Persona(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion, String primerNombre, String primerApellido, String email) {
         this.tipoIdentificacion = tipoIdentificacion;
         this.numeroIdentificacion = numeroIdentificacion;
@@ -19,6 +23,11 @@ public class Persona {
         this.email = email;
     }
 
+    // Constructor vacío (opcional para frameworks o deserialización JSON)
+    public Persona() {
+    }
+
+    // --- Getters y Setters ---
     public TipoIdentificacion getTipoIdentificacion() {
         return tipoIdentificacion;
     }
@@ -82,6 +91,9 @@ public class Persona {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
-    
-    
+
+    // --- Métodos útiles opcionales ---
+    public String getNombreCompleto() {
+        return primerNombre + (segundoNombre != null ? " " + segundoNombre : "") + " " + primerApellido + (segundoApellido != null ? " " + segundoApellido : "");
+    }
 }

@@ -1,33 +1,27 @@
-
 package model;
 
+import model.TipoIdentificacion;
 import java.time.LocalDate;
 import java.util.List;
+import model.Persona;
 
-public class Obrero extends Persona{
+public class Obrero extends Persona {
+
     private String especialidad;
     private LocalDate fechaContratacion;
     private double salarioHora;
     private boolean seguroLaboral;
     private List<String> certificaciones;
-    private Usuario usuario;
-    
-    public Obrero(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion, String primerNombre, 
-            String primerApellido, String email, String especialidad, boolean seguroLaboral, double salarioHora) {
+
+    public Obrero(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion, String primerNombre,
+                  String primerApellido, String email, String especialidad, boolean seguroLaboral, double salarioHora) {
         super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email);
-        this.seguroLaboral = seguroLaboral;
         this.especialidad = especialidad;
+        this.seguroLaboral = seguroLaboral;
         this.salarioHora = salarioHora;
+        this.fechaContratacion = LocalDate.now(); // Asignación automática
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-    
     public String getEspecialidad() {
         return especialidad;
     }
@@ -67,8 +61,4 @@ public class Obrero extends Persona{
     public void setCertificaciones(List<String> certificaciones) {
         this.certificaciones = certificaciones;
     }
-
-    
- 
-    
 }

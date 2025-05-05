@@ -1,15 +1,14 @@
 
 package model;
 
-
 public enum TipoReparacion {
     ESTRUCTURAL,
     ELECTRICA,
     HIDRAULICA,
     PAVIMENTACION,
     OTROS;
-
-    public static TipoReparacion getESTRUCTURAL() {
+    
+    public static TipoReparacion getESTRUCTURAL() {    
         return ESTRUCTURAL;
     }
 

@@ -6,8 +6,8 @@ public enum Prioridad {
     ALTA,
     MEDIA,
     BAJA;
-
-    public static Prioridad getURGENTE() {
+    
+    public static Prioridad getURGENTE() {    
         return URGENTE;
     }
 
@@ -22,5 +22,5 @@ public enum Prioridad {
     public static Prioridad getBAJA() {
         return BAJA;
     }
-    
+        
 }

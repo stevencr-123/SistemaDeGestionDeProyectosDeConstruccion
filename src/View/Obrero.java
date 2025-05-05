@@ -1,11 +1,6 @@
 
 package view;
 
-<<<<<<< HEAD
-import dao.ObreroDAO;
-=======
-import Dao.ObreroDAO;
->>>>>>> af830d53fc38cda2232a7510a65db2206e1b047e
 import java.awt.Color;
 
 public class Obrero extends javax.swing.JFrame {
@@ -415,6 +410,9 @@ public class Obrero extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Obrero.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
