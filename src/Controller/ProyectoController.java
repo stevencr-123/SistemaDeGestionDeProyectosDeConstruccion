@@ -1,10 +1,11 @@
 package controller;
 
-import model.EstadoProyecto;
-import model.Prioridad;
-import model.TipoReparacion;
+import enums.EstadoProyecto;
+import enums.Prioridad;
+import enums.TipoReparacion;
 import exceptions.FechaInvalidaException;
 import exceptions.NombreProyectoExistenteException;
+import exceptions.ProyectoNoEncontradoException;
 import exceptions.ProyectoYaExisteException;
 import model.Proyecto;
 import exceptions.ValidacionException;
@@ -131,5 +132,14 @@ public ProyectoController(JTextField txtCodigo, JTextField txtNombre, JTextField
 public java.util.List<Proyecto> obtenerTodosLosProyectos() throws Exception {
     return proyectoService.obtenerTodos();
 }
+
+public void eliminarProyecto(String codigo) throws ProyectoNoEncontradoException, Exception {
+        proyectoService.eliminarProyecto(codigo);
+    }
+
+public void actualizarProyecto(Proyecto proyecto) throws Exception {
+    proyectoService.actualizarProyecto(proyecto);
+}
+
 
 }

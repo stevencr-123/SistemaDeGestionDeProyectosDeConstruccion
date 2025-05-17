@@ -1,6 +1,9 @@
 package view;
 
 import controller.ProyectoController;
+import controller.UsuarioController;
+import enums.RolSistema;
+import enums.TipoIdentificacion;
 import java.awt.Color;
 import java.util.List;
 import java.awt.event.KeyEvent;
@@ -14,6 +17,7 @@ import exceptions.ProyectoYaExisteException;
 import exceptions.NombreProyectoExistenteException;
 import exceptions.FechaInvalidaException;
 import exceptions.ProyectoNoEncontradoException;
+import exceptions.UsuarioYaExisteException;
 import java.awt.Font;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -36,15 +40,22 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import model.Persona;
+import model.Usuario;
+import model.roles.FuncionarioPublico;
+import model.roles.InspectorMunicipal;
 
 public class AdministradorWindown extends javax.swing.JFrame {
 
@@ -52,13 +63,14 @@ public class AdministradorWindown extends javax.swing.JFrame {
     IProyectoRepository repo = new ProyectoRepositoryJsonImpl();
     IProyectoService servicio = new ProyectoServiceImpl(repo);
     ProyectoController proyectoController = new ProyectoController(servicio);
-
+    UsuarioController usuarioController = new UsuarioController();
+    
     public AdministradorWindown() {
         initComponents();
-        configurarTablaProyectos();        
+        configurarTablaProyectos();
+        configurarTablaEmpleados();
         configurarBuscador();
-        configurarComportamientoTablaConClickDerecho();
-
+        iniciarOpciones();
         this.setLocationRelativeTo(null);
     }
 
@@ -66,10 +78,6 @@ public class AdministradorWindown extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        PopupMenuProyectos = new javax.swing.JPopupMenu();
-        menuItemVerDetalles = new javax.swing.JMenuItem();
-        menuItemEditar = new javax.swing.JMenuItem();
-        menuItemEliminar = new javax.swing.JMenuItem();
         panelBase = new javax.swing.JPanel();
         panelEncabezado = new javax.swing.JPanel();
         etiEncabezadoAdmin = new javax.swing.JLabel();
@@ -110,9 +118,40 @@ public class AdministradorWindown extends javax.swing.JFrame {
         txtSalario = new javax.swing.JTextField();
         separadorSalario = new javax.swing.JSeparator();
         txtTelefono = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        btnCancelar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        jSeparator3 = new javax.swing.JSeparator();
+        jSeparator4 = new javax.swing.JSeparator();
+        etiObligatorioCodigo1 = new javax.swing.JLabel();
+        etiObligatorioCodigo2 = new javax.swing.JLabel();
+        etiObligatorioCodigo3 = new javax.swing.JLabel();
+        etiObligatorioCodigo4 = new javax.swing.JLabel();
+        etiObligatorioCodigo5 = new javax.swing.JLabel();
+        etiObligatorioCodigo6 = new javax.swing.JLabel();
+        etiObligatorioCodigo7 = new javax.swing.JLabel();
+        etiObligatorioCodigo8 = new javax.swing.JLabel();
         panelEmpleados = new javax.swing.JPanel();
         scrollEmpleados = new javax.swing.JScrollPane();
         jTable_Empleados = new javax.swing.JTable();
+        panelBuscadorEmpleado = new javax.swing.JPanel();
+        cmbFiltroEmpleado = new javax.swing.JComboBox<>();
+        txtBuscarEmpleado = new javax.swing.JTextField();
+        chkCoincidenciaMayusculasEmpleado = new javax.swing.JCheckBox();
+        btnBuscarEmpleado = new javax.swing.JButton();
+        datePickerFechaInicioEmpleado = new org.jdesktop.swingx.JXDatePicker();
+        datePickerFechaFinEmpleado = new org.jdesktop.swingx.JXDatePicker();
+        txtPresupuestoMinEmpleado = new javax.swing.JTextField();
+        txtPresupuestoMaxEmpleado = new javax.swing.JTextField();
+        btnBusquedaAvanzadaEmpleado = new javax.swing.JButton();
+        etiFechaInicioEmpleado = new javax.swing.JLabel();
+        etiFechaFinEmpleado = new javax.swing.JLabel();
+        etiPresupuestoMinEmpleado = new javax.swing.JLabel();
+        etiPresupuestoMaxEmpleado = new javax.swing.JLabel();
+        btnActualizarEmpleado = new javax.swing.JButton();
         panelCrearProyecto = new javax.swing.JPanel();
         panelFormularioProyecto = new javax.swing.JPanel();
         etiCodigo = new javax.swing.JLabel();
@@ -140,9 +179,7 @@ public class AdministradorWindown extends javax.swing.JFrame {
         etiSeccionDatosGenerales = new org.jdesktop.swingx.JXLabel();
         etiDescripcion = new org.jdesktop.swingx.JXLabel();
         etiDetallesTecnicos = new org.jdesktop.swingx.JXLabel();
-        separadorSeccion2 = new javax.swing.JSeparator();
         separadorSeccion1 = new javax.swing.JSeparator();
-        separadorSecction3 = new javax.swing.JSeparator();
         etiObligatorioNombre = new javax.swing.JLabel();
         etiObligatorioDireccion = new javax.swing.JLabel();
         etiObligatorioTipoReparacion = new javax.swing.JLabel();
@@ -151,6 +188,10 @@ public class AdministradorWindown extends javax.swing.JFrame {
         etiObligatorioFechaEstimada = new javax.swing.JLabel();
         etiObligatorioCodigo = new javax.swing.JLabel();
         btnLimpiarCampos = new javax.swing.JButton();
+        separadorSecction4 = new javax.swing.JSeparator();
+        separadorSecction7 = new javax.swing.JSeparator();
+        separadorSecction8 = new javax.swing.JSeparator();
+        separadorSecction9 = new javax.swing.JSeparator();
         panelVerProyectos = new javax.swing.JPanel();
         scrollProyectos = new javax.swing.JScrollPane();
         jXTableProyectos = new org.jdesktop.swingx.JXTable();
@@ -169,20 +210,6 @@ public class AdministradorWindown extends javax.swing.JFrame {
         etiPresupuestoMin = new javax.swing.JLabel();
         etiPresupuestoMax = new javax.swing.JLabel();
         btnActualizar = new javax.swing.JButton();
-
-        menuItemVerDetalles.setText("jMenuItem1");
-        menuItemVerDetalles.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuItemVerDetallesActionPerformed(evt);
-            }
-        });
-        PopupMenuProyectos.add(menuItemVerDetalles);
-
-        menuItemEditar.setText("jMenuItem2");
-        PopupMenuProyectos.add(menuItemEditar);
-
-        menuItemEliminar.setText("jMenuItem3");
-        PopupMenuProyectos.add(menuItemEliminar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -214,27 +241,12 @@ public class AdministradorWindown extends javax.swing.JFrame {
                 panelOpcionProyectosMouseExited(evt);
             }
         });
+        panelOpcionProyectos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         etiOpcionProyectos.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         etiOpcionProyectos.setForeground(new java.awt.Color(255, 233, 127));
         etiOpcionProyectos.setText("Proyectos ");
-
-        javax.swing.GroupLayout panelOpcionProyectosLayout = new javax.swing.GroupLayout(panelOpcionProyectos);
-        panelOpcionProyectos.setLayout(panelOpcionProyectosLayout);
-        panelOpcionProyectosLayout.setHorizontalGroup(
-            panelOpcionProyectosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelOpcionProyectosLayout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addComponent(etiOpcionProyectos)
-                .addContainerGap(59, Short.MAX_VALUE))
-        );
-        panelOpcionProyectosLayout.setVerticalGroup(
-            panelOpcionProyectosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelOpcionProyectosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(etiOpcionProyectos, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        panelOpcionProyectos.add(etiOpcionProyectos, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 6, -1, 38));
 
         panelBarraOpciones.add(panelOpcionProyectos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 200, 50));
 
@@ -250,27 +262,12 @@ public class AdministradorWindown extends javax.swing.JFrame {
                 panelOpcionEmpleadosMouseExited(evt);
             }
         });
+        panelOpcionEmpleados.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         etiOpcionEmpleados.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         etiOpcionEmpleados.setForeground(new java.awt.Color(255, 233, 127));
         etiOpcionEmpleados.setText(" Empleados");
-
-        javax.swing.GroupLayout panelOpcionEmpleadosLayout = new javax.swing.GroupLayout(panelOpcionEmpleados);
-        panelOpcionEmpleados.setLayout(panelOpcionEmpleadosLayout);
-        panelOpcionEmpleadosLayout.setHorizontalGroup(
-            panelOpcionEmpleadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelOpcionEmpleadosLayout.createSequentialGroup()
-                .addContainerGap(46, Short.MAX_VALUE)
-                .addComponent(etiOpcionEmpleados)
-                .addGap(59, 59, 59))
-        );
-        panelOpcionEmpleadosLayout.setVerticalGroup(
-            panelOpcionEmpleadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelOpcionEmpleadosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(etiOpcionEmpleados, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        panelOpcionEmpleados.add(etiOpcionEmpleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(46, 6, -1, 38));
 
         panelBarraOpciones.add(panelOpcionEmpleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 200, 50));
 
@@ -286,27 +283,12 @@ public class AdministradorWindown extends javax.swing.JFrame {
                 panelOpcionContratarMouseExited(evt);
             }
         });
+        panelOpcionContratar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         etiOpcionContratar.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         etiOpcionContratar.setForeground(new java.awt.Color(255, 233, 127));
         etiOpcionContratar.setText("Contratar");
-
-        javax.swing.GroupLayout panelOpcionContratarLayout = new javax.swing.GroupLayout(panelOpcionContratar);
-        panelOpcionContratar.setLayout(panelOpcionContratarLayout);
-        panelOpcionContratarLayout.setHorizontalGroup(
-            panelOpcionContratarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelOpcionContratarLayout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addComponent(etiOpcionContratar)
-                .addContainerGap(65, Short.MAX_VALUE))
-        );
-        panelOpcionContratarLayout.setVerticalGroup(
-            panelOpcionContratarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelOpcionContratarLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(etiOpcionContratar, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        panelOpcionContratar.add(etiOpcionContratar, new org.netbeans.lib.awtextra.AbsoluteConstraints(56, 6, -1, 38));
 
         panelBarraOpciones.add(panelOpcionContratar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, 200, 50));
 
@@ -322,27 +304,12 @@ public class AdministradorWindown extends javax.swing.JFrame {
                 panelOpcionListarObrasMouseExited(evt);
             }
         });
+        panelOpcionListarObras.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         etiOpcionListarObras.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         etiOpcionListarObras.setForeground(new java.awt.Color(255, 233, 127));
         etiOpcionListarObras.setText(" Listar Obras ");
-
-        javax.swing.GroupLayout panelOpcionListarObrasLayout = new javax.swing.GroupLayout(panelOpcionListarObras);
-        panelOpcionListarObras.setLayout(panelOpcionListarObrasLayout);
-        panelOpcionListarObrasLayout.setHorizontalGroup(
-            panelOpcionListarObrasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelOpcionListarObrasLayout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addComponent(etiOpcionListarObras)
-                .addContainerGap(47, Short.MAX_VALUE))
-        );
-        panelOpcionListarObrasLayout.setVerticalGroup(
-            panelOpcionListarObrasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelOpcionListarObrasLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(etiOpcionListarObras, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        panelOpcionListarObras.add(etiOpcionListarObras, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 6, -1, 38));
 
         panelBarraOpciones.add(panelOpcionListarObras, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 420, 200, 50));
 
@@ -364,19 +331,21 @@ public class AdministradorWindown extends javax.swing.JFrame {
                 txtCorreoEmpleadoActionPerformed(evt);
             }
         });
-        panelFormularioContrato.add(txtCorreoEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 100, 20));
+        panelFormularioContrato.add(txtCorreoEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 290, 240, 20));
 
-        etiCorreoEmpleado.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        etiCorreoEmpleado.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        etiCorreoEmpleado.setForeground(new java.awt.Color(51, 51, 51));
         etiCorreoEmpleado.setText("Correo:");
-        panelFormularioContrato.add(etiCorreoEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
+        panelFormularioContrato.add(etiCorreoEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, -1, -1));
 
-        cmbPuestoTrabajo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Promotor", "Obrero" }));
+        cmbPuestoTrabajo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ninguno", "Promotor", "Obrero", "Funcionario público", "Inspector municipal" }));
         cmbPuestoTrabajo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        panelFormularioContrato.add(cmbPuestoTrabajo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 100, -1));
+        panelFormularioContrato.add(cmbPuestoTrabajo, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 100, 160, 30));
 
-        etiPuestoTrabajo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        etiPuestoTrabajo.setText("Trabajo:");
-        panelFormularioContrato.add(etiPuestoTrabajo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
+        etiPuestoTrabajo.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        etiPuestoTrabajo.setForeground(new java.awt.Color(51, 51, 51));
+        etiPuestoTrabajo.setText("Cargo:");
+        panelFormularioContrato.add(etiPuestoTrabajo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
 
         txtNombreEmpleado.setBackground(new java.awt.Color(0, 0, 0, 0));
         txtNombreEmpleado.setBorder(null);
@@ -390,15 +359,17 @@ public class AdministradorWindown extends javax.swing.JFrame {
                 txtNombreEmpleadoKeyTyped(evt);
             }
         });
-        panelFormularioContrato.add(txtNombreEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 100, 20));
+        panelFormularioContrato.add(txtNombreEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 110, 290, 20));
 
-        etiApellidoEmpleado.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        etiApellidoEmpleado.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        etiApellidoEmpleado.setForeground(new java.awt.Color(51, 51, 51));
         etiApellidoEmpleado.setText("Apellido:");
-        panelFormularioContrato.add(etiApellidoEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, -1, -1));
+        panelFormularioContrato.add(etiApellidoEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 160, -1, -1));
 
-        etiIdentificacionEmpleado.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        etiIdentificacionEmpleado.setText("Identificacion");
-        panelFormularioContrato.add(etiIdentificacionEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, -1, -1));
+        etiIdentificacionEmpleado.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        etiIdentificacionEmpleado.setForeground(new java.awt.Color(51, 51, 51));
+        etiIdentificacionEmpleado.setText("Numero ID:");
+        panelFormularioContrato.add(etiIdentificacionEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 270, -1, -1));
 
         txtIdentificacion.setBackground(new java.awt.Color(0, 0, 0, 0));
         txtIdentificacion.setBorder(null);
@@ -407,118 +378,324 @@ public class AdministradorWindown extends javax.swing.JFrame {
                 txtIdentificacionKeyTyped(evt);
             }
         });
-        panelFormularioContrato.add(txtIdentificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 100, 20));
+        panelFormularioContrato.add(txtIdentificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 270, 190, 20));
 
         separadorNombre.setBackground(new java.awt.Color(0, 0, 0));
         separadorNombre.setForeground(new java.awt.Color(0, 0, 0));
-        panelFormularioContrato.add(separadorNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 100, 10));
+        panelFormularioContrato.add(separadorNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 130, 290, 10));
 
         separadorTelefono.setBackground(new java.awt.Color(0, 0, 0));
         separadorTelefono.setForeground(new java.awt.Color(0, 0, 0));
-        panelFormularioContrato.add(separadorTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, 100, 10));
+        panelFormularioContrato.add(separadorTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 360, 230, 10));
 
         separadorIdentificacion.setBackground(new java.awt.Color(0, 0, 0));
         separadorIdentificacion.setForeground(new java.awt.Color(0, 0, 0));
-        panelFormularioContrato.add(separadorIdentificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 150, 100, 10));
+        panelFormularioContrato.add(separadorIdentificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 290, 190, 10));
 
         separadorApellido.setBackground(new java.awt.Color(0, 0, 0));
         separadorApellido.setForeground(new java.awt.Color(0, 0, 0));
-        panelFormularioContrato.add(separadorApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 60, 100, 10));
+        panelFormularioContrato.add(separadorApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 180, 290, 10));
 
-        btnContratar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnContratar.setBackground(new java.awt.Color(18, 57, 18));
+        btnContratar.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        btnContratar.setForeground(new java.awt.Color(255, 255, 255));
         btnContratar.setText("Contratar");
         btnContratar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnContratarActionPerformed(evt);
             }
         });
-        panelFormularioContrato.add(btnContratar, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 330, 120, 50));
+        panelFormularioContrato.add(btnContratar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 390, 110, 30));
 
-        cmbTipoIdentificacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CEDULA" }));
-        panelFormularioContrato.add(cmbTipoIdentificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 220, 100, -1));
+        cmbTipoIdentificacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NINGUNA", "CEDULA", "REGISTROCIVIL", "DIE", "TI", "PASAPORTE", " " }));
+        panelFormularioContrato.add(cmbTipoIdentificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 210, 170, 30));
 
-        etiTipoIdentificacion.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        etiTipoIdentificacion.setText("Tipo de cedula");
-        panelFormularioContrato.add(etiTipoIdentificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, -1, -1));
+        etiTipoIdentificacion.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        etiTipoIdentificacion.setForeground(new java.awt.Color(51, 51, 51));
+        etiTipoIdentificacion.setText("Tipo ID:");
+        panelFormularioContrato.add(etiTipoIdentificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 220, -1, -1));
 
-        etiTelefono.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        etiTelefono.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        etiTelefono.setForeground(new java.awt.Color(51, 51, 51));
         etiTelefono.setText("Telefono:");
-        panelFormularioContrato.add(etiTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 80, 20));
+        panelFormularioContrato.add(etiTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, 70, 20));
 
         separadorCorreo.setBackground(new java.awt.Color(0, 0, 0));
         separadorCorreo.setForeground(new java.awt.Color(0, 0, 0));
-        panelFormularioContrato.add(separadorCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, 100, 10));
+        panelFormularioContrato.add(separadorCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 310, 240, 10));
 
         txtApellido.setBorder(null);
-        panelFormularioContrato.add(txtApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 40, 100, 20));
+        panelFormularioContrato.add(txtApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 160, 290, 20));
 
-        etiNombre.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        etiNombre.setText("Nombre");
-        panelFormularioContrato.add(etiNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        etiNombre.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        etiNombre.setForeground(new java.awt.Color(51, 51, 51));
+        etiNombre.setText("Nombre:");
+        panelFormularioContrato.add(etiNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 110, -1, -1));
 
+        btnLimpiar.setBackground(new java.awt.Color(51, 102, 255));
+        btnLimpiar.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
         btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLimpiarActionPerformed(evt);
             }
         });
-        panelFormularioContrato.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 350, -1, -1));
+        panelFormularioContrato.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 390, 90, 30));
 
-        etiSalario.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        etiSalario.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        etiSalario.setForeground(new java.awt.Color(51, 51, 51));
         etiSalario.setText("Salario:");
-        panelFormularioContrato.add(etiSalario, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 250, 70, 20));
+        panelFormularioContrato.add(etiSalario, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 50, 20));
 
         txtSalario.setBorder(null);
-        panelFormularioContrato.add(txtSalario, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 280, 110, 20));
+        panelFormularioContrato.add(txtSalario, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 160, 20));
 
         separadorSalario.setBackground(new java.awt.Color(0, 0, 0));
         separadorSalario.setForeground(new java.awt.Color(0, 0, 0));
-        panelFormularioContrato.add(separadorSalario, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 300, 110, 10));
+        panelFormularioContrato.add(separadorSalario, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, 160, 10));
 
         txtTelefono.setBorder(null);
-        panelFormularioContrato.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, 110, 20));
+        txtTelefono.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTelefonoActionPerformed(evt);
+            }
+        });
+        panelFormularioContrato.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 340, 230, 20));
+
+        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("Información de Contacto");
+        panelFormularioContrato.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, 300, -1));
+
+        btnCancelar.setBackground(new java.awt.Color(255, 0, 0));
+        btnCancelar.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        btnCancelar.setForeground(new java.awt.Color(255, 255, 255));
+        btnCancelar.setText("Cancelar");
+        panelFormularioContrato.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 390, 90, 30));
+
+        jLabel2.setBackground(new java.awt.Color(255, 204, 0));
+        jLabel2.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("Datos Laborales");
+        panelFormularioContrato.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 200, -1));
+
+        jLabel3.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setText("Datos personales");
+        panelFormularioContrato.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 40, 200, -1));
+
+        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jSeparator1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelFormularioContrato.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, -1, 420));
+        panelFormularioContrato.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 70, 380, 10));
+        panelFormularioContrato.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 380, 10));
+        panelFormularioContrato.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 380, 10));
+
+        etiObligatorioCodigo1.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        etiObligatorioCodigo1.setForeground(new java.awt.Color(255, 51, 51));
+        etiObligatorioCodigo1.setText("*");
+        panelFormularioContrato.add(etiObligatorioCodigo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 110, 10, 20));
+
+        etiObligatorioCodigo2.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        etiObligatorioCodigo2.setForeground(new java.awt.Color(255, 51, 51));
+        etiObligatorioCodigo2.setText("*");
+        panelFormularioContrato.add(etiObligatorioCodigo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 150, 10, 20));
+
+        etiObligatorioCodigo3.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        etiObligatorioCodigo3.setForeground(new java.awt.Color(255, 51, 51));
+        etiObligatorioCodigo3.setText("*");
+        panelFormularioContrato.add(etiObligatorioCodigo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 290, 10, 20));
+
+        etiObligatorioCodigo4.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        etiObligatorioCodigo4.setForeground(new java.awt.Color(255, 51, 51));
+        etiObligatorioCodigo4.setText("*");
+        panelFormularioContrato.add(etiObligatorioCodigo4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 340, 10, 20));
+
+        etiObligatorioCodigo5.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        etiObligatorioCodigo5.setForeground(new java.awt.Color(255, 51, 51));
+        etiObligatorioCodigo5.setText("*");
+        panelFormularioContrato.add(etiObligatorioCodigo5, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 110, 10, 20));
+
+        etiObligatorioCodigo6.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        etiObligatorioCodigo6.setForeground(new java.awt.Color(255, 51, 51));
+        etiObligatorioCodigo6.setText("*");
+        panelFormularioContrato.add(etiObligatorioCodigo6, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 160, 10, 20));
+
+        etiObligatorioCodigo7.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        etiObligatorioCodigo7.setForeground(new java.awt.Color(255, 51, 51));
+        etiObligatorioCodigo7.setText("*");
+        panelFormularioContrato.add(etiObligatorioCodigo7, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 220, 10, 20));
+
+        etiObligatorioCodigo8.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        etiObligatorioCodigo8.setForeground(new java.awt.Color(255, 51, 51));
+        etiObligatorioCodigo8.setText("*");
+        panelFormularioContrato.add(etiObligatorioCodigo8, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 270, 10, 20));
 
         javax.swing.GroupLayout panelContratarLayout = new javax.swing.GroupLayout(panelContratar);
         panelContratar.setLayout(panelContratarLayout);
         panelContratarLayout.setHorizontalGroup(
             panelContratarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelContratarLayout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(panelFormularioContrato, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(536, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(panelFormularioContrato, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         panelContratarLayout.setVerticalGroup(
             panelContratarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelContratarLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(panelFormularioContrato, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(panelFormularioContrato, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         TabbedAdmin.addTab("ContratarEmpleado", panelContratar);
 
         jTable_Empleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nombre", "Apellido", "Correo", "Cedula", "Rol", "Seguro Laboral", "Tipo identificacion", "Fecha contratacion", "Salario"
+                "Nombre", "Apellido", "Correo", "Rol", "Tipo ID", "ID", "Fecha contratacion", "Salario"
             }
         ));
         scrollEmpleados.setViewportView(jTable_Empleados);
+
+        panelBuscadorEmpleado.setBackground(new java.awt.Color(255, 255, 255));
+
+        cmbFiltroEmpleado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "...", "Termina en", "Comienza con", "Igual a", "Contiene" }));
+
+        chkCoincidenciaMayusculasEmpleado.setForeground(new java.awt.Color(0, 0, 0));
+        chkCoincidenciaMayusculasEmpleado.setText(" Mayusculas/Minusculas");
+
+        btnBuscarEmpleado.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnBuscarEmpleado.setText("Buscar");
+
+        datePickerFechaFinEmpleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                datePickerFechaFinEmpleadoActionPerformed(evt);
+            }
+        });
+
+        txtPresupuestoMinEmpleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPresupuestoMinEmpleadoActionPerformed(evt);
+            }
+        });
+
+        btnBusquedaAvanzadaEmpleado.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnBusquedaAvanzadaEmpleado.setText("Busqueda avnzada");
+        btnBusquedaAvanzadaEmpleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBusquedaAvanzadaEmpleadoActionPerformed(evt);
+            }
+        });
+
+        etiFechaInicioEmpleado.setForeground(new java.awt.Color(0, 0, 0));
+        etiFechaInicioEmpleado.setText("Fecha Inicio");
+
+        etiFechaFinEmpleado.setForeground(new java.awt.Color(0, 0, 0));
+        etiFechaFinEmpleado.setText("Fecha Fin");
+
+        etiPresupuestoMinEmpleado.setForeground(new java.awt.Color(0, 0, 0));
+        etiPresupuestoMinEmpleado.setText("Presupuesto Min");
+
+        etiPresupuestoMaxEmpleado.setForeground(new java.awt.Color(0, 0, 0));
+        etiPresupuestoMaxEmpleado.setText("Presupuesto Max");
+
+        btnActualizarEmpleado.setBackground(new java.awt.Color(204, 204, 204));
+        btnActualizarEmpleado.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btnActualizarEmpleado.setForeground(new java.awt.Color(0, 0, 0));
+        btnActualizarEmpleado.setText("Actualizar");
+        btnActualizarEmpleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarEmpleadoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelBuscadorEmpleadoLayout = new javax.swing.GroupLayout(panelBuscadorEmpleado);
+        panelBuscadorEmpleado.setLayout(panelBuscadorEmpleadoLayout);
+        panelBuscadorEmpleadoLayout.setHorizontalGroup(
+            panelBuscadorEmpleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBuscadorEmpleadoLayout.createSequentialGroup()
+                .addContainerGap(21, Short.MAX_VALUE)
+                .addGroup(panelBuscadorEmpleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelBuscadorEmpleadoLayout.createSequentialGroup()
+                        .addComponent(btnBusquedaAvanzadaEmpleado)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(etiFechaInicioEmpleado)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(datePickerFechaFinEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(etiFechaFinEmpleado)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(datePickerFechaInicioEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(etiPresupuestoMinEmpleado)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                        .addComponent(txtPresupuestoMinEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(etiPresupuestoMaxEmpleado)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtPresupuestoMaxEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(17, Short.MAX_VALUE))
+                    .addGroup(panelBuscadorEmpleadoLayout.createSequentialGroup()
+                        .addComponent(btnBuscarEmpleado)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbFiltroEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addComponent(txtBuscarEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(chkCoincidenciaMayusculasEmpleado)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnActualizarEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+        panelBuscadorEmpleadoLayout.setVerticalGroup(
+            panelBuscadorEmpleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBuscadorEmpleadoLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(panelBuscadorEmpleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmbFiltroEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chkCoincidenciaMayusculasEmpleado)
+                    .addComponent(btnBuscarEmpleado)
+                    .addComponent(btnActualizarEmpleado)
+                    .addComponent(txtBuscarEmpleado))
+                .addGap(18, 18, 18)
+                .addGroup(panelBuscadorEmpleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(datePickerFechaInicioEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(datePickerFechaFinEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBusquedaAvanzadaEmpleado)
+                    .addComponent(etiFechaInicioEmpleado)
+                    .addComponent(etiFechaFinEmpleado)
+                    .addComponent(etiPresupuestoMinEmpleado)
+                    .addComponent(txtPresupuestoMinEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPresupuestoMaxEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(etiPresupuestoMaxEmpleado))
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout panelEmpleadosLayout = new javax.swing.GroupLayout(panelEmpleados);
         panelEmpleados.setLayout(panelEmpleadosLayout);
         panelEmpleadosLayout.setHorizontalGroup(
             panelEmpleadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(scrollEmpleados, javax.swing.GroupLayout.DEFAULT_SIZE, 880, Short.MAX_VALUE)
+            .addGroup(panelEmpleadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(panelBuscadorEmpleado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelEmpleadosLayout.setVerticalGroup(
             panelEmpleadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollEmpleados, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
+            .addGroup(panelEmpleadosLayout.createSequentialGroup()
+                .addGap(97, 97, 97)
+                .addComponent(scrollEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(21, Short.MAX_VALUE))
+            .addGroup(panelEmpleadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelEmpleadosLayout.createSequentialGroup()
+                    .addComponent(panelBuscadorEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 369, Short.MAX_VALUE)))
         );
 
         TabbedAdmin.addTab("VerEmpleados", panelEmpleados);
@@ -529,41 +706,41 @@ public class AdministradorWindown extends javax.swing.JFrame {
         panelFormularioProyecto.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         etiCodigo.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        etiCodigo.setForeground(new java.awt.Color(102, 102, 102));
+        etiCodigo.setForeground(new java.awt.Color(0, 0, 0));
         etiCodigo.setText("Codigo:");
-        panelFormularioProyecto.add(etiCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 50, -1));
+        panelFormularioProyecto.add(etiCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, 50, -1));
 
         etiNombreProyecto.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        etiNombreProyecto.setForeground(new java.awt.Color(102, 102, 102));
+        etiNombreProyecto.setForeground(new java.awt.Color(0, 0, 0));
         etiNombreProyecto.setText("Nombre:");
-        panelFormularioProyecto.add(etiNombreProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, -1, -1));
+        panelFormularioProyecto.add(etiNombreProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 140, -1, -1));
 
         etiDireccionProyecto.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        etiDireccionProyecto.setForeground(new java.awt.Color(102, 102, 102));
+        etiDireccionProyecto.setForeground(new java.awt.Color(0, 0, 0));
         etiDireccionProyecto.setText("Direccion:");
-        panelFormularioProyecto.add(etiDireccionProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, 70, 20));
+        panelFormularioProyecto.add(etiDireccionProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 190, 70, 20));
 
         etiTipoReparacion.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        etiTipoReparacion.setForeground(new java.awt.Color(102, 102, 102));
+        etiTipoReparacion.setForeground(new java.awt.Color(0, 0, 0));
         etiTipoReparacion.setText("Tipo de reparación:");
-        panelFormularioProyecto.add(etiTipoReparacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 70, -1, 20));
+        panelFormularioProyecto.add(etiTipoReparacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 300, -1, 20));
 
         etiFechaEstimada.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        etiFechaEstimada.setForeground(new java.awt.Color(102, 102, 102));
+        etiFechaEstimada.setForeground(new java.awt.Color(0, 0, 0));
         etiFechaEstimada.setText("Fecha fin estimada:");
-        panelFormularioProyecto.add(etiFechaEstimada, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 140, -1, -1));
+        panelFormularioProyecto.add(etiFechaEstimada, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 150, -1, -1));
 
         etiPrioridadProyecto.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        etiPrioridadProyecto.setForeground(new java.awt.Color(102, 102, 102));
+        etiPrioridadProyecto.setForeground(new java.awt.Color(0, 0, 0));
         etiPrioridadProyecto.setText("Prioridad:");
-        panelFormularioProyecto.add(etiPrioridadProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 150, 90, 20));
+        panelFormularioProyecto.add(etiPrioridadProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 350, 70, 20));
 
         etiPresupuesto.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        etiPresupuesto.setForeground(new java.awt.Color(102, 102, 102));
+        etiPresupuesto.setForeground(new java.awt.Color(0, 0, 0));
         etiPresupuesto.setText("Presupuesto:");
-        panelFormularioProyecto.add(etiPresupuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 70, -1, -1));
+        panelFormularioProyecto.add(etiPresupuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 90, -1, -1));
 
-        btnGuardar.setBackground(new java.awt.Color(0, 0, 255));
+        btnGuardar.setBackground(new java.awt.Color(0, 153, 51));
         btnGuardar.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -571,125 +748,122 @@ public class AdministradorWindown extends javax.swing.JFrame {
                 btnGuardarActionPerformed(evt);
             }
         });
-        panelFormularioProyecto.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 370, 160, 40));
+        panelFormularioProyecto.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 390, 160, 40));
 
-        txtCodigo.setBackground(new java.awt.Color(204, 204, 204));
-        txtCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        panelFormularioProyecto.add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 140, 20));
+        txtCodigo.setBackground(new java.awt.Color(0, 0, 0, 0));
+        txtCodigo.setForeground(new java.awt.Color(0, 0, 0));
+        txtCodigo.setBorder(null);
+        panelFormularioProyecto.add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 250, 30));
 
-        txtNombre.setBackground(new java.awt.Color(204, 204, 204));
-        txtNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        panelFormularioProyecto.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 160, 20));
+        txtNombre.setBackground(new java.awt.Color(0, 0, 0, 0));
+        txtNombre.setBorder(null);
+        panelFormularioProyecto.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 140, 250, 20));
 
-        txtDireccion.setBackground(new java.awt.Color(204, 204, 204));
-        txtDireccion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        panelFormularioProyecto.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, 170, 20));
+        txtDireccion.setBackground(new java.awt.Color(0, 0, 0, 0));
+        txtDireccion.setBorder(null);
+        panelFormularioProyecto.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 190, 240, 20));
 
-        cmbTiporeparacion.setBackground(new java.awt.Color(204, 204, 204));
+        cmbTiporeparacion.setBackground(new java.awt.Color(255, 255, 255));
         cmbTiporeparacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NINGUNA", "ESTRUCTURAL", "ELECTRICA", "HIDRAULICA", "PAVIMENTACION", "OTROS" }));
         cmbTiporeparacion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        panelFormularioProyecto.add(cmbTiporeparacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 100, 140, 30));
+        panelFormularioProyecto.add(cmbTiporeparacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 290, 140, 30));
 
-        cmbPrioridad.setBackground(new java.awt.Color(204, 204, 204));
+        cmbPrioridad.setBackground(new java.awt.Color(255, 255, 255));
         cmbPrioridad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NINGUNA", "URGENTE", "ALTA", "MEDIA", "BAJA" }));
         cmbPrioridad.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        panelFormularioProyecto.add(cmbPrioridad, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 180, 140, 30));
+        panelFormularioProyecto.add(cmbPrioridad, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 340, 200, 30));
 
-        txtPresupuesto.setBackground(new java.awt.Color(204, 204, 204));
-        txtPresupuesto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        panelFormularioProyecto.add(txtPresupuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 100, 150, 20));
+        txtPresupuesto.setBackground(new java.awt.Color(0, 0, 0, 0));
+        txtPresupuesto.setBorder(null);
+        panelFormularioProyecto.add(txtPresupuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 90, 190, 20));
 
         separadorPresupuesto.setBackground(new java.awt.Color(0, 0, 0));
         separadorPresupuesto.setForeground(new java.awt.Color(0, 0, 0));
-        panelFormularioProyecto.add(separadorPresupuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 120, 150, 10));
+        panelFormularioProyecto.add(separadorPresupuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 110, 190, 10));
 
         separadorCodigo.setBackground(new java.awt.Color(0, 0, 0));
         separadorCodigo.setForeground(new java.awt.Color(0, 0, 0));
-        panelFormularioProyecto.add(separadorCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 140, 10));
+        panelFormularioProyecto.add(separadorCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 250, 10));
 
         separadorNombreProyecto.setBackground(new java.awt.Color(0, 0, 0));
         separadorNombreProyecto.setForeground(new java.awt.Color(0, 0, 0));
-        panelFormularioProyecto.add(separadorNombreProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 160, 10));
+        panelFormularioProyecto.add(separadorNombreProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 250, 10));
 
         separadorDireccionProyecto.setBackground(new java.awt.Color(0, 0, 0));
         separadorDireccionProyecto.setForeground(new java.awt.Color(0, 0, 0));
-        panelFormularioProyecto.add(separadorDireccionProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 170, 10));
+        panelFormularioProyecto.add(separadorDireccionProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 210, 240, 10));
 
         DatePickFechaEstimada.setBackground(new java.awt.Color(204, 204, 204));
         DatePickFechaEstimada.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        panelFormularioProyecto.add(DatePickFechaEstimada, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 170, 160, -1));
+        panelFormularioProyecto.add(DatePickFechaEstimada, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 140, 160, -1));
 
         txtArea.setBackground(new java.awt.Color(204, 204, 204));
-        txtArea.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Descripción", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
+        txtArea.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         txtArea.setColumns(20);
         txtArea.setRows(5);
         scrollArea.setViewportView(txtArea);
 
-        panelFormularioProyecto.add(scrollArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 270, 310, 160));
+        panelFormularioProyecto.add(scrollArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 240, 320, 100));
 
-        etiSeccionPlanificacion.setForeground(new java.awt.Color(0, 204, 51));
-        etiSeccionPlanificacion.setText("               Planificación");
+        etiSeccionPlanificacion.setForeground(new java.awt.Color(0, 0, 0));
+        etiSeccionPlanificacion.setText(" Planificación");
         etiSeccionPlanificacion.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        panelFormularioProyecto.add(etiSeccionPlanificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 20, 260, 20));
+        panelFormularioProyecto.add(etiSeccionPlanificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 30, 130, 20));
 
-        etiSeccionDatosGenerales.setForeground(new java.awt.Color(0, 204, 204));
-        etiSeccionDatosGenerales.setText("           Datos generales");
+        etiSeccionDatosGenerales.setForeground(new java.awt.Color(0, 0, 0));
+        etiSeccionDatosGenerales.setText("Datos generales");
         etiSeccionDatosGenerales.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        panelFormularioProyecto.add(etiSeccionDatosGenerales, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 230, 20));
+        panelFormularioProyecto.add(etiSeccionDatosGenerales, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, 150, 20));
 
-        etiDescripcion.setForeground(new java.awt.Color(255, 204, 0));
-        etiDescripcion.setText("               Descripción");
+        etiDescripcion.setForeground(new java.awt.Color(0, 0, 0));
+        etiDescripcion.setText(" Descripción");
         etiDescripcion.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        panelFormularioProyecto.add(etiDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 230, 250, 20));
+        panelFormularioProyecto.add(etiDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 200, 110, 20));
 
-        etiDetallesTecnicos.setForeground(new java.awt.Color(255, 51, 51));
-        etiDetallesTecnicos.setText("           Detalles técnicos");
+        etiDetallesTecnicos.setForeground(new java.awt.Color(0, 0, 0));
+        etiDetallesTecnicos.setText("Detalles técnicos");
         etiDetallesTecnicos.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        panelFormularioProyecto.add(etiDetallesTecnicos, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 20, 250, 20));
-
-        separadorSeccion2.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        panelFormularioProyecto.add(separadorSeccion2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 10, 10, 430));
+        panelFormularioProyecto.add(etiDetallesTecnicos, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 250, 160, 20));
 
         separadorSeccion1.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        panelFormularioProyecto.add(separadorSeccion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 10, 310));
-        panelFormularioProyecto.add(separadorSecction3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 490, 10));
+        panelFormularioProyecto.add(separadorSeccion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 30, 10, 340));
 
         etiObligatorioNombre.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         etiObligatorioNombre.setForeground(new java.awt.Color(255, 51, 51));
         etiObligatorioNombre.setText("*");
-        panelFormularioProyecto.add(etiObligatorioNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(93, 150, -1, 20));
+        panelFormularioProyecto.add(etiObligatorioNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 140, 10, 20));
 
         etiObligatorioDireccion.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         etiObligatorioDireccion.setForeground(new java.awt.Color(255, 51, 51));
         etiObligatorioDireccion.setText("*");
-        panelFormularioProyecto.add(etiObligatorioDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 230, 20, 20));
+        panelFormularioProyecto.add(etiObligatorioDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 190, 20, 20));
 
         etiObligatorioTipoReparacion.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         etiObligatorioTipoReparacion.setForeground(new java.awt.Color(255, 51, 51));
         etiObligatorioTipoReparacion.setText("*");
-        panelFormularioProyecto.add(etiObligatorioTipoReparacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 70, 10, 20));
+        panelFormularioProyecto.add(etiObligatorioTipoReparacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 350, 10, 20));
 
         etiObligatorioPrioridad.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         etiObligatorioPrioridad.setForeground(new java.awt.Color(255, 51, 51));
         etiObligatorioPrioridad.setText("*");
-        panelFormularioProyecto.add(etiObligatorioPrioridad, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 150, 10, 20));
+        panelFormularioProyecto.add(etiObligatorioPrioridad, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 300, 10, 20));
 
         etiObligatorioPresupuesto.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         etiObligatorioPresupuesto.setForeground(new java.awt.Color(255, 51, 51));
         etiObligatorioPresupuesto.setText("*");
-        panelFormularioProyecto.add(etiObligatorioPresupuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 70, 10, 20));
+        panelFormularioProyecto.add(etiObligatorioPresupuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 90, 10, 20));
 
         etiObligatorioFechaEstimada.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         etiObligatorioFechaEstimada.setForeground(new java.awt.Color(255, 51, 51));
         etiObligatorioFechaEstimada.setText("*");
-        panelFormularioProyecto.add(etiObligatorioFechaEstimada, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 140, 10, 20));
+        panelFormularioProyecto.add(etiObligatorioFechaEstimada, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 150, 10, 20));
 
         etiObligatorioCodigo.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         etiObligatorioCodigo.setForeground(new java.awt.Color(255, 51, 51));
         etiObligatorioCodigo.setText("*");
-        panelFormularioProyecto.add(etiObligatorioCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, 10, 20));
+        panelFormularioProyecto.add(etiObligatorioCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 10, 20));
 
-        btnLimpiarCampos.setBackground(new java.awt.Color(102, 102, 102));
+        btnLimpiarCampos.setBackground(new java.awt.Color(102, 102, 255));
         btnLimpiarCampos.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         btnLimpiarCampos.setText("Limpiar campos");
         btnLimpiarCampos.addActionListener(new java.awt.event.ActionListener() {
@@ -697,16 +871,29 @@ public class AdministradorWindown extends javax.swing.JFrame {
                 btnLimpiarCamposActionPerformed(evt);
             }
         });
-        panelFormularioProyecto.add(btnLimpiarCampos, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 370, 150, 40));
+        panelFormularioProyecto.add(btnLimpiarCampos, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 390, 150, 40));
+
+        separadorSecction4.setBackground(new java.awt.Color(0, 0, 0));
+        separadorSecction4.setOpaque(true);
+        panelFormularioProyecto.add(separadorSecction4, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 57, 310, -1));
+
+        separadorSecction7.setBackground(new java.awt.Color(0, 0, 0));
+        separadorSecction7.setOpaque(true);
+        panelFormularioProyecto.add(separadorSecction7, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 224, 320, -1));
+
+        separadorSecction8.setBackground(new java.awt.Color(0, 0, 0));
+        separadorSecction8.setOpaque(true);
+        panelFormularioProyecto.add(separadorSecction8, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 277, 310, -1));
+
+        separadorSecction9.setBackground(new java.awt.Color(0, 0, 0));
+        separadorSecction9.setOpaque(true);
+        panelFormularioProyecto.add(separadorSecction9, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 57, 310, -1));
 
         javax.swing.GroupLayout panelCrearProyectoLayout = new javax.swing.GroupLayout(panelCrearProyecto);
         panelCrearProyecto.setLayout(panelCrearProyectoLayout);
         panelCrearProyectoLayout.setHorizontalGroup(
             panelCrearProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelCrearProyectoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelFormularioProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, 868, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(panelFormularioProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, 880, Short.MAX_VALUE)
         );
         panelCrearProyectoLayout.setVerticalGroup(
             panelCrearProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -730,7 +917,6 @@ public class AdministradorWindown extends javax.swing.JFrame {
         ));
         jXTableProyectos.setAutoscrolls(false);
         jXTableProyectos.setColumnControlVisible(true);
-        jXTableProyectos.setColumnSelectionAllowed(false);
         jXTableProyectos.setEditable(false);
         jXTableProyectos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jXTableProyectos.setGridColor(new java.awt.Color(102, 102, 102));
@@ -906,6 +1092,12 @@ public class AdministradorWindown extends javax.swing.JFrame {
 
     private void panelOpcionEmpleadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelOpcionEmpleadosMouseClicked
         TabbedAdmin.setSelectedIndex(1);
+        try {
+            List<Usuario> usuarios = usuarioController.listarUsuarios();
+            cargarUsuariosEnTabla(usuarios);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar usuarios: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_panelOpcionEmpleadosMouseClicked
 
     private void panelOpcionEmpleadosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelOpcionEmpleadosMouseEntered
@@ -965,11 +1157,104 @@ public class AdministradorWindown extends javax.swing.JFrame {
     }//GEN-LAST:event_txtIdentificacionKeyTyped
 
     private void btnContratarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContratarActionPerformed
+try {
+    // Recoger datos de los campos
+    String primerNombre = txtNombreEmpleado.getText().trim();
+    String primerApellido = txtApellido.getText().trim();
+    String correo = txtCorreoEmpleado.getText().trim();
+    String telefono = txtTelefono.getText().trim();
+    String tipoIdentificacionTexto = cmbTipoIdentificacion.getSelectedItem().toString();
+    String numeroIdentificacion = txtIdentificacion.getText().trim();
+    String cargo = cmbPuestoTrabajo.getSelectedItem().toString();
+    String salarioTexto = txtSalario.getText().trim();
+
+    // Validación de campos vacíos
+    if (primerNombre.isEmpty() || primerApellido.isEmpty() || correo.isEmpty() || telefono.isEmpty()
+            || tipoIdentificacionTexto.equals("NINGUNA") || numeroIdentificacion.isEmpty()
+            || cargo.equals("Ninguno") || salarioTexto.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Todos los campos marcados con * son obligatorios.",
+                "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Validación de correo electrónico
+    if (!correo.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+        JOptionPane.showMessageDialog(this, "Formato de correo no válido.",
+                "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Validación de salario
+    double salario;
+    try {
+        salario = Double.parseDouble(salarioTexto);
+        if (salario <= 0) {
+            throw new NumberFormatException("El salario debe ser positivo.");
+        }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "El salario debe ser un número positivo.",
+                "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Validación de teléfono
+    if (!telefono.matches("\\d+")) {
+        JOptionPane.showMessageDialog(this, "El teléfono debe contener solo números.",
+                "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    Persona persona;
+    try {
+        // Obtener el tipo de identificación del enum
+        TipoIdentificacion tipoIdentificacion = TipoIdentificacion.valueOf(tipoIdentificacionTexto.toUpperCase());
+
+        // Crear objeto de acuerdo al rol seleccionado
+        switch (cargo.toUpperCase()) {
+            case "OBRERO":
+                persona = new model.roles.Obrero(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, correo, salario);
+                        break;
+            case "INSPECTOR MUNICIPAL":
+                persona = new InspectorMunicipal(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, correo, salario);                break;
+            case "FUNCIONARIO PUBLICO":
+                persona = new FuncionarioPublico(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, correo, salario); 
+                        break;
+            case "PROMOTOR":
+                persona = new model.roles.Promotor(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, correo, salario);
+                break;
+            default:
+                throw new Exception("Rol no reconocido: " + cargo);
+        }
+
+        RolSistema rolSistema = mapearRol(cargo);
+        usuarioController.registrarUsuario(correo, correo, rolSistema.name(), persona);
+
+        // Mostrar mensaje de éxito
+        String mensajeResumen = String.format("Usuario contratado exitosamente.\n\n"
+                + "Nombre: %s %s\nCorreo: %s\nTeléfono: %s\nIdentificación: %s %s\nCargo: %s\nSalario: $%.2f\n\n"
+                + "Contraseña predeterminada: Su correo electrónico\n"
+                + "¡Por seguridad, cambie su contraseña al iniciar sesión!",
+                primerNombre, primerApellido, correo, telefono, tipoIdentificacionTexto, numeroIdentificacion, cargo, salario);
+
+        JOptionPane.showMessageDialog(this, mensajeResumen, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        limpiarCamposContratar();
+    } catch (UsuarioYaExisteException ex) {
+        JOptionPane.showMessageDialog(this, "El usuario ya existe: " + ex.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al contratar el usuario: " + e.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+    }
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, "Error inesperado: " + e.getMessage(),
+            "Error", JOptionPane.ERROR_MESSAGE);
+}
+
 
     }//GEN-LAST:event_btnContratarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-
+        limpiarCamposContratar();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -1043,31 +1328,30 @@ public class AdministradorWindown extends javax.swing.JFrame {
         filtrarTablaProyectosAvanzado();
     }//GEN-LAST:event_btnBusquedaAvanzadaActionPerformed
 
-    private void menuItemVerDetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemVerDetallesActionPerformed
-        
-try {
-    int fila = jXTableProyectos.getSelectedRow();
-    if (fila != -1) {
-        Proyecto proyecto = obtenerProyectoDesdeFila(fila);
-        if (proyecto != null) {
-            JDialogVerDetallesProyecto dialogo = new JDialogVerDetallesProyecto(this, true);
-            dialogo.mostrarProyecto(proyecto);
-            dialogo.setLocationRelativeTo(this);
-            dialogo.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(this, "No se pudo obtener la información del proyecto.", "Error", JOptionPane.ERROR_MESSAGE);
+    private void txtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTelefonoActionPerformed
+
+    private void datePickerFechaFinEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_datePickerFechaFinEmpleadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_datePickerFechaFinEmpleadoActionPerformed
+
+    private void txtPresupuestoMinEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPresupuestoMinEmpleadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPresupuestoMinEmpleadoActionPerformed
+
+    private void btnBusquedaAvanzadaEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBusquedaAvanzadaEmpleadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBusquedaAvanzadaEmpleadoActionPerformed
+
+    private void btnActualizarEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarEmpleadoActionPerformed
+  try {
+            List<Usuario> usuarios = usuarioController.listarUsuarios();
+            cargarUsuariosEnTabla(usuarios);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar usuarios: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-    } else {
-        JOptionPane.showMessageDialog(this, "Selecciona un proyecto de la tabla.", "Aviso", JOptionPane.WARNING_MESSAGE);
-    }
-} catch (ProyectoNoEncontradoException e) {
-    JOptionPane.showMessageDialog(this, e.getMessage(), "Proyecto no encontrado", JOptionPane.ERROR_MESSAGE);
-} catch (Exception ex) {
-    Logger.getLogger(AdministradorWindown.class.getName()).log(Level.SEVERE, null, ex);
-}
-
-
-    }//GEN-LAST:event_menuItemVerDetallesActionPerformed
+    }//GEN-LAST:event_btnActualizarEmpleadoActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -1093,8 +1377,6 @@ try {
         }
         //</editor-fold>
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -1104,25 +1386,43 @@ try {
         });
     }
 
+    private void limpiarCamposContratar() {
+        txtNombreEmpleado.setText("");
+        txtApellido.setText("");
+        txtCorreoEmpleado.setText("");
+        txtTelefono.setText("");
+        cmbTipoIdentificacion.setSelectedIndex(0);
+        txtIdentificacion.setText("");
+        cmbPuestoTrabajo.setSelectedIndex(0);
+        txtSalario.setText("");
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXDatePicker DatePickFechaEstimada;
-    private javax.swing.JPopupMenu PopupMenuProyectos;
     private javax.swing.JTabbedPane TabbedAdmin;
     private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnActualizarEmpleado;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnBuscarEmpleado;
     private javax.swing.JButton btnBusquedaAvanzada;
+    private javax.swing.JButton btnBusquedaAvanzadaEmpleado;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnContratar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnLimpiarCampos;
     private javax.swing.JCheckBox chkCoincidenciaMayusculas;
+    private javax.swing.JCheckBox chkCoincidenciaMayusculasEmpleado;
     private javax.swing.JComboBox<String> cmbFiltro;
+    private javax.swing.JComboBox<String> cmbFiltroEmpleado;
     private javax.swing.JComboBox<String> cmbPrioridad;
     private javax.swing.JComboBox<String> cmbPuestoTrabajo;
     private javax.swing.JComboBox<String> cmbTipoIdentificacion;
     private javax.swing.JComboBox<String> cmbTiporeparacion;
     private org.jdesktop.swingx.JXDatePicker datePickerFechaFin;
+    private org.jdesktop.swingx.JXDatePicker datePickerFechaFinEmpleado;
     private org.jdesktop.swingx.JXDatePicker datePickerFechaInicio;
+    private org.jdesktop.swingx.JXDatePicker datePickerFechaInicioEmpleado;
     private javax.swing.JLabel etiApellidoEmpleado;
     private javax.swing.JLabel etiCodigo;
     private javax.swing.JLabel etiCorreoEmpleado;
@@ -1132,11 +1432,21 @@ try {
     private javax.swing.JLabel etiEncabezadoAdmin;
     private javax.swing.JLabel etiFechaEstimada;
     private javax.swing.JLabel etiFechaFin;
+    private javax.swing.JLabel etiFechaFinEmpleado;
     private javax.swing.JLabel etiFechaInicio;
+    private javax.swing.JLabel etiFechaInicioEmpleado;
     private javax.swing.JLabel etiIdentificacionEmpleado;
     private javax.swing.JLabel etiNombre;
     private javax.swing.JLabel etiNombreProyecto;
     private javax.swing.JLabel etiObligatorioCodigo;
+    private javax.swing.JLabel etiObligatorioCodigo1;
+    private javax.swing.JLabel etiObligatorioCodigo2;
+    private javax.swing.JLabel etiObligatorioCodigo3;
+    private javax.swing.JLabel etiObligatorioCodigo4;
+    private javax.swing.JLabel etiObligatorioCodigo5;
+    private javax.swing.JLabel etiObligatorioCodigo6;
+    private javax.swing.JLabel etiObligatorioCodigo7;
+    private javax.swing.JLabel etiObligatorioCodigo8;
     private javax.swing.JLabel etiObligatorioDireccion;
     private javax.swing.JLabel etiObligatorioFechaEstimada;
     private javax.swing.JLabel etiObligatorioNombre;
@@ -1150,7 +1460,9 @@ try {
     private javax.swing.JLabel etiOpcionProyectos;
     private javax.swing.JLabel etiPresupuesto;
     private javax.swing.JLabel etiPresupuestoMax;
+    private javax.swing.JLabel etiPresupuestoMaxEmpleado;
     private javax.swing.JLabel etiPresupuestoMin;
+    private javax.swing.JLabel etiPresupuestoMinEmpleado;
     private javax.swing.JLabel etiPrioridadProyecto;
     private javax.swing.JLabel etiPuestoTrabajo;
     private javax.swing.JLabel etiSalario;
@@ -1159,14 +1471,19 @@ try {
     private javax.swing.JLabel etiTelefono;
     private javax.swing.JLabel etiTipoIdentificacion;
     private javax.swing.JLabel etiTipoReparacion;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JTable jTable_Empleados;
     private org.jdesktop.swingx.JXTable jXTableProyectos;
-    private javax.swing.JMenuItem menuItemEditar;
-    private javax.swing.JMenuItem menuItemEliminar;
-    private javax.swing.JMenuItem menuItemVerDetalles;
     private javax.swing.JPanel panelBarraOpciones;
     private javax.swing.JPanel panelBase;
     private javax.swing.JPanel panelBuscador;
+    private javax.swing.JPanel panelBuscadorEmpleado;
     private javax.swing.JPanel panelContratar;
     private javax.swing.JPanel panelCrearProyecto;
     private javax.swing.JPanel panelEmpleados;
@@ -1191,12 +1508,15 @@ try {
     private javax.swing.JSeparator separadorPresupuesto;
     private javax.swing.JSeparator separadorSalario;
     private javax.swing.JSeparator separadorSeccion1;
-    private javax.swing.JSeparator separadorSeccion2;
-    private javax.swing.JSeparator separadorSecction3;
+    private javax.swing.JSeparator separadorSecction4;
+    private javax.swing.JSeparator separadorSecction7;
+    private javax.swing.JSeparator separadorSecction8;
+    private javax.swing.JSeparator separadorSecction9;
     private javax.swing.JSeparator separadorTelefono;
     private javax.swing.JTextField txtApellido;
     private org.jdesktop.swingx.JXTextArea txtArea;
     private javax.swing.JTextField txtBuscar;
+    private javax.swing.JTextField txtBuscarEmpleado;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtCorreoEmpleado;
     private javax.swing.JTextField txtDireccion;
@@ -1205,37 +1525,299 @@ try {
     private javax.swing.JTextField txtNombreEmpleado;
     private javax.swing.JTextField txtPresupuesto;
     private javax.swing.JTextField txtPresupuestoMax;
+    private javax.swing.JTextField txtPresupuestoMaxEmpleado;
     private javax.swing.JTextField txtPresupuestoMin;
+    private javax.swing.JTextField txtPresupuestoMinEmpleado;
     private javax.swing.JTextField txtSalario;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
-private void configurarTablaProyectos() {
-    jXTableProyectos.setColumnControlVisible(true);
-    jXTableProyectos.setHorizontalScrollEnabled(true);
-    jXTableProyectos.setShowGrid(true);
-    jXTableProyectos.setGridColor(new Color(60, 60, 60)); // Gris discreto
 
-    jXTableProyectos.setRowHeight(30);
-    jXTableProyectos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    private void configurarTablaEmpleados() {
+        String[] columnNames = {"Nombre", "Apellido", "Correo", "Rol", "Tipo ID", "ID", "Fecha contratación", "Salario"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        jTable_Empleados.setModel(model);
 
-    // Fondo y texto del cuerpo de la tabla
-    jXTableProyectos.setBackground(new Color(0, 40, 30)); // Verde oscuro consistente con el fondo
-    jXTableProyectos.setForeground(Color.WHITE);
+        // Configuración de columnas (ancho)
+        jTable_Empleados.getColumnModel().getColumn(0).setPreferredWidth(100);  // Nombre
+        jTable_Empleados.getColumnModel().getColumn(1).setPreferredWidth(100);  // Apellido
+        jTable_Empleados.getColumnModel().getColumn(2).setPreferredWidth(150);  // Correo
+        jTable_Empleados.getColumnModel().getColumn(3).setPreferredWidth(100);  // Rol
+        jTable_Empleados.getColumnModel().getColumn(4).setPreferredWidth(80);   // Tipo ID
+        jTable_Empleados.getColumnModel().getColumn(5).setPreferredWidth(100);  // ID
+        jTable_Empleados.getColumnModel().getColumn(6).setPreferredWidth(150);  // Fecha contratación
+        jTable_Empleados.getColumnModel().getColumn(7).setPreferredWidth(100);  // Salario
 
-    // Selección
-    jXTableProyectos.setSelectionBackground(new Color(30, 144, 255)); // Azul brillante
-    jXTableProyectos.setSelectionForeground(Color.BLACK);
+        jTable_Empleados.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);  // Desactiva el ajuste automático
+    }
 
-    // Encabezado
-    JTableHeader header = jXTableProyectos.getTableHeader();
-    header.setBackground(new Color(0, 0, 50)); // Azul oscuro elegante
-    header.setForeground(new Color(255, 215, 0)); // Dorado para destacar
-    header.setFont(new Font("Segoe UI", Font.BOLD, 14));
-    header.setOpaque(true);
+    private void cargarUsuariosEnTabla(List<Usuario> usuarios) {
+    DefaultTableModel model = (DefaultTableModel) jTable_Empleados.getModel();
+    model.setRowCount(0);  // Limpiar la tabla
 
-    // Tipografía general
-    jXTableProyectos.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+    for (Usuario usuario : usuarios) {
+        Persona persona = usuario.getPersona();
+        String nombre = (persona != null) ? persona.getPrimerNombre() : "N/A";
+        String apellido = (persona != null) ? persona.getPrimerApellido() : "N/A";
+        String tipoId = (persona != null) ? persona.getTipoIdentificacion().toString() : "N/A";
+        String id = (persona != null) ? persona.getNumeroIdentificacion() : "N/A";
+        String salario = (persona != null) ? String.format("%.2f", persona.getSalario()) : "N/A";
+
+        Object[] fila = {
+            nombre, apellido, usuario.getEmail(), usuario.getRol().toString().replace("_", " "), 
+            tipoId, id, usuario.getFechaRegistro().toString(), salario
+        };
+        model.addRow(fila);
+    }
 }
+
+
+    private void aplicarFiltro(String filtro) {
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>((DefaultTableModel) jTable_Empleados.getModel());
+        jTable_Empleados.setRowSorter(sorter);
+
+        if (filtro.trim().isEmpty()) {
+            sorter.setRowFilter(null);
+        } else {
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + filtro));
+        }
+    }
+
+    private void aplicarFiltroAvanzado(LocalDateTime fechaInicio, LocalDateTime fechaFin, double salarioMin, double salarioMax) {
+        DefaultTableModel modelo = (DefaultTableModel) jTable_Empleados.getModel();
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
+        jTable_Empleados.setRowSorter(sorter);
+
+        sorter.setRowFilter(new RowFilter<DefaultTableModel, Integer>() {
+            @Override
+            public boolean include(Entry<? extends DefaultTableModel, ? extends Integer> entry) {
+                try {
+                    LocalDateTime fechaContratacion = LocalDateTime.parse(entry.getStringValue(6),
+                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                    double salario = Double.parseDouble(entry.getStringValue(7).replace(",", ""));
+
+                    return (fechaContratacion.isAfter(fechaInicio) || fechaContratacion.isEqual(fechaInicio))
+                            && (fechaContratacion.isBefore(fechaFin) || fechaContratacion.isEqual(fechaFin))
+                            && (salario >= salarioMin && salario <= salarioMax);
+                } catch (Exception e) {
+                    return false;
+                }
+            }
+        });
+    }
+
+    private void crearPopupMenuEmpleados() {
+        JPopupMenu popupMenu = new JPopupMenu();
+
+        JMenuItem verItem = new JMenuItem("Ver");
+        verItem.addActionListener(e -> verEmpleadoSeleccionado());
+        popupMenu.add(verItem);
+
+        JMenuItem editarItem = new JMenuItem("Editar");
+        editarItem.addActionListener(e -> editarEmpleadoSeleccionado());
+        popupMenu.add(editarItem);
+
+        JMenuItem eliminarItem = new JMenuItem("Eliminar");
+        eliminarItem.addActionListener(e -> eliminarEmpleadoSeleccionado());
+        popupMenu.add(eliminarItem);
+
+        jTable_Empleados.setComponentPopupMenu(popupMenu);
+    }
+
+    private void filtrarEmpleados() {
+    String criterio = cmbFiltroEmpleado.getSelectedItem().toString();
+    String valorBusqueda = txtBuscarEmpleado.getText().trim();
+    boolean distinguirMayusculas = chkCoincidenciaMayusculasEmpleado.isSelected();
+    List<Usuario> usuariosFiltrados;
+
+    try {
+        usuariosFiltrados = usuarioController.listarUsuarios();
+        final String valorBusquedaFinal = valorBusqueda;
+
+        if (!valorBusquedaFinal.isEmpty()) {
+            usuariosFiltrados = usuariosFiltrados.stream()
+                .filter(usuario -> {
+                    String valorCampo;
+                    Persona persona = usuario.getPersona();
+
+                    switch (criterio) {
+                        case "Nombre":
+                            valorCampo = (persona != null) ? persona.getPrimerNombre() : "";
+                            break;
+                        case "Apellido":
+                            valorCampo = (persona != null) ? persona.getPrimerApellido() : "";
+                            break;
+                        case "Correo":
+                            valorCampo = usuario.getEmail();
+                            break;
+                        case "Rol":
+                            valorCampo = usuario.getRol().toString().replace("_", " ");
+                            break;
+                        case "ID":
+                            valorCampo = (persona != null) ? persona.getNumeroIdentificacion() : "";
+                            break;
+                        default:
+                            valorCampo = "";
+                    }
+                    if (!distinguirMayusculas) {
+                        valorCampo = valorCampo.toLowerCase();
+                    }
+                    return valorCampo.contains(distinguirMayusculas ? valorBusquedaFinal : valorBusquedaFinal.toLowerCase());
+                })
+                .collect(Collectors.toList());
+        }
+        cargarUsuariosEnTabla(usuariosFiltrados);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al cargar usuarios: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    btnBuscarEmpleado.addActionListener(e -> filtrarEmpleados());
+}
+
+
+    private void filtrarAvanzadoEmpleados() {
+        try {
+            double salarioMin = Double.parseDouble(txtPresupuestoMinEmpleado.getText().trim());
+            double salarioMax = Double.parseDouble(txtPresupuestoMaxEmpleado.getText().trim());
+
+            Date fechaInicioDate = datePickerFechaInicioEmpleado.getDate();
+            Date fechaFinDate = datePickerFechaFinEmpleado.getDate();
+
+            LocalDate fechaInicio = (fechaInicioDate != null)
+                    ? fechaInicioDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate() : null;
+            LocalDate fechaFin = (fechaFinDate != null)
+                    ? fechaFinDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate() : null;
+
+            List<Usuario> usuariosFiltrados = usuarioController.listarUsuarios().stream()
+                    .filter(usuario -> {
+                        double salario = usuario.getPersona().getSalario();
+                        LocalDate fechaContratacion = usuario.getFechaRegistro().toLocalDate();
+                        boolean cumpleSalario = salario >= salarioMin && salario <= salarioMax;
+                        boolean cumpleFecha = (fechaInicio == null || !fechaContratacion.isBefore(fechaInicio))
+                                && (fechaFin == null || !fechaContratacion.isAfter(fechaFin));
+                        return cumpleSalario && cumpleFecha;
+                    })
+                    .collect(Collectors.toList());
+
+            cargarUsuariosEnTabla(usuariosFiltrados);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Salario mínimo y máximo deben ser números válidos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al filtrar empleados: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        btnBusquedaAvanzada.addActionListener(e -> filtrarAvanzadoEmpleados());
+    }
+
+    private void verEmpleadoSeleccionado() {
+        int filaSeleccionada = jTable_Empleados.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione un empleado de la tabla.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String correo = (String) jTable_Empleados.getValueAt(filaSeleccionada, 2); // Columna 2: correo
+        try {
+            Usuario usuario = usuarioController.buscarUsuarioPorCorreo(correo);
+            if (usuario != null) {
+                JOptionPane.showMessageDialog(this, "Información del empleado:\n" + usuario, "Empleado", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo encontrar el empleado seleccionado.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al obtener información del empleado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void editarEmpleadoSeleccionado() {
+        int filaSeleccionada = jTable_Empleados.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione un empleado de la tabla.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String correo = (String) jTable_Empleados.getValueAt(filaSeleccionada, 2); // Columna 2: correo
+        try {
+            Usuario usuario = usuarioController.buscarUsuarioPorCorreo(correo);
+            if (usuario != null) {
+                JOptionPane.showMessageDialog(this, "Abrir formulario de edición para: " + usuario.getEmail(), "Editar Empleado", JOptionPane.INFORMATION_MESSAGE);
+                // Implementar lógica de edición
+            } else {
+                JOptionPane.showMessageDialog(this, "Empleado no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al obtener el empleado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void eliminarEmpleadoSeleccionado() {
+        int filaSeleccionada = jTable_Empleados.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione un empleado de la tabla.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String correo = (String) jTable_Empleados.getValueAt(filaSeleccionada, 2); // Columna 2: correo
+        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea eliminar el empleado?", "Confirmación", JOptionPane.YES_NO_OPTION);
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            try {
+                usuarioController.eliminarUsuario(correo);
+                List<Usuario> usuarios = usuarioController.listarUsuarios();
+                cargarUsuariosEnTabla(usuarios);
+                JOptionPane.showMessageDialog(this, "Empleado eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error al eliminar el empleado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    private void configurarTablaProyectos() {
+        jXTableProyectos.setColumnControlVisible(true);
+        jXTableProyectos.setHorizontalScrollEnabled(true);
+        jXTableProyectos.setShowGrid(true);
+        jXTableProyectos.setGridColor(new Color(60, 60, 60)); // Gris discreto
+
+        jXTableProyectos.setRowHeight(30);
+        jXTableProyectos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        // Fondo y texto del cuerpo de la tabla
+        jXTableProyectos.setBackground(new Color(0, 40, 30)); // Verde oscuro consistente con el fondo
+        jXTableProyectos.setForeground(Color.WHITE);
+
+        // Selección
+        jXTableProyectos.setSelectionBackground(new Color(30, 144, 255)); // Azul brillante
+        jXTableProyectos.setSelectionForeground(Color.BLACK);
+
+        // Encabezado
+        JTableHeader header = jXTableProyectos.getTableHeader();
+        header.setBackground(new Color(0, 0, 50)); // Azul oscuro elegante
+        header.setForeground(new Color(255, 215, 0)); // Dorado para destacar
+        header.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        header.setOpaque(true);
+
+        // Tipografía general
+        jXTableProyectos.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+    }
+// Método para convertir el cargo del combo box al valor del enum
+
+    private RolSistema mapearRol(String cargo) throws IllegalArgumentException {
+        switch (cargo) {
+            case "Administrador":
+                return RolSistema.ADMINISTRADOR;
+            case "Funcionario público":
+                return RolSistema.FUNCIONARIO_PUBLICO;
+            case "Promotor":
+                return RolSistema.PROMOTOR;
+            case "Obrero":
+                return RolSistema.OBRERO;
+            case "Inspector municipal":
+                return RolSistema.INSPECTOR_MUNICIPAL;
+            case "Ciudadano":
+                return RolSistema.CIUDADANO;
+            default:
+                throw new IllegalArgumentException("El rol proporcionado no es válido: " + cargo);
+        }
+    }
 
     private void configurarBuscador() {
         cmbFiltro.setModel(new DefaultComboBoxModel<>(new String[]{
@@ -1243,7 +1825,7 @@ private void configurarTablaProyectos() {
         }));
         cmbFiltro.setSelectedIndex(0);
 
-        btnBuscar.setText("🔎 Buscar");
+        btnBuscar.setText("Buscar");
         btnBuscar.setBackground(new Color(0, 120, 215));
         btnBuscar.setForeground(Color.WHITE);
         btnBuscar.setFont(new Font("Segoe UI", Font.BOLD, 12));
@@ -1376,9 +1958,9 @@ private void configurarTablaProyectos() {
                 p.getTipoReparacion(),
                 p.getPrioridad(),
                 p.getEstado(),
-                p.getPresupuesto(), // Double
-                java.sql.Date.valueOf(p.getFechaInicio()), // ✅ conversión a Date
-                java.sql.Date.valueOf(p.getFechaFinEstimada()), // ✅ conversión a Date
+                p.getPresupuesto(),
+                java.sql.Date.valueOf(p.getFechaInicio()),
+                java.sql.Date.valueOf(p.getFechaFinEstimada()),
                 p.getDescripcion()
             });
         }
@@ -1395,36 +1977,104 @@ private void configurarTablaProyectos() {
 
         return proyecto;
     }
-   
-private void configurarComportamientoTablaConClickDerecho() {
-    jXTableProyectos.addMouseListener(new MouseAdapter() {
-        private void mostrarMenuSiEsNecesario(MouseEvent e) {
-            int fila = jXTableProyectos.rowAtPoint(e.getPoint());
-            if (fila != -1) {
-                jXTableProyectos.setRowSelectionInterval(fila, fila); // Selecciona la fila
-                PopupMenuProyectos.show(e.getComponent(), e.getX(), e.getY()); // Muestra el menú
-            } else {
-                jXTableProyectos.clearSelection();
-            }
+
+    private void iniciarOpciones() {
+        JPopupMenu menuOpciones = new JPopupMenu();
+
+        JMenuItem verDetalles = new JMenuItem("Ver detalles");
+        JMenuItem modificar = new JMenuItem("Modificar");
+        JMenuItem eliminar = new JMenuItem("Eliminar");
+
+        verDetalles.addActionListener(e -> verDetallesProyectoSeleccionado());
+        modificar.addActionListener(e -> modificarProyectoSeleccionado());
+        eliminar.addActionListener(e -> eliminarProyectoSeleccionado());
+
+        menuOpciones.add(verDetalles);
+        menuOpciones.add(modificar);
+        menuOpciones.add(eliminar);
+
+        jXTableProyectos.setComponentPopupMenu(menuOpciones);
+    }
+
+// Estos van FUERA de iniciarOpciones, pero dentro de la clase
+    private void verDetallesProyectoSeleccionado() {
+        int filaSeleccionada = jXTableProyectos.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione un proyecto para ver los detalles.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
         }
 
-        @Override
-        public void mousePressed(MouseEvent e) {
-            if (e.isPopupTrigger()) {
-                mostrarMenuSiEsNecesario(e);
-            }
+        try {
+            Proyecto proyecto = obtenerProyectoDesdeFila(filaSeleccionada);
+
+            DialogVerDetallesProyecto dialogo = new DialogVerDetallesProyecto(this, true);
+            dialogo.mostrarProyecto(proyecto);
+            dialogo.setVisible(true);
+
+        } catch (ProyectoNoEncontradoException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Ocurrió un error al mostrar los detalles del proyecto.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void modificarProyectoSeleccionado() {
+        int filaSeleccionada = jXTableProyectos.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione un proyecto para modificar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
         }
 
-        @Override
-        public void mouseReleased(MouseEvent e) {
-            if (e.isPopupTrigger()) {
-                mostrarMenuSiEsNecesario(e);
-            }
+        try {
+            Proyecto proyecto = obtenerProyectoDesdeFila(filaSeleccionada);
+
+            DialogModificarProyecto dialogo = new DialogModificarProyecto(this, true);
+            dialogo.mostrarProyecto(proyecto);
+            dialogo.setVisible(true);
+
+            // Recargar la tabla después de posibles cambios
+            List<Proyecto> proyectos = servicio.obtenerTodos();
+            cargarProyectosEnTabla(proyectos);
+
+        } catch (ProyectoNoEncontradoException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Ocurrió un error al intentar modificar el proyecto.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    });
-}
+    }
 
+    private void eliminarProyectoSeleccionado() {
+        int filaSeleccionada = jXTableProyectos.getSelectedRow();
 
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione un proyecto para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-    
+        try {
+            Proyecto proyecto = obtenerProyectoDesdeFila(filaSeleccionada);
+
+            int opcion = JOptionPane.showConfirmDialog(
+                    this,
+                    "¿Está seguro de eliminar el proyecto \"" + proyecto.getNombre() + "\"?",
+                    "Confirmar eliminación",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            if (opcion == JOptionPane.YES_OPTION) {
+                proyectoController.eliminarProyecto(proyecto.getCodigo());
+                JOptionPane.showMessageDialog(this, "Proyecto eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                cargarProyectosEnTabla(proyectoController.obtenerTodosLosProyectos());
+            }
+
+        } catch (ProyectoNoEncontradoException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Ocurrió un error al eliminar el proyecto.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 }

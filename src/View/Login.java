@@ -4,6 +4,7 @@ import controller.UsuarioController;
 import exceptions.AutenticacionException;
 import javax.swing.JOptionPane;
 import model.Usuario;
+import util.SesionUtil;
 
 public class Login extends javax.swing.JFrame {
 
@@ -149,6 +150,8 @@ try {
             return;
     }
 
+     SesionUtil.iniciarSesion(usuario);
+     
     this.dispose(); // Cierra la ventana de login actual
 
 } catch (AutenticacionException e) {

@@ -1,4 +1,4 @@
-package model;
+package enums;
 
 import java.util.List;
 import java.util.Map;

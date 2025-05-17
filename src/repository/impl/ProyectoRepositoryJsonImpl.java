@@ -2,9 +2,10 @@ package repository.impl;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-import model.EstadoProyecto;
-import model.Prioridad;
-import model.TipoReparacion;
+import enums.EstadoProyecto;
+import enums.Prioridad;
+import enums.TipoReparacion;
+import exceptions.ProyectoNoEncontradoException;
 import model.Proyecto;
 import repository.interfaces.IProyectoRepository;
 
@@ -111,4 +112,40 @@ public class ProyectoRepositoryJsonImpl implements IProyectoRepository {
         }
         return null;
     }
+    
+    @Override
+    public void eliminarProyecto(String codigo) throws ProyectoNoEncontradoException, Exception {
+        List<Proyecto> proyectos = listarProyectos();
+        boolean eliminado = proyectos.removeIf(p -> p.getCodigo().equalsIgnoreCase(codigo));
+
+        if (!eliminado) {
+            throw new ProyectoNoEncontradoException("No se encontró un proyecto con código: " + codigo);
+        }
+
+        guardarProyectos(proyectos);
+    }
+    
+
+@Override
+public void actualizar(Proyecto proyectoActualizado) throws Exception {
+    List<Proyecto> proyectos = listarProyectos(); // corregido
+
+    boolean actualizado = false;
+    for (int i = 0; i < proyectos.size(); i++) {
+        if (proyectos.get(i).getCodigo().equals(proyectoActualizado.getCodigo())) {
+            proyectos.set(i, proyectoActualizado);
+            actualizado = true;
+            break;
+        }
+    }
+
+    if (!actualizado) {
+        throw new ProyectoNoEncontradoException("No se encontró el proyecto con código: " + proyectoActualizado.getCodigo());
+    }
+
+    guardarProyectos(proyectos); // corregido
+}
+
+
+    
 }

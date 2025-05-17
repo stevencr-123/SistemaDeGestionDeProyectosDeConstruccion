@@ -1,7 +1,7 @@
-package model;
+package model.roles;
 
-import model.TipoIdentificacion;
-import java.time.LocalDate;
+import enums.TipoIdentificacion;
+import java.time.LocalDateTime;
 import java.util.List;
 import model.Persona;
 
@@ -9,17 +9,23 @@ public class InspectorMunicipal extends Persona {
 
     private String areaEspecializacion;
     private List<String> instrumentosCertificados;
-    private LocalDate fechaRegistro;
+    private LocalDateTime fechaRegistro;
 
     public InspectorMunicipal(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion,
                               String primerNombre, String primerApellido, String email,
-                              String areaEspecializacion, List<String> instrumentosCertificados) {
-        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email);
+                              String areaEspecializacion, List<String> instrumentosCertificados, double sueldo) {
+        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email, sueldo);
         this.areaEspecializacion = areaEspecializacion;
         this.instrumentosCertificados = instrumentosCertificados;
-        this.fechaRegistro = LocalDate.now();
+        this.fechaRegistro = LocalDateTime.now();
     }
 
+    public InspectorMunicipal(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion,
+                              String primerNombre, String primerApellido, String email, double sueldo){
+        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email, sueldo);
+        this.fechaRegistro = LocalDateTime.now();
+    }
+    
     public String getAreaEspecializacion() {
         return areaEspecializacion;
     }
@@ -36,11 +42,11 @@ public class InspectorMunicipal extends Persona {
         this.instrumentosCertificados = instrumentosCertificados;
     }
 
-    public LocalDate getFechaRegistro() {
+    public LocalDateTime getFechaRegistro() {
         return fechaRegistro;
     }
 
-    public void setFechaRegistro(LocalDate fechaRegistro) {
+    public void setFechaRegistro(LocalDateTime fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
 }

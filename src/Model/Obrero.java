@@ -1,26 +1,32 @@
-package model;
+package model.roles;
 
-import model.TipoIdentificacion;
-import java.time.LocalDate;
+import enums.TipoIdentificacion;
+import java.time.LocalDateTime;
 import java.util.List;
 import model.Persona;
 
 public class Obrero extends Persona {
 
     private String especialidad;
-    private LocalDate fechaContratacion;
-    private double salarioHora;
+    private LocalDateTime fechaContratacion;
     private boolean seguroLaboral;
     private List<String> certificaciones;
 
     public Obrero(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion, String primerNombre,
-                  String primerApellido, String email, String especialidad, boolean seguroLaboral, double salarioHora) {
-        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email);
+                  String primerApellido, String email, double sueldo, String especialidad, boolean seguroLaboral, double salarioHora) {
+        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email, sueldo);
         this.especialidad = especialidad;
         this.seguroLaboral = seguroLaboral;
-        this.salarioHora = salarioHora;
-        this.fechaContratacion = LocalDate.now(); // Asignación automática
+        this.fechaContratacion = LocalDateTime.now(); // Asignación automática
     }
+    
+    public Obrero(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion,
+                              String primerNombre, String primerApellido, String email, double sueldo){
+        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email, sueldo);
+        this.fechaContratacion = LocalDateTime.now();
+        
+    }
+    
 
     public String getEspecialidad() {
         return especialidad;
@@ -30,20 +36,12 @@ public class Obrero extends Persona {
         this.especialidad = especialidad;
     }
 
-    public LocalDate getFechaContratacion() {
+    public LocalDateTime getFechaContratacion() {
         return fechaContratacion;
     }
 
-    public void setFechaContratacion(LocalDate fechaContratacion) {
+    public void setFechaContratacion(LocalDateTime fechaContratacion) {
         this.fechaContratacion = fechaContratacion;
-    }
-
-    public double getSalarioHora() {
-        return salarioHora;
-    }
-
-    public void setSalarioHora(double salarioHora) {
-        this.salarioHora = salarioHora;
     }
 
     public boolean isSeguroLaboral() {

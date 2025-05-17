@@ -1,7 +1,7 @@
-package model;
+package model.roles;
 
-import model.TipoIdentificacion;
-import java.time.LocalDate;
+import enums.TipoIdentificacion;
+import java.time.LocalDateTime;
 import model.Persona;
 
 public class FuncionarioPublico extends Persona {
@@ -9,15 +9,21 @@ public class FuncionarioPublico extends Persona {
     private String cargo;
     private int nivelAcceso;
     private String departamento;
-    private LocalDate fechaRegistro;
+    private LocalDateTime fechaRegistro;
 
     public FuncionarioPublico(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion,
-                              String primerNombre, String primerApellido, String email,
-                              String cargo, String departamento) {
-        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email);
+            String primerNombre, String primerApellido, String email, double sueldo,
+            String cargo, String departamento) {
+        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email, sueldo);
         this.cargo = cargo;
         this.departamento = departamento;
-        this.fechaRegistro = LocalDate.now();
+        this.fechaRegistro = LocalDateTime.now();
+    }
+
+    public FuncionarioPublico(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion,
+            String primerNombre, String primerApellido, String email, double sueldo) {
+        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email, sueldo);
+        this.fechaRegistro = LocalDateTime.now();
     }
 
     public String getCargo() {
@@ -44,11 +50,11 @@ public class FuncionarioPublico extends Persona {
         this.departamento = departamento;
     }
 
-    public LocalDate getFechaRegistro() {
+    public LocalDateTime getFechaRegistro() {
         return fechaRegistro;
     }
 
-    public void setFechaRegistro(LocalDate fechaRegistro) {
+    public void setFechaRegistro(LocalDateTime fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
 }

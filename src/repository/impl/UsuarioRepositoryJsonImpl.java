@@ -1,127 +1,75 @@
 package repository.impl;
 
-import com.google.gson.*;
-import model.RolSistema;
+import enums.RolSistema;
+import enums.TipoIdentificacion;
+import exceptions.UsuarioNoEncontradoException;
 import model.Usuario;
+import model.Persona;
 import repository.interfaces.IUsuarioRepository;
-
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.Reader;
-import java.io.Writer;
-import java.util.ArrayList;
+import util.JsonManager;
 import java.util.List;
+import model.roles.Administrador;
 
 public class UsuarioRepositoryJsonImpl implements IUsuarioRepository {
-
     private static final String JSON_FILE = "C:\\Users\\HP\\OneDrive\\Documentos\\NetBeansProjects"
-            + "\\ProAula3Semestre\\src\\resource\\data\\usuarios.json";
+            + "\\GestionParaProyectosDeConstruccion\\src\\resource\\data\\usuarios.json";
+    private static final String ROOT_ELEMENT = "usuarios";
+    private final JsonManager<Usuario> jsonManager;
 
     public UsuarioRepositoryJsonImpl() {
+        jsonManager = new JsonManager<>(JSON_FILE, ROOT_ELEMENT, Usuario.class);
         try {
             verificarOCrearAdministradorPorDefecto();
         } catch (Exception e) {
-            System.err.println("Error al verificar o crear administrador por defecto: " + e.getMessage());
+            System.err.println("Error al crear el administrador por defecto: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
     private void verificarOCrearAdministradorPorDefecto() throws Exception {
-        List<Usuario> usuarios = listarUsuarios();
-        boolean existeAdmin = usuarios.stream()
-                .anyMatch(u -> u.getRol() == RolSistema.ADMINISTRADOR);
-
-        if (!existeAdmin) {
-            Usuario admin = new Usuario(
-                    "admin@proyecto.com",
-                    "admin123",
-                    RolSistema.ADMINISTRADOR
-            );
-            usuarios.add(admin);
-            guardarUsuarios(usuarios);
-            System.out.println("Administrador por defecto creado.");
-        }
+    if (!usuarioExiste("admin@proyecto.com")) {
+        Administrador adminPersona = Administrador.getInstance(
+                TipoIdentificacion.CEDULA, "00000000", "Admin", "Sistema", "admin@proyecto.com", 20000000);
+        Usuario admin = new Usuario("admin@proyecto.com", "admin@proyecto.com", RolSistema.ADMINISTRADOR, adminPersona);
+        guardarUsuario(admin);
+        System.out.println("Administrador por defecto creado.");
+    } else {
+        System.out.println("El administrador por defecto ya existe.");
     }
+}
+
 
     @Override
     public Usuario login(String email, String password) throws Exception {
-        List<Usuario> usuarios = listarUsuarios();
-        for (Usuario usuario : usuarios) {
-            if (usuario.getEmail().equalsIgnoreCase(email) && usuario.getPassword().equals(password)) {
-                return usuario;
-            }
+        Usuario usuario = buscarPorEmail(email);
+        if (usuario.getPassword().equals(password)) {
+            return usuario;
         }
-        return null;
+        throw new UsuarioNoEncontradoException("Credenciales incorrectas.");
     }
 
     @Override
     public Usuario buscarPorEmail(String email) throws Exception {
-        List<Usuario> usuarios = listarUsuarios();
-        for (Usuario usuario : usuarios) {
-            if (usuario.getEmail().equalsIgnoreCase(email)) {
-                return usuario;
-            }
-        }
-        return null;
+        return listarUsuarios().stream()
+                .filter(u -> u.getEmail().equalsIgnoreCase(email))
+                .findFirst()
+                .orElseThrow(() -> new UsuarioNoEncontradoException("Usuario no encontrado: " + email));
+    }
+
+    @Override
+    public List<Usuario> listarUsuarios() throws Exception {
+        return jsonManager.cargarLista();
     }
 
     @Override
     public void guardarUsuario(Usuario usuario) throws Exception {
         List<Usuario> usuarios = listarUsuarios();
-
-        if (usuario.getRol() == RolSistema.ADMINISTRADOR) {
-            boolean yaExisteAdmin = usuarios.stream()
-                    .anyMatch(u -> u.getRol() == RolSistema.ADMINISTRADOR);
-            if (yaExisteAdmin) {
-                throw new Exception("Ya existe un administrador registrado en el sistema.");
-            }
-        }
-
-        usuarios.add(usuario);
-        guardarUsuarios(usuarios);
-    }
-
-    @Override
-    public List<Usuario> listarUsuarios() {
-        List<Usuario> usuarios = new ArrayList<>();
-        try (Reader reader = new FileReader(JSON_FILE)) {
-            JsonObject root = JsonParser.parseReader(reader).getAsJsonObject();
-            JsonArray usuariosArray = root.getAsJsonArray("usuarios");
-
-            for (JsonElement element : usuariosArray) {
-                JsonObject obj = element.getAsJsonObject();
-
-                String correo = obj.get("correo").getAsString();
-                String password = obj.get("password").getAsString();
-                String rolString = obj.get("rol").getAsString().toUpperCase();
-
-                RolSistema rol = RolSistema.valueOf(rolString);
-                Usuario usuario = new Usuario(correo, password, rol);
-                usuarios.add(usuario);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return usuarios;
-    }
-
-    private void guardarUsuarios(List<Usuario> usuarios) throws Exception {
-        JsonArray usuariosJson = new JsonArray();
-
-        for (Usuario usuario : usuarios) {
-            JsonObject usuarioJson = new JsonObject();
-            usuarioJson.addProperty("correo", usuario.getEmail());
-            usuarioJson.addProperty("password", usuario.getPassword());
-            usuarioJson.addProperty("rol", usuario.getRol().name().toLowerCase());
-
-            usuariosJson.add(usuarioJson);
-        }
-
-        JsonObject root = new JsonObject();
-        root.add("usuarios", usuariosJson);
-
-        try (Writer writer = new FileWriter(JSON_FILE)) {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            gson.toJson(root, writer);
+        if (!usuarioExiste(usuario.getEmail())) {
+            usuarios.add(usuario);
+            jsonManager.guardarLista(usuarios);
+            System.out.println("Usuario guardado: " + usuario.getEmail());
+        } else {
+            System.out.println("Usuario ya existente: " + usuario.getEmail());
         }
     }
 
@@ -129,6 +77,24 @@ public class UsuarioRepositoryJsonImpl implements IUsuarioRepository {
     public void eliminarUsuario(String email) throws Exception {
         List<Usuario> usuarios = listarUsuarios();
         usuarios.removeIf(u -> u.getEmail().equalsIgnoreCase(email));
-        guardarUsuarios(usuarios);
+        jsonManager.guardarLista(usuarios);
+    }
+
+    @Override
+    public void actualizarUsuario(Usuario usuario) throws Exception {
+        eliminarUsuario(usuario.getEmail());
+        guardarUsuario(usuario);
+    }
+
+    @Override
+    public void cambiarContraseña(String email, String nuevaContraseña) throws Exception {
+        Usuario usuario = buscarPorEmail(email);
+        usuario.setPassword(nuevaContraseña);
+        actualizarUsuario(usuario);
+    }
+
+    @Override
+    public boolean usuarioExiste(String email) throws Exception {
+        return listarUsuarios().stream().anyMatch(u -> u.getEmail().equalsIgnoreCase(email));
     }
 }

@@ -1,7 +1,7 @@
-package model;
+package model.roles;
 
-import model.TipoIdentificacion;
-import java.time.LocalDate;
+import enums.TipoIdentificacion;
+import java.time.LocalDateTime;
 import model.Persona;
 
 public class Promotor extends Persona {
@@ -9,14 +9,20 @@ public class Promotor extends Persona {
     private String matriculaProfesional;
     private String departamento;
     private int proyectosActivos;
-    private LocalDate fechaRegistro;
+    private LocalDateTime fechaRegistro;
 
     public Promotor(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion, String primerNombre,
-                    String primerApellido, String email, String departamento) {
-        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email);
+                    String primerApellido, String email, double sueldo, String departamento) {
+        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email,sueldo);
         this.departamento = departamento;
-        this.fechaRegistro = LocalDate.now();
+        this.fechaRegistro = LocalDateTime.now();
         this.proyectosActivos = 0;
+    }
+    
+    public Promotor(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion,
+            String primerNombre, String primerApellido, String email, double sueldo) {
+        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email, sueldo);
+        this.fechaRegistro = LocalDateTime.now();
     }
 
     public String getMatriculaProfesional() {
@@ -43,11 +49,11 @@ public class Promotor extends Persona {
         this.proyectosActivos = proyectosActivos;
     }
 
-    public LocalDate getFechaRegistro() {
+    public LocalDateTime getFechaRegistro() {
         return fechaRegistro;
     }
 
-    public void setFechaRegistro(LocalDate fechaRegistro) {
+    public void setFechaRegistro(LocalDateTime fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
 }

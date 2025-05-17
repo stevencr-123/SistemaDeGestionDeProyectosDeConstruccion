@@ -1,8 +1,8 @@
 package model;
 
-import model.EstadoProyecto;
-import model.Prioridad;
-import model.TipoReparacion;
+import enums.EstadoProyecto;
+import enums.Prioridad;
+import enums.TipoReparacion;
 
 import java.time.LocalDate;
 

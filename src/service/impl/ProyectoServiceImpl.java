@@ -6,6 +6,7 @@ import service.interfaces.IProyectoService;
 import exceptions.ProyectoYaExisteException;
 import exceptions.NombreProyectoExistenteException;
 import exceptions.FechaInvalidaException;
+import exceptions.ProyectoNoEncontradoException;
 import exceptions.ProyectoYaExisteException;
 
 import java.time.LocalDate;
@@ -56,6 +57,18 @@ public class ProyectoServiceImpl implements IProyectoService {
     public Proyecto buscarProyectoPorId(String codigo) throws Exception {
         return proyectoRepository.buscarPorCodigo(codigo);
     }
+    
+      @Override
+    public void eliminarProyecto(String codigo) throws ProyectoNoEncontradoException, Exception {
+        proyectoRepository.eliminarProyecto(codigo);
+    }
+    
+    @Override
+public void actualizarProyecto(Proyecto proyecto) throws Exception {
+    proyectoRepository.actualizar(proyecto);
+}
+
+    
     
 @Override
 public List<Proyecto> buscarPorCampo(String campo, String texto, boolean caseSensitive) throws Exception {
