@@ -1,10 +1,14 @@
 {
-    "usuarios": [
-         {
+  "usuarios": [
+    {
       "correo": "Stevenson@promotor.com",
       "password": "123456",
       "rol": "promotor"
+    },
+    {
+      "correo": "admin@proyecto.com",
+      "password": "admin123",
+      "rol": "administrador"
     }
-    
-    ]
+  ]
 }

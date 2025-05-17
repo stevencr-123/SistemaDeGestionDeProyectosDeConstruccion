@@ -1,15 +1,11 @@
 package service.impl;
 
-import model.Proyecto;
+import Model.Proyecto;
+import Model.Solicitud;
 import repository.interfaces.IProyectoRepository;
 import service.interfaces.IProyectoService;
-import exceptions.ProyectoYaExisteException;
-import exceptions.NombreProyectoExistenteException;
-import exceptions.FechaInvalidaException;
-import exceptions.ProyectoYaExisteException;
-
-import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProyectoServiceImpl implements IProyectoService {
 
@@ -21,29 +17,10 @@ public class ProyectoServiceImpl implements IProyectoService {
 
     @Override
     public void crearProyecto(Proyecto proyecto) throws Exception {
-        if (proyecto == null) {
-            throw new IllegalArgumentException("El proyecto no puede ser nulo.");
-        }
-
-        // Validar código único
-        Proyecto existente = proyectoRepository.buscarPorCodigo(proyecto.getCodigo());
-        if (existente != null) {
-            throw new ProyectoYaExisteException("Ya existe un proyecto con el código: " + proyecto.getCodigo());
-        }
-
-        // Validar nombre único
-        for (Proyecto p : proyectoRepository.listarProyectos()) {
-            if (p.getNombre().equalsIgnoreCase(proyecto.getNombre())) {
-                throw new NombreProyectoExistenteException("Ya existe un proyecto con el nombre: " + proyecto.getNombre());
-            }
-        }
-
-        // Validar fecha estimada
-        if (proyecto.getFechaFinEstimada().isBefore(LocalDate.now())) {
-            throw new FechaInvalidaException("La fecha estimada de finalización no puede ser anterior a hoy.");
-        }
-
-        // Si todo es válido, guardar
+        validarProyecto(proyecto);
+        
+        // Establecer estado inicial
+        proyecto.setEstadoEvaluacionFuncionario(Solicitud.EN_ESPERA);
         proyectoRepository.guardarProyecto(proyecto);
     }
 
@@ -54,49 +31,64 @@ public class ProyectoServiceImpl implements IProyectoService {
 
     @Override
     public Proyecto buscarProyectoPorId(String codigo) throws Exception {
+        if (codigo == null || codigo.trim().isEmpty()) {
+            throw new IllegalArgumentException("El código del proyecto no puede estar vacío");
+        }
         return proyectoRepository.buscarPorCodigo(codigo);
     }
-    
-@Override
-public List<Proyecto> buscarPorCampo(String campo, String texto, boolean caseSensitive) throws Exception {
-    List<Proyecto> todos = proyectoRepository.listarProyectos();
-    
-    // Crear copia final
-    final String textoBusqueda = caseSensitive ? texto : texto.toLowerCase();
 
-    return todos.stream()
-        .filter(proyecto -> {
-            String valorCampo;
-            switch (campo.toLowerCase()) {
-                case "codigo":
-                    valorCampo = proyecto.getCodigo();
-                    break;
-                case "nombre":
-                    valorCampo = proyecto.getNombre();
-                    break;
-                case "prioridad":
-                    valorCampo = proyecto.getPrioridad().toString();
-                    break;
-                case "tipo":
-                case "tiporeparacion":
-                    valorCampo = proyecto.getTipoReparacion().toString();
-                    break;
-                case "fecha":
-                case "fechafin":
-                    valorCampo = proyecto.getFechaFinEstimada().toString();
-                    break;
-                default:
+    @Override
+    public List<Proyecto> buscarPorCampo(String campo, String texto, boolean caseSensitive) throws Exception {
+        List<Proyecto> proyectos = proyectoRepository.listarProyectos();
+        
+        return proyectos.stream()
+            .filter(p -> {
+                try {
+                    String valorCampo = obtenerValorCampo(p, campo);
+                    String textoBusqueda = caseSensitive ? texto : texto.toLowerCase();
+                    String valorComparar = caseSensitive ? valorCampo : valorCampo.toLowerCase();
+                    return valorComparar.contains(textoBusqueda);
+                } catch (Exception e) {
                     return false;
-            }
+                }
+            })
+            .collect(Collectors.toList());
+    }
 
-            if (!caseSensitive) {
-                valorCampo = valorCampo.toLowerCase();
-            }
+    @Override
+    public void actualizarProyecto(Proyecto proyecto) throws Exception {
+        validarProyecto(proyecto);
+        
+        // Validar que el proyecto exista
+        Proyecto existente = proyectoRepository.buscarPorCodigo(proyecto.getCodigo());
+        if (existente == null) {
+            throw new Exception("Proyecto no encontrado para actualización");
+        }
+        
+        proyectoRepository.actualizarProyecto(proyecto);
+    }
 
-            return valorCampo.contains(textoBusqueda);
-        })
-        .toList();
-}
+    // Métodos auxiliares
+    private void validarProyecto(Proyecto proyecto) throws IllegalArgumentException {
+        if (proyecto == null) {
+            throw new IllegalArgumentException("El proyecto no puede ser nulo");
+        }
+        if (proyecto.getCodigo() == null || proyecto.getCodigo().trim().isEmpty()) {
+            throw new IllegalArgumentException("El código del proyecto no puede estar vacío");
+        }
+        // Agregar más validaciones según sea necesario
+    }
 
-
+    private String obtenerValorCampo(Proyecto proyecto, String campo) throws Exception {
+        return switch (campo.toLowerCase()) {
+            case "codigo" -> proyecto.getCodigo();
+            case "nombre" -> proyecto.getNombre();
+            case "direccion" -> proyecto.getDireccion();
+            case "tiporeparacion" -> proyecto.getTipoReparacion().name();
+            case "prioridad" -> proyecto.getPrioridad().name();
+            case "estado" -> proyecto.getEstado().name();
+            case "evaluacion" -> proyecto.getEstadoEvaluacionFuncionario().name();
+            default -> throw new Exception("Campo no válido para búsqueda: " + campo);
+        };
+    }
 }

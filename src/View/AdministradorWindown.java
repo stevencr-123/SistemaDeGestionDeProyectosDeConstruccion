@@ -1,6 +1,9 @@
 package view;
 
+
+
 import controller.ProyectoController;
+import controller.UsuarioController;
 import java.awt.Color;
 import java.util.List;
 import java.awt.event.KeyEvent;
@@ -19,7 +22,8 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.JTableHeader;
-import model.Proyecto;
+import Model.Proyecto;
+import Model.Solicitud;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
@@ -45,6 +49,10 @@ import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import model.Usuario;
+import repository.impl.UsuarioRepositoryJsonImpl;
+import repository.interfaces.IObreroRepository;
+import repository.interfaces.IUsuarioRepository;
 
 public class AdministradorWindown extends javax.swing.JFrame {
 
@@ -52,7 +60,10 @@ public class AdministradorWindown extends javax.swing.JFrame {
     IProyectoRepository repo = new ProyectoRepositoryJsonImpl();
     IProyectoService servicio = new ProyectoServiceImpl(repo);
     ProyectoController proyectoController = new ProyectoController(servicio);
-
+    
+    
+    
+    
     public AdministradorWindown() {
         initComponents();
         configurarTablaProyectos();        
@@ -98,7 +109,6 @@ public class AdministradorWindown extends javax.swing.JFrame {
         separadorTelefono = new javax.swing.JSeparator();
         separadorIdentificacion = new javax.swing.JSeparator();
         separadorApellido = new javax.swing.JSeparator();
-        btnContratar = new javax.swing.JButton();
         cmbTipoIdentificacion = new javax.swing.JComboBox<>();
         etiTipoIdentificacion = new javax.swing.JLabel();
         etiTelefono = new javax.swing.JLabel();
@@ -110,6 +120,7 @@ public class AdministradorWindown extends javax.swing.JFrame {
         txtSalario = new javax.swing.JTextField();
         separadorSalario = new javax.swing.JSeparator();
         txtTelefono = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         panelEmpleados = new javax.swing.JPanel();
         scrollEmpleados = new javax.swing.JScrollPane();
         jTable_Empleados = new javax.swing.JTable();
@@ -425,15 +436,6 @@ public class AdministradorWindown extends javax.swing.JFrame {
         separadorApellido.setForeground(new java.awt.Color(0, 0, 0));
         panelFormularioContrato.add(separadorApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 60, 100, 10));
 
-        btnContratar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnContratar.setText("Contratar");
-        btnContratar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnContratarActionPerformed(evt);
-            }
-        });
-        panelFormularioContrato.add(btnContratar, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 330, 120, 50));
-
         cmbTipoIdentificacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CEDULA" }));
         panelFormularioContrato.add(cmbTipoIdentificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 220, 100, -1));
 
@@ -477,6 +479,14 @@ public class AdministradorWindown extends javax.swing.JFrame {
 
         txtTelefono.setBorder(null);
         panelFormularioContrato.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, 110, 20));
+
+        jButton1.setText("Contratar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        panelFormularioContrato.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 330, 90, 40));
 
         javax.swing.GroupLayout panelContratarLayout = new javax.swing.GroupLayout(panelContratar);
         panelContratar.setLayout(panelContratarLayout);
@@ -716,27 +726,24 @@ public class AdministradorWindown extends javax.swing.JFrame {
         TabbedAdmin.addTab("CrearProyecto", panelCrearProyecto);
 
         jXTableProyectos.setBackground(new java.awt.Color(51, 51, 51));
-        jXTableProyectos.setForeground(new java.awt.Color(0, 0, 0));
         jXTableProyectos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Código", "Nombre", "Dirección", "Tipo", "Prioridad", "Estado", "Presupuesto", "Inicio", "Fin", "Descripción"
+                "Código", "Nombre", "Dirección", "Tipo", "Prioridad", "Estado", "Presupuesto", "Inicio", "Fin", "Descripción", "Solicitud"
             }
         ));
         jXTableProyectos.setAutoscrolls(false);
         jXTableProyectos.setColumnControlVisible(true);
-        jXTableProyectos.setColumnSelectionAllowed(false);
         jXTableProyectos.setEditable(false);
         jXTableProyectos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jXTableProyectos.setGridColor(new java.awt.Color(102, 102, 102));
         jXTableProyectos.setRowHeight(28);
         jXTableProyectos.setSelectionBackground(new java.awt.Color(75, 110, 175));
-        jXTableProyectos.setSelectionForeground(new java.awt.Color(0, 0, 0));
         jXTableProyectos.setSelectionMode(1);
         jXTableProyectos.setShowGrid(false);
         scrollProyectos.setViewportView(jXTableProyectos);
@@ -745,7 +752,6 @@ public class AdministradorWindown extends javax.swing.JFrame {
 
         cmbFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "...", "Termina en", "Comienza con", "Igual a", "Contiene" }));
 
-        chkCoincidenciaMayusculas.setForeground(new java.awt.Color(0, 0, 0));
         chkCoincidenciaMayusculas.setText(" Mayusculas/Minusculas");
 
         btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -771,21 +777,16 @@ public class AdministradorWindown extends javax.swing.JFrame {
             }
         });
 
-        etiFechaInicio.setForeground(new java.awt.Color(0, 0, 0));
         etiFechaInicio.setText("Fecha Inicio");
 
-        etiFechaFin.setForeground(new java.awt.Color(0, 0, 0));
         etiFechaFin.setText("Fecha Fin");
 
-        etiPresupuestoMin.setForeground(new java.awt.Color(0, 0, 0));
         etiPresupuestoMin.setText("Presupuesto Min");
 
-        etiPresupuestoMax.setForeground(new java.awt.Color(0, 0, 0));
         etiPresupuestoMax.setText("Presupuesto Max");
 
         btnActualizar.setBackground(new java.awt.Color(204, 204, 204));
         btnActualizar.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        btnActualizar.setForeground(new java.awt.Color(0, 0, 0));
         btnActualizar.setText("Actualizar");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -964,10 +965,6 @@ public class AdministradorWindown extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtIdentificacionKeyTyped
 
-    private void btnContratarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContratarActionPerformed
-
-    }//GEN-LAST:event_btnContratarActionPerformed
-
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
 
     }//GEN-LAST:event_btnLimpiarActionPerformed
@@ -976,7 +973,7 @@ public class AdministradorWindown extends javax.swing.JFrame {
 
         try {
 
-            // Crear el controlador con los componentes del formulario y el servicio
+            Solicitud estadoInicial = Solicitud.EN_ESPERA;
             ProyectoController controller = new ProyectoController(
                     txtCodigo,
                     txtNombre,
@@ -986,10 +983,11 @@ public class AdministradorWindown extends javax.swing.JFrame {
                     txtPresupuesto,
                     DatePickFechaEstimada,
                     txtArea,
-                    servicio
+                    servicio,
+                    estadoInicial
             );
 
-            // Usar el método encapsulado del controlador
+            
             controller.crearProyecto();
 
         } catch (ValidacionException
@@ -1005,7 +1003,7 @@ public class AdministradorWindown extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnLimpiarCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarCamposActionPerformed
-        ProyectoController controller = new ProyectoController(txtCodigo, txtNombre, txtDireccion, cmbTiporeparacion, cmbPrioridad, txtPresupuesto, DatePickFechaEstimada, txtArea, servicio);
+        ProyectoController controller = new ProyectoController(txtCodigo, txtNombre, txtDireccion, cmbTiporeparacion, cmbPrioridad, txtPresupuesto, DatePickFechaEstimada, txtArea, servicio,Solicitud.EN_ESPERA);
         controller.limpiarFormulario();
     }//GEN-LAST:event_btnLimpiarCamposActionPerformed
 
@@ -1030,13 +1028,15 @@ public class AdministradorWindown extends javax.swing.JFrame {
     }//GEN-LAST:event_datePickerFechaFinActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        limpiarFiltros();
-        try {
-            List<Proyecto> proyectos = proyectoController.obtenerTodosLosProyectos();
-            cargarProyectosEnTabla(proyectos);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar proyectos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+TabbedAdmin.setSelectedIndex(3);
+
+try {
+    List<Proyecto> proyectos = proyectoController.obtenerTodosLosProyectos();
+    cargarProyectosEnTabla(proyectos);  // <-- esta llamada espera que el método reciba List<Proyecto>
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, "Error al cargar proyectos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+}
+
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnBusquedaAvanzadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBusquedaAvanzadaActionPerformed
@@ -1068,6 +1068,10 @@ try {
 
 
     }//GEN-LAST:event_menuItemVerDetallesActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -1111,7 +1115,6 @@ try {
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnBusquedaAvanzada;
-    private javax.swing.JButton btnContratar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnLimpiarCampos;
@@ -1159,6 +1162,7 @@ try {
     private javax.swing.JLabel etiTelefono;
     private javax.swing.JLabel etiTipoIdentificacion;
     private javax.swing.JLabel etiTipoReparacion;
+    private javax.swing.JButton jButton1;
     private javax.swing.JTable jTable_Empleados;
     private org.jdesktop.swingx.JXTable jXTableProyectos;
     private javax.swing.JMenuItem menuItemEditar;
@@ -1364,25 +1368,31 @@ private void configurarTablaProyectos() {
         cmbFiltro.setSelectedIndex(0);
     }
 
-    private void cargarProyectosEnTabla(List<Proyecto> proyectos) {
-        DefaultTableModel modelo = (DefaultTableModel) jXTableProyectos.getModel();
-        modelo.setRowCount(0);
+private void cargarProyectosEnTabla(List<Proyecto> proyectos) {
+    DefaultTableModel modelo = (DefaultTableModel) jXTableProyectos.getModel();
+    modelo.setRowCount(0);
 
-        for (Proyecto p : proyectos) {
-            modelo.addRow(new Object[]{
-                p.getCodigo(),
-                p.getNombre(),
-                p.getDireccion(),
-                p.getTipoReparacion(),
-                p.getPrioridad(),
-                p.getEstado(),
-                p.getPresupuesto(), // Double
-                java.sql.Date.valueOf(p.getFechaInicio()), // ✅ conversión a Date
-                java.sql.Date.valueOf(p.getFechaFinEstimada()), // ✅ conversión a Date
-                p.getDescripcion()
-            });
-        }
+    for (Proyecto p : proyectos) {
+        modelo.addRow(new Object[]{
+            p.getCodigo(),
+            p.getNombre(),
+            p.getDireccion(),
+            p.getTipoReparacion().name(),  // Convierte enum a String
+            p.getPrioridad().name(),       // Convierte enum a String
+            p.getEstado().name(),         // Convierte enum a String
+            p.getPresupuesto(),
+            p.getFechaInicio(),
+            p.getFechaFinEstimada(),
+            p.getDescripcion(),
+            p.getEstadoEvaluacionFuncionario()  // ¡Directamente el enum!
+        });
     }
+}
+
+
+
+
+
 
     private Proyecto obtenerProyectoDesdeFila(int fila) throws ProyectoNoEncontradoException, Exception {
         int filaModelo = jXTableProyectos.convertRowIndexToModel(fila);
@@ -1424,7 +1434,58 @@ private void configurarComportamientoTablaConClickDerecho() {
     });
 }
 
+private void configurarColoresTablaProyectos() {
+        
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+                
+                Component c = super.getTableCellRendererComponent(table, value, 
+                        isSelected, hasFocus, row, column);
+                
 
+                int columnaEvaluacion = obtenerColumnaEvaluacion();
+                if (columnaEvaluacion == -1) return c; 
+                
+                String evaluacion = table.getModel().getValueAt(row, columnaEvaluacion).toString();
+                
+                if (isSelected) {
+                    c.setBackground(new Color(57, 105, 138)); 
+                    c.setForeground(Color.WHITE);
+                } else if ("Aprobada".equalsIgnoreCase(evaluacion)) {
+                    c.setBackground(new Color(144, 238, 144)); 
+                    c.setForeground(Color.BLACK);
+                } else if ("Denegada".equalsIgnoreCase(evaluacion)) {
+                    c.setBackground(new Color(255, 182, 193));
+                    c.setForeground(Color.BLACK);
+                } else if ("En espera".equalsIgnoreCase(evaluacion)) {
+                    c.setBackground(new Color(204,204,204));
+                    c.setForeground(Color.BLACK);    
+                } else {
+                    c.setBackground(table.getBackground());
+                    c.setForeground(table.getForeground());
+                }
+                
+                return c;
+            }
+        };
+        
+        
+        for (int i = 0; i < jXTableProyectos.getColumnCount(); i++) {
+            jXTableProyectos.getColumnModel().getColumn(i).setCellRenderer(renderer);
+        }
+    }
+    
+    
+    private int obtenerColumnaEvaluacion() {
+        for (int i = 0; i < jXTableProyectos.getColumnCount(); i++) {
+            if ("Evaluacion".equalsIgnoreCase(jXTableProyectos.getColumnName(i))) {
+                return i;
+            }
+        }
+        return -1; 
+    }
 
     
 }

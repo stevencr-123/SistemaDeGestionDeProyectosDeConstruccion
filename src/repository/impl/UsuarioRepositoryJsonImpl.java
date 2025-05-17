@@ -14,8 +14,7 @@ import java.util.List;
 
 public class UsuarioRepositoryJsonImpl implements IUsuarioRepository {
 
-    private static final String JSON_FILE = "C:\\Users\\HP\\OneDrive\\Documentos\\NetBeansProjects"
-            + "\\ProAula3Semestre\\src\\resource\\data\\usuarios.json";
+    private static final String JSON_FILE = "C:\\Users\\Camilo Jurado\\OneDrive\\Desktop\\SistemaDeGestionDeProyectosDeConstruccion\\src\\Resource\\data\\usuarios.json";
 
     public UsuarioRepositoryJsonImpl() {
         try {

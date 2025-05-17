@@ -7,8 +7,12 @@ public enum EstadoProyecto {
     PLANEACION, 
     EN_PROCESO, 
     SUSPENDIDO, 
-    FINALIZADO;
+    FINALIZADO,
+    APROBADO;
 
+    public static EstadoProyecto getAPROBADO() {
+        return APROBADO;
+    }
     public static EstadoProyecto getPLANEACION() {
         return PLANEACION;
     }
@@ -24,15 +28,4 @@ public enum EstadoProyecto {
     public static EstadoProyecto getFINALIZADO() {
         return FINALIZADO;
     }
-
-public boolean puedeTransicionarA(EstadoProyecto nuevoEstado) {
-    return switch (this) {
-        case PLANEACION -> nuevoEstado == EN_PROCESO;
-        case EN_PROCESO -> nuevoEstado == SUSPENDIDO || nuevoEstado == FINALIZADO;
-        case SUSPENDIDO -> nuevoEstado == EN_PROCESO;
-        case FINALIZADO -> false;
-    };
-}
-
-    
 }

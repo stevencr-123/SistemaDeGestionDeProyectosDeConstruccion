@@ -1,13 +1,12 @@
-package model;
+package Model;
 
+import com.google.gson.annotations.SerializedName;
 import model.EstadoProyecto;
 import model.Prioridad;
 import model.TipoReparacion;
-
 import java.time.LocalDate;
 
 public class Proyecto {
-
     private String codigo;
     private String nombre;
     private String direccion;
@@ -18,10 +17,14 @@ public class Proyecto {
     private double presupuesto;
     private EstadoProyecto estado;
     private String descripcion;
+    
+    @SerializedName("solicitudFuncionario")
+    private Solicitud estadoEvaluacionFuncionario;
 
     public Proyecto(String codigo, String nombre, String direccion, TipoReparacion tipoReparacion,
-                    LocalDate fechaInicio, LocalDate fechaFinEstimada,
-                    Prioridad prioridad, double presupuesto, EstadoProyecto estado, String descripcion) {
+                   LocalDate fechaInicio, LocalDate fechaFinEstimada, Prioridad prioridad,
+                   double presupuesto, EstadoProyecto estado, String descripcion, 
+                   Solicitud estadoEvaluacionFuncionario) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.direccion = direccion;
@@ -32,6 +35,9 @@ public class Proyecto {
         this.presupuesto = presupuesto;
         this.estado = estado;
         this.descripcion = descripcion;
+        this.estadoEvaluacionFuncionario = estadoEvaluacionFuncionario != null 
+            ? estadoEvaluacionFuncionario 
+            : Solicitud.EN_ESPERA;  // Valor por defecto
     }
 
     public String getCodigo() {
@@ -113,6 +119,12 @@ public class Proyecto {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    
-    
+
+    public Solicitud getEstadoEvaluacionFuncionario() {
+        return estadoEvaluacionFuncionario;
+    }
+
+    public void setEstadoEvaluacionFuncionario(Solicitud estadoEvaluacionFuncionario) {
+        this.estadoEvaluacionFuncionario = estadoEvaluacionFuncionario;
+    }
 }

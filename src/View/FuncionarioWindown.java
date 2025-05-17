@@ -4,19 +4,57 @@
  */
 package view;
 
+import controller.ProyectoController;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import Model.Proyecto;
+import repository.impl.ProyectoRepositoryJsonImpl;
+import repository.interfaces.IProyectoRepository;
+import service.impl.FuncionarioServiceImpl;
+import service.impl.ProyectoServiceImpl;
+import service.interfaces.IFuncionarioService;
+import service.interfaces.IProyectoService;
+
 /**
  *
  * @author HP
  */
 public class FuncionarioWindown extends javax.swing.JFrame {
+    IProyectoRepository repo = new ProyectoRepositoryJsonImpl();
+    IProyectoService servicio = new ProyectoServiceImpl(repo);
+    ProyectoController proyectoController = new ProyectoController(servicio);
+    
+    IProyectoRepository epo = new ProyectoRepositoryJsonImpl();
+IProyectoService service = new ProyectoServiceImpl(epo);
+    IFuncionarioService funcionarioService = new FuncionarioServiceImpl(epo);
 
-    /**
-     * Creates new form FuncionarioWindown
-     */
+
+    
     public FuncionarioWindown() {
         initComponents();
+        
+TableProyectos.getSelectionModel().addListSelectionListener(e -> {
+    if (!e.getValueIsAdjusting()) { // Evita que se dispare varias veces
+        int filaSeleccionada = TableProyectos.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            String codigo = (String) TableProyectos.getValueAt(filaSeleccionada, 0);
+            try {
+                Proyecto proyectoSeleccionado = servicio.buscarProyectoPorId(codigo);
+                mostrarProyecto(proyectoSeleccionado);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this,
+                    "Error al cargar el proyecto: " + ex.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
+        }
+    }
+});
     }
 
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,21 +64,475 @@ public class FuncionarioWindown extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog1 = new javax.swing.JDialog();
+        panelBase = new javax.swing.JPanel();
+        etiTItulo = new javax.swing.JLabel();
+        etiCodigo1 = new javax.swing.JLabel();
+        etiNombre1 = new javax.swing.JLabel();
+        etiDireccion1 = new javax.swing.JLabel();
+        etiTipoReparacion1 = new javax.swing.JLabel();
+        etiPrioridad1 = new javax.swing.JLabel();
+        etiEstado1 = new javax.swing.JLabel();
+        etiFechaInicio1 = new javax.swing.JLabel();
+        etiFechaFinEstimada1 = new javax.swing.JLabel();
+        etiPresupuesto1 = new javax.swing.JLabel();
+        txtDireccion1 = new javax.swing.JTextField();
+        txtTipoReparacion1 = new javax.swing.JTextField();
+        txtPrioridad1 = new javax.swing.JTextField();
+        txtEstado1 = new javax.swing.JTextField();
+        txtPresupuesto1 = new javax.swing.JTextField();
+        txtFechaInicio1 = new javax.swing.JTextField();
+        txtCodigo1 = new javax.swing.JTextField();
+        txtNombre1 = new javax.swing.JTextField();
+        txtFechaFinEstimada1 = new javax.swing.JTextField();
+        btnCerrar = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel2 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        jLabel3 = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
+        jLabel4 = new javax.swing.JLabel();
+        jSeparator4 = new javax.swing.JSeparator();
+        jLabel5 = new javax.swing.JLabel();
+        scrollArea1 = new javax.swing.JScrollPane();
+        txtDescripcion1 = new javax.swing.JTextArea();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TableProyectos = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        etiCodigo = new javax.swing.JLabel();
+        txtCodigo = new javax.swing.JTextField();
+        etiNombre = new javax.swing.JLabel();
+        txtNombre = new javax.swing.JTextField();
+        etiDireccion = new javax.swing.JLabel();
+        txtDireccion = new javax.swing.JTextField();
+        etiFechaInicio = new javax.swing.JLabel();
+        txtFechaInicio = new javax.swing.JTextField();
+        etiFechaFinEstimada = new javax.swing.JLabel();
+        txtFechaFinEstimada = new javax.swing.JTextField();
+        etiPresupuesto = new javax.swing.JLabel();
+        txtPresupuesto = new javax.swing.JTextField();
+        etiTipoReparacion = new javax.swing.JLabel();
+        etiPrioridad = new javax.swing.JLabel();
+        etiEstado = new javax.swing.JLabel();
+        txtTipoReparacion = new javax.swing.JTextField();
+        txtPrioridad = new javax.swing.JTextField();
+        txtEstado = new javax.swing.JTextField();
+        scrollArea = new javax.swing.JScrollPane();
+        txtDescripcion = new javax.swing.JTextArea();
+        jLabel6 = new javax.swing.JLabel();
+        jSeparator5 = new javax.swing.JSeparator();
+        jPanel5 = new javax.swing.JPanel();
+
+        jDialog1.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        jDialog1.setTitle("DETALLES DEL PROYECTO\n");
+        jDialog1.setBackground(new java.awt.Color(255, 255, 255));
+        jDialog1.setModal(true);
+        jDialog1.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panelBase.setBackground(new java.awt.Color(255, 255, 255));
+        panelBase.setForeground(new java.awt.Color(255, 255, 255));
+        panelBase.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        etiTItulo.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        etiTItulo.setForeground(new java.awt.Color(0, 51, 102));
+        etiTItulo.setText("              PROYECTO");
+        panelBase.add(etiTItulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 0, 250, 40));
+
+        etiCodigo1.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        etiCodigo1.setText("Código del proyecto");
+        etiCodigo1.setEnabled(false);
+        panelBase.add(etiCodigo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, 40));
+
+        etiNombre1.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        etiNombre1.setText("Nombre del proyecto");
+        etiNombre1.setEnabled(false);
+        panelBase.add(etiNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 150, -1));
+
+        etiDireccion1.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        etiDireccion1.setText(" Dirección");
+        etiDireccion1.setEnabled(false);
+        panelBase.add(etiDireccion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 80, 20));
+
+        etiTipoReparacion1.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        etiTipoReparacion1.setText("Tipo de reparación");
+        etiTipoReparacion1.setEnabled(false);
+        panelBase.add(etiTipoReparacion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, -1, -1));
+
+        etiPrioridad1.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        etiPrioridad1.setText("Prioridad");
+        etiPrioridad1.setEnabled(false);
+        panelBase.add(etiPrioridad1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 70, 20));
+
+        etiEstado1.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        etiEstado1.setText("Estado");
+        etiEstado1.setEnabled(false);
+        panelBase.add(etiEstado1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 50, -1));
+
+        etiFechaInicio1.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        etiFechaInicio1.setText("Fecha de inicio");
+        etiFechaInicio1.setEnabled(false);
+        panelBase.add(etiFechaInicio1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 100, 110, 20));
+
+        etiFechaFinEstimada1.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        etiFechaFinEstimada1.setText("Fecha de fin estimada");
+        etiFechaFinEstimada1.setEnabled(false);
+        panelBase.add(etiFechaFinEstimada1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 140, -1, -1));
+
+        etiPresupuesto1.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        etiPresupuesto1.setText("Presupuesto");
+        etiPresupuesto1.setEnabled(false);
+        panelBase.add(etiPresupuesto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 180, 90, -1));
+
+        txtDireccion1.setEditable(false);
+        txtDireccion1.setForeground(new java.awt.Color(153, 153, 153));
+        panelBase.add(txtDireccion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 180, 200, -1));
+
+        txtTipoReparacion1.setEditable(false);
+        txtTipoReparacion1.setForeground(new java.awt.Color(153, 153, 153));
+        panelBase.add(txtTipoReparacion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 280, 200, -1));
+
+        txtPrioridad1.setEditable(false);
+        txtPrioridad1.setForeground(new java.awt.Color(153, 153, 153));
+        panelBase.add(txtPrioridad1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 320, 200, -1));
+
+        txtEstado1.setEditable(false);
+        txtEstado1.setForeground(new java.awt.Color(153, 153, 153));
+        panelBase.add(txtEstado1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 360, 200, -1));
+
+        txtPresupuesto1.setEditable(false);
+        txtPresupuesto1.setForeground(new java.awt.Color(153, 153, 153));
+        panelBase.add(txtPresupuesto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 180, 200, -1));
+
+        txtFechaInicio1.setEditable(false);
+        txtFechaInicio1.setForeground(new java.awt.Color(153, 153, 153));
+        panelBase.add(txtFechaInicio1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 100, 200, -1));
+
+        txtCodigo1.setEditable(false);
+        txtCodigo1.setForeground(new java.awt.Color(153, 153, 153));
+        txtCodigo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigo1ActionPerformed(evt);
+            }
+        });
+        panelBase.add(txtCodigo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 100, 200, -1));
+
+        txtNombre1.setEditable(false);
+        txtNombre1.setForeground(new java.awt.Color(153, 153, 153));
+        panelBase.add(txtNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 140, 200, -1));
+
+        txtFechaFinEstimada1.setEditable(false);
+        txtFechaFinEstimada1.setForeground(new java.awt.Color(153, 153, 153));
+        panelBase.add(txtFechaFinEstimada1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 140, 200, -1));
+
+        btnCerrar.setBackground(new java.awt.Color(0, 51, 255));
+        btnCerrar.setText("Cerrar");
+        panelBase.add(btnCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 420, 120, 40));
+        panelBase.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 400, 10));
+
+        jLabel2.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 153, 255));
+        jLabel2.setText("Información general");
+        panelBase.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 170, 30));
+        panelBase.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 80, 400, 10));
+
+        jLabel3.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel3.setText("Planificación");
+        panelBase.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 50, -1, 30));
+        panelBase.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 400, 10));
+
+        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 204, 0));
+        jLabel4.setText("Detalles técnicos");
+        panelBase.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, -1, -1));
+        panelBase.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 260, 400, 10));
+
+        jLabel5.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 153, 0));
+        jLabel5.setText("Descripción");
+        panelBase.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 240, -1, 20));
+
+        txtDescripcion1.setEditable(false);
+        txtDescripcion1.setColumns(20);
+        txtDescripcion1.setForeground(new java.awt.Color(153, 153, 153));
+        txtDescripcion1.setRows(5);
+        scrollArea1.setViewportView(txtDescripcion1);
+
+        panelBase.add(scrollArea1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 270, 400, 120));
+
+        jDialog1.getContentPane().add(panelBase, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 860, 510));
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel2.setBackground(new java.awt.Color(0, 51, 102));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 161, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 590));
+
+        jPanel3.setBackground(new java.awt.Color(0, 51, 102));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 990, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 0, 990, -1));
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        TableProyectos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        TableProyectos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Codigo", "Nombre", "Direccion", "Tipo", "Prioridad", "Estado", "Presupuesto", "Inicio", "Fin", "", "Solicitud"
+            }
+        ));
+        jScrollPane1.setViewportView(TableProyectos);
+        if (TableProyectos.getColumnModel().getColumnCount() > 0) {
+            TableProyectos.getColumnModel().getColumn(9).setResizable(false);
+        }
+
+        jPanel4.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 106));
+
+        jButton1.setText("Proyectos");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 130, -1, -1));
+
+        jButton2.setText("Aprobar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 260, -1, -1));
+
+        etiCodigo.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        etiCodigo.setText("Código del proyecto");
+        etiCodigo.setEnabled(false);
+        jPanel4.add(etiCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, 40));
+
+        txtCodigo.setEditable(false);
+        txtCodigo.setForeground(new java.awt.Color(153, 153, 153));
+        txtCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoActionPerformed(evt);
+            }
+        });
+        jPanel4.add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, 200, -1));
+
+        etiNombre.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        etiNombre.setText("Nombre del proyecto");
+        etiNombre.setEnabled(false);
+        jPanel4.add(etiNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 150, -1));
+
+        txtNombre.setEditable(false);
+        txtNombre.setForeground(new java.awt.Color(153, 153, 153));
+        jPanel4.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 170, 200, -1));
+
+        etiDireccion.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        etiDireccion.setText(" Dirección");
+        etiDireccion.setEnabled(false);
+        jPanel4.add(etiDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 80, 20));
+
+        txtDireccion.setEditable(false);
+        txtDireccion.setForeground(new java.awt.Color(153, 153, 153));
+        jPanel4.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 210, 200, -1));
+
+        etiFechaInicio.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        etiFechaInicio.setText("Fecha de inicio");
+        etiFechaInicio.setEnabled(false);
+        jPanel4.add(etiFechaInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 130, 110, 20));
+
+        txtFechaInicio.setEditable(false);
+        txtFechaInicio.setForeground(new java.awt.Color(153, 153, 153));
+        jPanel4.add(txtFechaInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 130, 200, -1));
+
+        etiFechaFinEstimada.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        etiFechaFinEstimada.setText("Fecha de fin estimada");
+        etiFechaFinEstimada.setEnabled(false);
+        jPanel4.add(etiFechaFinEstimada, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 170, -1, -1));
+
+        txtFechaFinEstimada.setEditable(false);
+        txtFechaFinEstimada.setForeground(new java.awt.Color(153, 153, 153));
+        jPanel4.add(txtFechaFinEstimada, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 170, 200, -1));
+
+        etiPresupuesto.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        etiPresupuesto.setText("Presupuesto");
+        etiPresupuesto.setEnabled(false);
+        jPanel4.add(etiPresupuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 210, 90, -1));
+
+        txtPresupuesto.setEditable(false);
+        txtPresupuesto.setForeground(new java.awt.Color(153, 153, 153));
+        jPanel4.add(txtPresupuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 210, 200, -1));
+
+        etiTipoReparacion.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        etiTipoReparacion.setText("Tipo de reparación");
+        etiTipoReparacion.setEnabled(false);
+        jPanel4.add(etiTipoReparacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 340, -1, -1));
+
+        etiPrioridad.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        etiPrioridad.setText("Prioridad");
+        etiPrioridad.setEnabled(false);
+        jPanel4.add(etiPrioridad, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 380, 70, 20));
+
+        etiEstado.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        etiEstado.setText("Estado");
+        etiEstado.setEnabled(false);
+        jPanel4.add(etiEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 420, 50, -1));
+
+        txtTipoReparacion.setEditable(false);
+        txtTipoReparacion.setForeground(new java.awt.Color(153, 153, 153));
+        jPanel4.add(txtTipoReparacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 340, 200, -1));
+
+        txtPrioridad.setEditable(false);
+        txtPrioridad.setForeground(new java.awt.Color(153, 153, 153));
+        jPanel4.add(txtPrioridad, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 380, 200, -1));
+
+        txtEstado.setEditable(false);
+        txtEstado.setForeground(new java.awt.Color(153, 153, 153));
+        jPanel4.add(txtEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 420, 200, -1));
+
+        txtDescripcion.setEditable(false);
+        txtDescripcion.setColumns(20);
+        txtDescripcion.setForeground(new java.awt.Color(153, 153, 153));
+        txtDescripcion.setRows(5);
+        scrollArea.setViewportView(txtDescripcion);
+
+        jPanel4.add(scrollArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 330, 400, 120));
+
+        jLabel6.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 153, 0));
+        jLabel6.setText("Descripción");
+        jPanel4.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 300, -1, 20));
+        jPanel4.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 320, 400, 10));
+
+        jTabbedPane1.addTab("tab1", jPanel4);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 990, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 455, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("tab2", jPanel5);
+
+        jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 100, 990, 490));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+       try {
+    List<Proyecto> proyectos = proyectoController.obtenerTodosLosProyectos();
+    for (Proyecto p : proyectos) {
+        System.out.println("Proyecto " + p.getCodigo() + " estado: " + p.getEstadoEvaluacionFuncionario());
+    }
+    cargarProyectosEnTabla(proyectos);
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, "Error al cargar proyectos: " + e.getMessage(), 
+                                "Error", JOptionPane.ERROR_MESSAGE);
+}
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+int fila = TableProyectos.getSelectedRow();
+if (fila != -1) {
+    String codigo = TableProyectos.getValueAt(fila, 0).toString();
+    
+    // Crear opciones para el diálogo
+    Object[] opciones = {"Aprobar", "Denegar", "Cancelar"};
+    int eleccion = JOptionPane.showOptionDialog(
+        this,
+        "Seleccione una acción para el proyecto " + codigo,
+        "Evaluación de Proyecto",
+        JOptionPane.DEFAULT_OPTION,
+        JOptionPane.QUESTION_MESSAGE,
+        null,
+        opciones,
+        opciones[2]
+    );
+    
+    try {
+        if (eleccion == 0) { // Aprobar
+            funcionarioService.aprobarProyecto(codigo);
+            JOptionPane.showMessageDialog(this, "Proyecto aprobado exitosamente.");
+        } else if (eleccion == 1) { // Denegar
+            funcionarioService.denegarProyecto(codigo);
+            JOptionPane.showMessageDialog(this, "Proyecto denegado exitosamente.");
+        }
+        
+        // Actualizar la tabla después de cualquier cambio
+        List<Proyecto> proyectos = proyectoController.obtenerTodosLosProyectos();
+        cargarProyectosEnTabla(proyectos);
+        
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+} else {
+    JOptionPane.showMessageDialog(this, "Por favor seleccione un proyecto de la tabla.");
+}
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
+
+    }//GEN-LAST:event_txtCodigoActionPerformed
+
+    private void txtCodigo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigo1ActionPerformed
+
+    }//GEN-LAST:event_txtCodigo1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,5 +571,109 @@ public class FuncionarioWindown extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable TableProyectos;
+    private javax.swing.JButton btnCerrar;
+    private javax.swing.JLabel etiCodigo;
+    private javax.swing.JLabel etiCodigo1;
+    private javax.swing.JLabel etiDireccion;
+    private javax.swing.JLabel etiDireccion1;
+    private javax.swing.JLabel etiEstado;
+    private javax.swing.JLabel etiEstado1;
+    private javax.swing.JLabel etiFechaFinEstimada;
+    private javax.swing.JLabel etiFechaFinEstimada1;
+    private javax.swing.JLabel etiFechaInicio;
+    private javax.swing.JLabel etiFechaInicio1;
+    private javax.swing.JLabel etiNombre;
+    private javax.swing.JLabel etiNombre1;
+    private javax.swing.JLabel etiPresupuesto;
+    private javax.swing.JLabel etiPresupuesto1;
+    private javax.swing.JLabel etiPrioridad;
+    private javax.swing.JLabel etiPrioridad1;
+    private javax.swing.JLabel etiTItulo;
+    private javax.swing.JLabel etiTipoReparacion;
+    private javax.swing.JLabel etiTipoReparacion1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JDialog jDialog1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JPanel panelBase;
+    private javax.swing.JScrollPane scrollArea;
+    private javax.swing.JScrollPane scrollArea1;
+    private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextField txtCodigo1;
+    private javax.swing.JTextArea txtDescripcion;
+    private javax.swing.JTextArea txtDescripcion1;
+    private javax.swing.JTextField txtDireccion;
+    private javax.swing.JTextField txtDireccion1;
+    private javax.swing.JTextField txtEstado;
+    private javax.swing.JTextField txtEstado1;
+    private javax.swing.JTextField txtFechaFinEstimada;
+    private javax.swing.JTextField txtFechaFinEstimada1;
+    private javax.swing.JTextField txtFechaInicio;
+    private javax.swing.JTextField txtFechaInicio1;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtNombre1;
+    private javax.swing.JTextField txtPresupuesto;
+    private javax.swing.JTextField txtPresupuesto1;
+    private javax.swing.JTextField txtPrioridad;
+    private javax.swing.JTextField txtPrioridad1;
+    private javax.swing.JTextField txtTipoReparacion;
+    private javax.swing.JTextField txtTipoReparacion1;
     // End of variables declaration//GEN-END:variables
+private void cargarProyectosEnTabla(List<Proyecto> proyectos) {
+    DefaultTableModel modelo = (DefaultTableModel) TableProyectos.getModel();
+    modelo.setRowCount(0);
+
+    for (Proyecto p : proyectos) {
+        modelo.addRow(new Object[]{
+            p.getCodigo(),
+            p.getNombre(),
+            p.getDireccion(),
+            p.getTipoReparacion().name(),  // Convierte enum a String
+            p.getPrioridad().name(),       // Convierte enum a String
+            p.getEstado().name(),         // Convierte enum a String
+            p.getPresupuesto(),
+            p.getFechaInicio(),
+            p.getFechaFinEstimada(),
+            p.getDescripcion(),
+            p.getEstadoEvaluacionFuncionario()  // ¡Directamente el enum!
+        });
+    }
+}
+
+public void mostrarProyecto(Proyecto proyecto) {
+    if (proyecto == null) return;
+
+    txtCodigo.setText(proyecto.getCodigo());
+    txtNombre.setText(proyecto.getNombre());
+    txtDireccion.setText(proyecto.getDireccion());
+    txtTipoReparacion.setText(proyecto.getTipoReparacion().name());
+    txtPrioridad.setText(proyecto.getPrioridad().name());
+    txtEstado.setText(proyecto.getEstado().name());
+    txtPresupuesto.setText(String.valueOf(proyecto.getPresupuesto()));
+    txtFechaInicio.setText(proyecto.getFechaInicio().toString());
+    txtFechaFinEstimada.setText(proyecto.getFechaFinEstimada().toString());
+    txtDescripcion.setText(proyecto.getDescripcion());
+
+    
+}
+
+
+
 }

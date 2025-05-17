@@ -1,7 +1,7 @@
 
 package view;
 
-import model.Proyecto;
+import Model.Proyecto;
 
 public class JDialogVerDetallesProyecto extends javax.swing.JDialog {
 

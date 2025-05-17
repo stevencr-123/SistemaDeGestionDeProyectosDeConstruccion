@@ -1,28 +1,43 @@
 {
   "proyectos": [
     {
-      "codigo": "0000000002",
-      "nombre": "Hospital",
-      "direccion": "Piedra de Bolivar",
+      "codigo": "as",
+      "nombre": "asd",
+      "direccion": "asd",
       "tipoReparacion": "estructural",
-      "fechaInicio": "2025-05-01",
-      "fechaFinEstimada": "2026-02-18",
-      "prioridad": "alta",
-      "presupuesto": 2.0E8,
+      "fechaInicio": "2025-05-16",
+      "fechaFinEstimada": "2025-05-22",
+      "prioridad": "urgente",
+      "presupuesto": 1111.0,
       "estado": "planeacion",
-      "descripcion": "Ninguna."
+      "descripcion": "a",
+      "solicitudFuncionario": "DENEGADO"
     },
     {
-      "codigo": "0000000003",
-      "nombre": "Edificio",
-      "direccion": "ninguna",
+      "codigo": "aefjia",
+      "nombre": "lllll",
+      "direccion": "kkkk",
       "tipoReparacion": "estructural",
-      "fechaInicio": "2025-05-01",
-      "fechaFinEstimada": "2025-08-31",
-      "prioridad": "baja",
-      "presupuesto": 1.0E8,
+      "fechaInicio": "2025-05-16",
+      "fechaFinEstimada": "2025-05-17",
+      "prioridad": "urgente",
+      "presupuesto": 8526.0,
       "estado": "planeacion",
-      "descripcion": "Ninguna."
+      "descripcion": "a",
+      "solicitudFuncionario": "APROBADO"
+    },
+    {
+      "codigo": "0987654321",
+      "nombre": "colegio",
+      "direccion": "sao",
+      "tipoReparacion": "estructural",
+      "fechaInicio": "2025-05-16",
+      "fechaFinEstimada": "2025-05-31",
+      "prioridad": "media",
+      "presupuesto": 9.87654321E8,
+      "estado": "planeacion",
+      "descripcion": "llll",
+      "solicitudFuncionario": "DENEGADO"
     }
   ]
 }

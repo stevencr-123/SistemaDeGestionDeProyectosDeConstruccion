@@ -5,7 +5,8 @@ import com.google.gson.reflect.TypeToken;
 import model.EstadoProyecto;
 import model.Prioridad;
 import model.TipoReparacion;
-import model.Proyecto;
+import Model.Proyecto;
+import Model.Solicitud;
 import repository.interfaces.IProyectoRepository;
 
 import java.io.FileReader;
@@ -19,8 +20,7 @@ import java.util.List;
 
 public class ProyectoRepositoryJsonImpl implements IProyectoRepository {
 
-    private static final String JSON_FILE = "C:\\Users\\HP\\OneDrive\\Documentos\\NetBeansProjects"
-            + "\\GestionParaProyectosDeConstruccion\\src\\resource\\data\\proyectos.json";
+    private static final String JSON_FILE = "C:\\Users\\Camilo Jurado\\OneDrive\\Desktop\\SistemaDeGestionDeProyectosDeConstruccion\\src\\Resource\\data\\proyectos.json";
 
     private final Gson gson;
 
@@ -52,23 +52,25 @@ public class ProyectoRepositoryJsonImpl implements IProyectoRepository {
                 JsonObject obj = element.getAsJsonObject();
 
                 Proyecto proyecto = new Proyecto(
-                        obj.get("codigo").getAsString(),
-                        obj.get("nombre").getAsString(),
-                        obj.get("direccion").getAsString(),
-                        TipoReparacion.valueOf(obj.get("tipoReparacion").getAsString().toUpperCase()),
-                        LocalDate.parse(obj.get("fechaInicio").getAsString()),
-                        LocalDate.parse(obj.get("fechaFinEstimada").getAsString()),
-                        Prioridad.valueOf(obj.get("prioridad").getAsString().toUpperCase()),
-                        obj.get("presupuesto").getAsDouble(),
-                        EstadoProyecto.valueOf(obj.get("estado").getAsString().toUpperCase()),
-                        obj.get("descripcion").getAsString()
-                );
+    obj.get("codigo").getAsString(),
+    obj.get("nombre").getAsString(),
+    obj.get("direccion").getAsString(),
+    TipoReparacion.valueOf(obj.get("tipoReparacion").getAsString().toUpperCase()),
+    LocalDate.parse(obj.get("fechaInicio").getAsString()),
+    LocalDate.parse(obj.get("fechaFinEstimada").getAsString()),
+    Prioridad.valueOf(obj.get("prioridad").getAsString().toUpperCase()),
+    obj.get("presupuesto").getAsDouble(),
+    EstadoProyecto.valueOf(obj.get("estado").getAsString().toUpperCase()),
+    obj.get("descripcion").getAsString(),
+    obj.has("solicitudFuncionario")  
+        ? Solicitud.valueOf(obj.get("solicitudFuncionario").getAsString().toUpperCase())
+        : Solicitud.EN_ESPERA
+);
 
                 proyectos.add(proyecto);
             }
         } catch (Exception e) {
-            // Si el archivo no existe aún, simplemente devolvemos la lista vacía.
-            // Es recomendable al menos registrar la excepción en el log
+          
             System.err.println("Error al leer el archivo de proyectos: " + e.getMessage());
         }
         return proyectos;
@@ -89,6 +91,16 @@ public class ProyectoRepositoryJsonImpl implements IProyectoRepository {
             proyectoJson.addProperty("presupuesto", proyecto.getPresupuesto());
             proyectoJson.addProperty("estado", proyecto.getEstado().name().toLowerCase());
             proyectoJson.addProperty("descripcion", proyecto.getDescripcion()); // Esta línea faltaba
+            proyectoJson.addProperty(
+    "solicitudFuncionario",  // Minúsculas
+    proyecto.getEstadoEvaluacionFuncionario() != null 
+        ? proyecto.getEstadoEvaluacionFuncionario().toString().toUpperCase() 
+        : Solicitud.EN_ESPERA.toString()
+
+
+);
+
+
 
             proyectosJson.add(proyectoJson);
         }
@@ -111,4 +123,42 @@ public class ProyectoRepositoryJsonImpl implements IProyectoRepository {
         }
         return null;
     }
+    @Override
+public void actualizarProyecto(Proyecto proyectoActualizado) throws Exception {
+    if (proyectoActualizado == null) {
+        throw new IllegalArgumentException("El proyecto a actualizar no puede ser nulo");
+    }
+    
+    if (proyectoActualizado.getCodigo() == null || proyectoActualizado.getCodigo().trim().isEmpty()) {
+        throw new IllegalArgumentException("El código del proyecto no puede estar vacío");
+    }
+
+    List<Proyecto> proyectos = listarProyectos();
+    boolean proyectoExiste = false;
+    
+    for (int i = 0; i < proyectos.size(); i++) {
+        Proyecto proyectoExistente = proyectos.get(i);
+        if (proyectoExistente.getCodigo().equalsIgnoreCase(proyectoActualizado.getCodigo())) {
+            // Validar que los campos inmutables no hayan cambiado
+            if (!proyectoExistente.getFechaInicio().equals(proyectoActualizado.getFechaInicio())) {
+                throw new IllegalStateException("La fecha de inicio no puede modificarse");
+            }
+            
+            if (!proyectoExistente.getCodigo().equals(proyectoActualizado.getCodigo())) {
+                throw new IllegalStateException("El código del proyecto no puede modificarse");
+            }
+            
+            proyectos.set(i, proyectoActualizado);
+            proyectoExiste = true;
+            break;
+        }
+    }
+    
+    if (!proyectoExiste) {
+        throw new Exception("No se encontró el proyecto con código: " + proyectoActualizado.getCodigo());
+    }
+    
+    guardarProyectos(proyectos);
+}
+
 }
