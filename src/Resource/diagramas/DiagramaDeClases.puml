@@ -139,4 +139,4 @@ ProyectoReparacion "1" -- "*" Material
 ProyectoReparacion "1" -- "1" LicenciaReparacion
 ReporteCiudadano "1" -- "1" ProyectoReparacion
 
-@enduml
+@enduml 

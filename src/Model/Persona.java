@@ -1,7 +1,8 @@
-
 package model;
 
-public class Persona {
+public abstract class Persona {
+
+    // atributos
     private TipoIdentificacion tipoIdentificacion;
     private String numeroIdentificacion;
     private String primerNombre;
@@ -10,15 +11,24 @@ public class Persona {
     private String segundoApellido;
     private String email;
     private String telefono;
+    private double salario;
 
-    public Persona(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion, String primerNombre, String primerApellido, String email) {
+    // Constructor completo (campos obligatorios)
+    public Persona(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion, String primerNombre, String primerApellido, String email,double sueldo, String telefono) {
         this.tipoIdentificacion = tipoIdentificacion;
         this.numeroIdentificacion = numeroIdentificacion;
         this.primerNombre = primerNombre;
         this.primerApellido = primerApellido;
         this.email = email;
+        this.salario = sueldo;
+        this.telefono = telefono;
     }
 
+    // Constructor vacío (opcional para frameworks o deserialización JSON)
+    public Persona() {
+    }
+
+    // --- Getters y Setters ---
     public TipoIdentificacion getTipoIdentificacion() {
         return tipoIdentificacion;
     }
@@ -82,6 +92,25 @@ public class Persona {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+
+    public double getSalario() {
+        return salario;
+    }
+
+    public void setSalario(double salario) {
+        this.salario = salario;
+    }
     
     
+
+    // --- Métodos útiles opcionales ---
+ public String getNombreCompleto() {
+    StringBuilder nombreCompleto = new StringBuilder();
+    if (primerNombre != null) nombreCompleto.append(primerNombre);
+    if (segundoNombre != null && !segundoNombre.isEmpty()) nombreCompleto.append(" ").append(segundoNombre);
+    if (primerApellido != null) nombreCompleto.append(" ").append(primerApellido);
+    if (segundoApellido != null && !segundoApellido.isEmpty()) nombreCompleto.append(" ").append(segundoApellido);
+    return nombreCompleto.toString().trim();
+}
+
 }

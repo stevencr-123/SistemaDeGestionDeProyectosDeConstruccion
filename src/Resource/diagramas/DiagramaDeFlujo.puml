@@ -34,7 +34,7 @@ if (Credenciales válidas?) then (Sí)
                 endif
             endif
         endif
-    endif
+    endif 
     :Finalizar sesión;
 else (No)
     :Mostrar error de autenticación;

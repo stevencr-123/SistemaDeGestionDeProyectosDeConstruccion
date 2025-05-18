@@ -1,26 +1,25 @@
-
 package view;
 
-import dao.UsuarioDAO;
-import model.Usuario;
+import controller.UsuarioController;
+import exceptions.AutenticacionException;
 import javax.swing.JOptionPane;
+import model.Usuario;
+import util.SesionUtil;
 
 public class Login extends javax.swing.JFrame {
-    
+
     public Login() {
-        
+
         initComponents();
         this.setLocationRelativeTo(null);
     }
 
-   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel_Login = new javax.swing.JPanel();
         txtUser = new javax.swing.JTextField();
-        txtPassword = new javax.swing.JTextField();
         lblUser = new javax.swing.JLabel();
         lbl_Contraseña = new javax.swing.JLabel();
         lbl_Titulo = new javax.swing.JLabel();
@@ -29,6 +28,7 @@ public class Login extends javax.swing.JFrame {
         lbl_Icono = new javax.swing.JLabel();
         check_RecordarUsuario = new javax.swing.JCheckBox();
         lbl_mensaje = new javax.swing.JLabel();
+        password = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -42,14 +42,6 @@ public class Login extends javax.swing.JFrame {
             }
         });
         jPanel_Login.add(txtUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 300, 260, 30));
-
-        txtPassword.setBackground(new java.awt.Color(226, 229, 231));
-        txtPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPasswordActionPerformed(evt);
-            }
-        });
-        jPanel_Login.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 380, 260, 30));
 
         lblUser.setBackground(new java.awt.Color(51, 51, 255));
         lblUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -82,7 +74,7 @@ public class Login extends javax.swing.JFrame {
         lbl_SubTitulo.setText("Sistema integral de reparaciones");
         jPanel_Login.add(lbl_SubTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 220, 200, 20));
 
-        lbl_Icono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/Login.png"))); // NOI18N
+        lbl_Icono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/imgs/Login.png"))); // NOI18N
         jPanel_Login.add(lbl_Icono, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 40, 130, 130));
 
         check_RecordarUsuario.setForeground(new java.awt.Color(51, 51, 255));
@@ -92,6 +84,9 @@ public class Login extends javax.swing.JFrame {
         lbl_mensaje.setForeground(new java.awt.Color(51, 51, 255));
         lbl_mensaje.setText("¿Olvidó su contraseña?");
         jPanel_Login.add(lbl_mensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 480, 130, -1));
+
+        password.setBackground(new java.awt.Color(226, 229, 231));
+        jPanel_Login.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 380, 260, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -108,91 +103,79 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed
-       txtUser.putClientProperty("JComponent.roundRect", true);
+        txtUser.putClientProperty("JComponent.roundRect", true);
 
 
     }//GEN-LAST:event_txtUserActionPerformed
 
     private void jButtonIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIngresarActionPerformed
-     String email = txtUser.getText().trim();
-     String password = txtPassword.getText().trim();
+String email = txtUser.getText().trim();
+String passwordStr = new String(password.getPassword()).trim();
+
+UsuarioController usuarioController = new UsuarioController();
+
+try {
+    Usuario usuario = usuarioController.login(email, passwordStr);
+
+    JOptionPane.showMessageDialog(this,
+            "Inicio de sesión exitoso. ¡Bienvenido, " + usuario.getEmail() + "!",
+            "Éxito",
+            JOptionPane.INFORMATION_MESSAGE);
+
+    // Redirección basada en el rol
+    switch (usuario.getRol()) {
+        case ADMINISTRADOR:
+            new AdministradorWindown().setVisible(true);
+            break;
+        case PROMOTOR:
+            //new Promotor().setVisible(true);
+            break;
+        case FUNCIONARIO_PUBLICO:
+           // new FuncionarioPublico().setVisible(true);
+            break;
+        case OBRERO:
+            new Obrero().setVisible(true);
+            break;
+        case INSPECTOR_MUNICIPAL:
+            //new InspectorMunicipal().setVisible(true);
+            break;
+        case CIUDADANO:
+            new Ciudadano().setVisible(true);
+            break;
+        default:
+            JOptionPane.showMessageDialog(this,
+                    "Rol no reconocido. Contacte con soporte.",
+                    "Error de rol",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+    }
+
+     SesionUtil.iniciarSesion(usuario);
      
-     if(email.isEmpty() || password.isEmpty()){
-         JOptionPane.showMessageDialog(this, "Email y contraseña son requeridos", "Error", JOptionPane.ERROR_MESSAGE);
-         return;
-     }
-     
-     UsuarioDAO usuarioDAO = new UsuarioDAO();
-     Usuario usuario = usuarioDAO.validarCredenciales(email, password);
-     
-     if(usuario != null){
-         if(usuarioDAO.esAdministrador(usuario)){
-             JOptionPane.showMessageDialog(this, "Bienvenido Administrador", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
-        new Administrador().setVisible(true);
-            this.dispose();
-         }else if(usuarioDAO.esFuncionarioPublico(usuario)){
-           JOptionPane.showMessageDialog(this, "Bienvenido Funcionario Publico", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
-          new Funcionario_Publico().setVisible(true);
-          this.dispose();
-     }else if(usuarioDAO.esInspectorMunicipal(usuario)){
-           JOptionPane.showMessageDialog(this, "Bienvenido Inspector Municipal", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
-          //new inspector().setVisible(true);
-          this.dispose();
-     }else if(usuarioDAO.esPromotor(usuario)){
-           JOptionPane.showMessageDialog(this, "Bienvenido Promotor", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
-          //new promotor().setVisible(true);
-          this.dispose();
-     }else if(usuarioDAO.esObrero(usuario)){
-           JOptionPane.showMessageDialog(this, "Bienvenido Obrero", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
-          new Obrero().setVisible(true);
-          this.dispose();
-     }else if(usuarioDAO.esCiudadano(usuario)){
-           JOptionPane.showMessageDialog(this, "Bienvenido Ciudadano", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
-          //new ciudadano().setVisible(true);
-          this.dispose();
-     }
-  }else{
-         JOptionPane.showMessageDialog(this, "Email o contraseña incorrectos", "Error login", JOptionPane.ERROR_MESSAGE);
-     }
-     
+    this.dispose(); // Cierra la ventana de login actual
+
+} catch (AutenticacionException e) {
+    JOptionPane.showMessageDialog(this,
+            e.getMessage(),
+            "Error de autenticación",
+            JOptionPane.ERROR_MESSAGE);
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this,
+            "Ocurrió un error inesperado: " + e.getMessage(),
+            "Error",
+            JOptionPane.ERROR_MESSAGE);
+    e.printStackTrace(); // Opcional: solo para desarrollo
+}
+
+
     }//GEN-LAST:event_jButtonIngresarActionPerformed
 
-    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
-
-    }//GEN-LAST:event_txtPasswordActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Login().setVisible(true);
-                
+
             }
         });
     }
@@ -207,7 +190,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_SubTitulo;
     private javax.swing.JLabel lbl_Titulo;
     private javax.swing.JLabel lbl_mensaje;
-    private javax.swing.JTextField txtPassword;
+    private javax.swing.JPasswordField password;
     private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
 }

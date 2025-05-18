@@ -1,15 +1,26 @@
-
 package model;
 
+import java.time.LocalDateTime;
+
 public class Promotor extends Persona {
+
     private String matriculaProfesional;
     private String departamento;
     private int proyectosActivos;
+    private LocalDateTime fechaRegistro;
 
     public Promotor(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion, String primerNombre,
-            String primerApellido, String email, String departamento) {
-        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email);
+                    String primerApellido, String email, double sueldo, String telefono, String departamento) {
+        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email,sueldo, telefono);
         this.departamento = departamento;
+        this.fechaRegistro = LocalDateTime.now();
+        this.proyectosActivos = 0;
+    }
+    
+    public Promotor(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion,
+            String primerNombre, String primerApellido, String email, double sueldo, String telefono) {
+        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email, sueldo, telefono);
+        this.fechaRegistro = LocalDateTime.now();
     }
 
     public String getMatriculaProfesional() {
@@ -35,6 +46,12 @@ public class Promotor extends Persona {
     public void setProyectosActivos(int proyectosActivos) {
         this.proyectosActivos = proyectosActivos;
     }
-    
-    
+
+    public LocalDateTime getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(LocalDateTime fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
 }

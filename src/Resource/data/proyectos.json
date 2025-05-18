@@ -1,0 +1,52 @@
+{
+  "proyectos": [
+    {
+      "codigo": "0000000002",
+      "nombre": "Restaurante",
+      "direccion": "Piedra de Bolivar",
+      "tipoReparacion": "estructural",
+      "fechaInicio": "2025-05-01",
+      "fechaFinEstimada": "2026-02-18",
+      "prioridad": "baja",
+      "presupuesto": 1.5E8,
+      "estado": "planeacion",
+      "descripcion": "Ninguna."
+    },
+    {
+      "codigo": "0000000003",
+      "nombre": "Edificio",
+      "direccion": "ninguna",
+      "tipoReparacion": "estructural",
+      "fechaInicio": "2025-05-01",
+      "fechaFinEstimada": "2025-08-31",
+      "prioridad": "alta",
+      "presupuesto": 1.0E8,
+      "estado": "planeacion",
+      "descripcion": "Ninguna."
+    },
+    {
+      "codigo": "0000000004",
+      "nombre": "I.E. Wonderful World",
+      "direccion": "calle 18 - carrera 32 - 41 Diagonal El Bosque",
+      "tipoReparacion": "estructural",
+      "fechaInicio": "2025-05-14",
+      "fechaFinEstimada": "2026-05-15",
+      "prioridad": "urgente",
+      "presupuesto": 1.0E9,
+      "estado": "planeacion",
+      "descripcion": "Esta obra estará compuesta por 120 salones con \ndimensiones que van entre los 25m de largo y 10m de\nancho, cuenta con una cafetería amplia que a su ves \ncontará con espacio de recreación, 5 kioskos, sillas y\nmesas, ventilación y areas para comer; tambien cuenta \ncon 5 baños por bloque, hay 5 bloques en la escuela. entre\nmuchas otras cosas."
+    },
+    {
+      "codigo": "0000000001",
+      "nombre": "Edificio Doñ Gloria",
+      "direccion": "Cuatro - Vientos Cl 18 - 45",
+      "tipoReparacion": "estructural",
+      "fechaInicio": "2025-05-16",
+      "fechaFinEstimada": "2027-07-29",
+      "prioridad": "media",
+      "presupuesto": 2.0E8,
+      "estado": "planeacion",
+      "descripcion": "Ninguna."
+    }
+  ]
+}
