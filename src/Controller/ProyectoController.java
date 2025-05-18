@@ -1,8 +1,8 @@
 package controller;
 
-import enums.EstadoProyecto;
-import enums.Prioridad;
-import enums.TipoReparacion;
+import model.EstadoProyecto;
+import model.Prioridad;
+import model.TipoReparacion;
 import exceptions.FechaInvalidaException;
 import exceptions.NombreProyectoExistenteException;
 import exceptions.ProyectoNoEncontradoException;
@@ -10,7 +10,6 @@ import exceptions.ProyectoYaExisteException;
 import model.Proyecto;
 import exceptions.ValidacionException;
 import javax.swing.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import service.interfaces.IProyectoService;

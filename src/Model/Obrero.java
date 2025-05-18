@@ -1,9 +1,7 @@
-package model.roles;
+package model;
 
-import enums.TipoIdentificacion;
 import java.time.LocalDateTime;
 import java.util.List;
-import model.Persona;
 
 public class Obrero extends Persona {
 
@@ -13,16 +11,16 @@ public class Obrero extends Persona {
     private List<String> certificaciones;
 
     public Obrero(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion, String primerNombre,
-                  String primerApellido, String email, double sueldo, String especialidad, boolean seguroLaboral, double salarioHora) {
-        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email, sueldo);
+                  String primerApellido, String email, double sueldo,String telefono, String especialidad, boolean seguroLaboral, double salarioHora) {
+        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email, sueldo, telefono);
         this.especialidad = especialidad;
         this.seguroLaboral = seguroLaboral;
         this.fechaContratacion = LocalDateTime.now(); // Asignación automática
     }
     
     public Obrero(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion,
-                              String primerNombre, String primerApellido, String email, double sueldo){
-        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email, sueldo);
+                              String primerNombre, String primerApellido, String email, double sueldo, String telefono){
+        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email, sueldo, telefono);
         this.fechaContratacion = LocalDateTime.now();
         
     }

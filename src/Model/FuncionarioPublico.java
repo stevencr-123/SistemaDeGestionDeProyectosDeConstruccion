@@ -1,8 +1,6 @@
-package model.roles;
+package model;
 
-import enums.TipoIdentificacion;
 import java.time.LocalDateTime;
-import model.Persona;
 
 public class FuncionarioPublico extends Persona {
 
@@ -12,17 +10,17 @@ public class FuncionarioPublico extends Persona {
     private LocalDateTime fechaRegistro;
 
     public FuncionarioPublico(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion,
-            String primerNombre, String primerApellido, String email, double sueldo,
+            String primerNombre, String primerApellido, String email, double sueldo,String telefono,
             String cargo, String departamento) {
-        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email, sueldo);
+        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email, sueldo, telefono);
         this.cargo = cargo;
         this.departamento = departamento;
         this.fechaRegistro = LocalDateTime.now();
     }
 
     public FuncionarioPublico(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion,
-            String primerNombre, String primerApellido, String email, double sueldo) {
-        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email, sueldo);
+            String primerNombre, String primerApellido, String email, double sueldo, String telefono) {
+        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email, sueldo, telefono);
         this.fechaRegistro = LocalDateTime.now();
     }
 

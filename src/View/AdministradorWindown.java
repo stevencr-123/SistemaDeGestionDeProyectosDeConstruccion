@@ -2,11 +2,10 @@ package view;
 
 import controller.ProyectoController;
 import controller.UsuarioController;
-import enums.RolSistema;
-import enums.TipoIdentificacion;
+import model.RolSistema;
+import model.TipoIdentificacion;
 import java.awt.Color;
 import java.util.List;
-import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import repository.impl.ProyectoRepositoryJsonImpl;
 import repository.interfaces.IProyectoRepository;
@@ -17,45 +16,26 @@ import exceptions.ProyectoYaExisteException;
 import exceptions.NombreProyectoExistenteException;
 import exceptions.FechaInvalidaException;
 import exceptions.ProyectoNoEncontradoException;
+import exceptions.UsuarioNoEncontradoException;
 import exceptions.UsuarioYaExisteException;
 import java.awt.Font;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.table.JTableHeader;
 import model.Proyecto;
-import org.jdesktop.swingx.JXTable;
-import org.jdesktop.swingx.decorator.ColorHighlighter;
-import org.jdesktop.swingx.decorator.ComponentAdapter;
-import org.jdesktop.swingx.decorator.HighlightPredicate;
-import org.jdesktop.swingx.decorator.Highlighter;
-import org.jdesktop.swingx.search.SearchFactory;
-import org.jdesktop.swingx.search.TableSearchable;
-import org.jdesktop.swingx.table.TableColumnExt;
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
-import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import model.Persona;
 import model.Usuario;
-import model.roles.FuncionarioPublico;
-import model.roles.InspectorMunicipal;
+import model.FuncionarioPublico;
+import model.InspectorMunicipal;
 
 public class AdministradorWindown extends javax.swing.JFrame {
 
@@ -64,13 +44,15 @@ public class AdministradorWindown extends javax.swing.JFrame {
     IProyectoService servicio = new ProyectoServiceImpl(repo);
     ProyectoController proyectoController = new ProyectoController(servicio);
     UsuarioController usuarioController = new UsuarioController();
-    
+
     public AdministradorWindown() {
         initComponents();
         configurarTablaProyectos();
         configurarTablaEmpleados();
         configurarBuscador();
+        configurarBuscadorEmpleado();
         iniciarOpciones();
+        iniciarOpcionesEmpleado();
         this.setLocationRelativeTo(null);
     }
 
@@ -553,15 +535,23 @@ public class AdministradorWindown extends javax.swing.JFrame {
 
         jTable_Empleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nombre", "Apellido", "Correo", "Rol", "Tipo ID", "ID", "Fecha contratacion", "Salario"
+                "Nombre", "Apellido", "Correo", "Rol", "Tipo ID", "ID", "Fecha contratacion", "Salario", "Telefono"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         scrollEmpleados.setViewportView(jTable_Empleados);
 
         panelBuscadorEmpleado.setBackground(new java.awt.Color(255, 255, 255));
@@ -1157,98 +1147,99 @@ public class AdministradorWindown extends javax.swing.JFrame {
     }//GEN-LAST:event_txtIdentificacionKeyTyped
 
     private void btnContratarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContratarActionPerformed
-try {
-    // Recoger datos de los campos
-    String primerNombre = txtNombreEmpleado.getText().trim();
-    String primerApellido = txtApellido.getText().trim();
-    String correo = txtCorreoEmpleado.getText().trim();
-    String telefono = txtTelefono.getText().trim();
-    String tipoIdentificacionTexto = cmbTipoIdentificacion.getSelectedItem().toString();
-    String numeroIdentificacion = txtIdentificacion.getText().trim();
-    String cargo = cmbPuestoTrabajo.getSelectedItem().toString();
-    String salarioTexto = txtSalario.getText().trim();
+        try {
+            // Recoger datos de los campos
+            String primerNombre = txtNombreEmpleado.getText().trim();
+            String primerApellido = txtApellido.getText().trim();
+            String correo = txtCorreoEmpleado.getText().trim();
+            String telefono = txtTelefono.getText().trim();
+            String tipoIdentificacionTexto = cmbTipoIdentificacion.getSelectedItem().toString();
+            String numeroIdentificacion = txtIdentificacion.getText().trim();
+            String cargo = cmbPuestoTrabajo.getSelectedItem().toString();
+            String salarioTexto = txtSalario.getText().trim();
 
-    // Validación de campos vacíos
-    if (primerNombre.isEmpty() || primerApellido.isEmpty() || correo.isEmpty() || telefono.isEmpty()
-            || tipoIdentificacionTexto.equals("NINGUNA") || numeroIdentificacion.isEmpty()
-            || cargo.equals("Ninguno") || salarioTexto.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Todos los campos marcados con * son obligatorios.",
-                "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
+            // Validación de campos vacíos
+            if (primerNombre.isEmpty() || primerApellido.isEmpty() || correo.isEmpty() || telefono.isEmpty()
+                    || tipoIdentificacionTexto.equals("NINGUNA") || numeroIdentificacion.isEmpty()
+                    || cargo.equals("Ninguno") || salarioTexto.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Todos los campos marcados con * son obligatorios.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-    // Validación de correo electrónico
-    if (!correo.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
-        JOptionPane.showMessageDialog(this, "Formato de correo no válido.",
-                "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
+            // Validación de correo electrónico
+            if (!correo.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+                JOptionPane.showMessageDialog(this, "Formato de correo no válido.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-    // Validación de salario
-    double salario;
-    try {
-        salario = Double.parseDouble(salarioTexto);
-        if (salario <= 0) {
-            throw new NumberFormatException("El salario debe ser positivo.");
-        }
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "El salario debe ser un número positivo.",
-                "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
+            // Validación de salario
+            double salario;
+            try {
+                salario = Double.parseDouble(salarioTexto);
+                if (salario <= 0) {
+                    throw new NumberFormatException("El salario debe ser positivo.");
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "El salario debe ser un número positivo.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-    // Validación de teléfono
-    if (!telefono.matches("\\d+")) {
-        JOptionPane.showMessageDialog(this, "El teléfono debe contener solo números.",
-                "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
+            // Validación de teléfono
+            if (!telefono.matches("\\d+") && telefono.length() != 10) {
+                JOptionPane.showMessageDialog(this, "El teléfono debe contener solo números.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-    Persona persona;
-    try {
-        // Obtener el tipo de identificación del enum
-        TipoIdentificacion tipoIdentificacion = TipoIdentificacion.valueOf(tipoIdentificacionTexto.toUpperCase());
+            Persona persona;
+            try {
+                // Obtener el tipo de identificación del enum
+                TipoIdentificacion tipoIdentificacion = TipoIdentificacion.valueOf(tipoIdentificacionTexto.toUpperCase());
 
-        // Crear objeto de acuerdo al rol seleccionado
-        switch (cargo.toUpperCase()) {
-            case "OBRERO":
-                persona = new model.roles.Obrero(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, correo, salario);
+                // Crear objeto de acuerdo al rol seleccionado
+                switch (cargo.toUpperCase()) {
+                    case "OBRERO":
+                        persona = new model.Obrero(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, correo, salario, telefono);
                         break;
-            case "INSPECTOR MUNICIPAL":
-                persona = new InspectorMunicipal(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, correo, salario);                break;
-            case "FUNCIONARIO PUBLICO":
-                persona = new FuncionarioPublico(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, correo, salario); 
+                    case "INSPECTOR MUNICIPAL":
+                        persona = new InspectorMunicipal(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, correo, salario, telefono);
                         break;
-            case "PROMOTOR":
-                persona = new model.roles.Promotor(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, correo, salario);
-                break;
-            default:
-                throw new Exception("Rol no reconocido: " + cargo);
+                    case "FUNCIONARIO PUBLICO":
+                        persona = new FuncionarioPublico(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, correo, salario, telefono);
+                        break;
+                    case "PROMOTOR":
+                        persona = new model.Promotor(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, correo, salario, telefono);
+                        break;
+                    default:
+                        throw new Exception("Rol no reconocido: " + cargo);
+                }
+
+                RolSistema rolSistema = mapearRol(cargo);
+                usuarioController.registrarUsuario(correo, correo, rolSistema.name(), persona);
+
+                // Mostrar mensaje de éxito
+                String mensajeResumen = String.format("Usuario contratado exitosamente.\n\n"
+                        + "Nombre: %s %s\nCorreo: %s\nTeléfono: %s\nIdentificación: %s %s\nCargo: %s\nSalario: $%.2f\n\n"
+                        + "Contraseña predeterminada: Su correo electrónico\n"
+                        + "¡Por seguridad, cambie su contraseña al iniciar sesión!",
+                        primerNombre, primerApellido, correo, telefono, tipoIdentificacionTexto, numeroIdentificacion, cargo, salario);
+
+                JOptionPane.showMessageDialog(this, mensajeResumen, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                limpiarCamposContratar();
+            } catch (UsuarioYaExisteException ex) {
+                JOptionPane.showMessageDialog(this, "El usuario ya existe: " + ex.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error al contratar el usuario: " + e.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error inesperado: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
-
-        RolSistema rolSistema = mapearRol(cargo);
-        usuarioController.registrarUsuario(correo, correo, rolSistema.name(), persona);
-
-        // Mostrar mensaje de éxito
-        String mensajeResumen = String.format("Usuario contratado exitosamente.\n\n"
-                + "Nombre: %s %s\nCorreo: %s\nTeléfono: %s\nIdentificación: %s %s\nCargo: %s\nSalario: $%.2f\n\n"
-                + "Contraseña predeterminada: Su correo electrónico\n"
-                + "¡Por seguridad, cambie su contraseña al iniciar sesión!",
-                primerNombre, primerApellido, correo, telefono, tipoIdentificacionTexto, numeroIdentificacion, cargo, salario);
-
-        JOptionPane.showMessageDialog(this, mensajeResumen, "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        limpiarCamposContratar();
-    } catch (UsuarioYaExisteException ex) {
-        JOptionPane.showMessageDialog(this, "El usuario ya existe: " + ex.getMessage(),
-                "Error", JOptionPane.ERROR_MESSAGE);
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al contratar el usuario: " + e.getMessage(),
-                "Error", JOptionPane.ERROR_MESSAGE);
-    }
-} catch (Exception e) {
-    JOptionPane.showMessageDialog(this, "Error inesperado: " + e.getMessage(),
-            "Error", JOptionPane.ERROR_MESSAGE);
-}
 
 
     }//GEN-LAST:event_btnContratarActionPerformed
@@ -1341,11 +1332,11 @@ try {
     }//GEN-LAST:event_txtPresupuestoMinEmpleadoActionPerformed
 
     private void btnBusquedaAvanzadaEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBusquedaAvanzadaEmpleadoActionPerformed
-        // TODO add your handling code here:
+        filtrarAvanzadoEmpleados();
     }//GEN-LAST:event_btnBusquedaAvanzadaEmpleadoActionPerformed
 
     private void btnActualizarEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarEmpleadoActionPerformed
-  try {
+        try {
             List<Usuario> usuarios = usuarioController.listarUsuarios();
             cargarUsuariosEnTabla(usuarios);
         } catch (Exception e) {
@@ -1375,6 +1366,8 @@ try {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(AdministradorWindown.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
@@ -1533,7 +1526,7 @@ try {
     // End of variables declaration//GEN-END:variables
 
     private void configurarTablaEmpleados() {
-        String[] columnNames = {"Nombre", "Apellido", "Correo", "Rol", "Tipo ID", "ID", "Fecha contratación", "Salario"};
+        String[] columnNames = {"Nombre", "Apellido", "Correo", "Rol", "Tipo ID", "ID", "Fecha contratación", "Salario", "Telefono"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
         jTable_Empleados.setModel(model);
 
@@ -1546,70 +1539,36 @@ try {
         jTable_Empleados.getColumnModel().getColumn(5).setPreferredWidth(100);  // ID
         jTable_Empleados.getColumnModel().getColumn(6).setPreferredWidth(150);  // Fecha contratación
         jTable_Empleados.getColumnModel().getColumn(7).setPreferredWidth(100);  // Salario
+        jTable_Empleados.getColumnModel().getColumn(8).setPreferredWidth(100);  // Telefono
 
         jTable_Empleados.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);  // Desactiva el ajuste automático
     }
 
     private void cargarUsuariosEnTabla(List<Usuario> usuarios) {
-    DefaultTableModel model = (DefaultTableModel) jTable_Empleados.getModel();
-    model.setRowCount(0);  // Limpiar la tabla
+        DefaultTableModel model = (DefaultTableModel) jTable_Empleados.getModel();
+        model.setRowCount(0);  // Limpiar la tabla
 
-    for (Usuario usuario : usuarios) {
-        Persona persona = usuario.getPersona();
-        String nombre = (persona != null) ? persona.getPrimerNombre() : "N/A";
-        String apellido = (persona != null) ? persona.getPrimerApellido() : "N/A";
-        String tipoId = (persona != null) ? persona.getTipoIdentificacion().toString() : "N/A";
-        String id = (persona != null) ? persona.getNumeroIdentificacion() : "N/A";
-        String salario = (persona != null) ? String.format("%.2f", persona.getSalario()) : "N/A";
-
-        Object[] fila = {
-            nombre, apellido, usuario.getEmail(), usuario.getRol().toString().replace("_", " "), 
-            tipoId, id, usuario.getFechaRegistro().toString(), salario
-        };
-        model.addRow(fila);
-    }
-}
-
-
-    private void aplicarFiltro(String filtro) {
-        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>((DefaultTableModel) jTable_Empleados.getModel());
-        jTable_Empleados.setRowSorter(sorter);
-
-        if (filtro.trim().isEmpty()) {
-            sorter.setRowFilter(null);
-        } else {
-            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + filtro));
+        for (Usuario usuario : usuarios) {
+            Persona persona = usuario.getPersona();
+            String nombre = (persona != null) ? persona.getPrimerNombre() : "N/A";
+            String apellido = (persona != null) ? persona.getPrimerApellido() : "N/A";
+            String tipoId = (persona != null) ? persona.getTipoIdentificacion().toString() : "N/A";
+            String id = (persona != null) ? persona.getNumeroIdentificacion() : "N/A";
+            String salario = (persona != null) ? String.format("%.2f", persona.getSalario()) : "N/A";
+            String telefono = (persona != null) ? persona.getTelefono(): "N/A";
+            Object[] fila = {
+                nombre, apellido, usuario.getEmail(), usuario.getRol().toString().replace("_", " "),
+                tipoId, id, usuario.getFechaRegistro().toString(), salario, telefono
+            };
+            model.addRow(fila);
         }
-    }
-
-    private void aplicarFiltroAvanzado(LocalDateTime fechaInicio, LocalDateTime fechaFin, double salarioMin, double salarioMax) {
-        DefaultTableModel modelo = (DefaultTableModel) jTable_Empleados.getModel();
-        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
-        jTable_Empleados.setRowSorter(sorter);
-
-        sorter.setRowFilter(new RowFilter<DefaultTableModel, Integer>() {
-            @Override
-            public boolean include(Entry<? extends DefaultTableModel, ? extends Integer> entry) {
-                try {
-                    LocalDateTime fechaContratacion = LocalDateTime.parse(entry.getStringValue(6),
-                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-                    double salario = Double.parseDouble(entry.getStringValue(7).replace(",", ""));
-
-                    return (fechaContratacion.isAfter(fechaInicio) || fechaContratacion.isEqual(fechaInicio))
-                            && (fechaContratacion.isBefore(fechaFin) || fechaContratacion.isEqual(fechaFin))
-                            && (salario >= salarioMin && salario <= salarioMax);
-                } catch (Exception e) {
-                    return false;
-                }
-            }
-        });
     }
 
     private void crearPopupMenuEmpleados() {
         JPopupMenu popupMenu = new JPopupMenu();
 
         JMenuItem verItem = new JMenuItem("Ver");
-        verItem.addActionListener(e -> verEmpleadoSeleccionado());
+        verItem.addActionListener(e -> verDetallesProyectoSeleccionado());
         popupMenu.add(verItem);
 
         JMenuItem editarItem = new JMenuItem("Editar");
@@ -1624,55 +1583,71 @@ try {
     }
 
     private void filtrarEmpleados() {
-    String criterio = cmbFiltroEmpleado.getSelectedItem().toString();
-    String valorBusqueda = txtBuscarEmpleado.getText().trim();
-    boolean distinguirMayusculas = chkCoincidenciaMayusculasEmpleado.isSelected();
-    List<Usuario> usuariosFiltrados;
+        String criterio = cmbFiltroEmpleado.getSelectedItem().toString();
+        String valorBusqueda = txtBuscarEmpleado.getText().trim();
+        boolean distinguirMayusculas = chkCoincidenciaMayusculasEmpleado.isSelected();
+        List<Usuario> usuariosFiltrados;
 
-    try {
-        usuariosFiltrados = usuarioController.listarUsuarios();
-        final String valorBusquedaFinal = valorBusqueda;
+        try {
+            usuariosFiltrados = usuarioController.listarUsuarios();
+            final String valorBusquedaFinal = valorBusqueda;
 
-        if (!valorBusquedaFinal.isEmpty()) {
-            usuariosFiltrados = usuariosFiltrados.stream()
-                .filter(usuario -> {
-                    String valorCampo;
-                    Persona persona = usuario.getPersona();
+            if (!valorBusquedaFinal.isEmpty()) {
+                usuariosFiltrados = usuariosFiltrados.stream()
+                        .filter(usuario -> {
+                            String valorCampo;
+                            Persona persona = usuario.getPersona();
 
-                    switch (criterio) {
-                        case "Nombre":
-                            valorCampo = (persona != null) ? persona.getPrimerNombre() : "";
-                            break;
-                        case "Apellido":
-                            valorCampo = (persona != null) ? persona.getPrimerApellido() : "";
-                            break;
-                        case "Correo":
-                            valorCampo = usuario.getEmail();
-                            break;
-                        case "Rol":
-                            valorCampo = usuario.getRol().toString().replace("_", " ");
-                            break;
-                        case "ID":
-                            valorCampo = (persona != null) ? persona.getNumeroIdentificacion() : "";
-                            break;
-                        default:
-                            valorCampo = "";
-                    }
-                    if (!distinguirMayusculas) {
-                        valorCampo = valorCampo.toLowerCase();
-                    }
-                    return valorCampo.contains(distinguirMayusculas ? valorBusquedaFinal : valorBusquedaFinal.toLowerCase());
-                })
-                .collect(Collectors.toList());
+                            switch (criterio) {
+                                case "Nombre":
+                                    valorCampo = (persona != null) ? persona.getPrimerNombre() : "";
+                                    break;
+                                case "Apellido":
+                                    valorCampo = (persona != null) ? persona.getPrimerApellido() : "";
+                                    break;
+                                case "Correo":
+                                    valorCampo = usuario.getEmail();
+                                    break;
+                                case "Rol":
+                                    valorCampo = usuario.getRol().toString().replace("_", " ");
+                                    break;
+                                case "ID":
+                                    valorCampo = (persona != null) ? persona.getNumeroIdentificacion() : "";
+                                    break;
+                                case "Telefono":
+                                    valorCampo = (persona != null) ? persona.getTelefono() : "";
+                                    break;
+                                default:
+                                    valorCampo = "";
+                            }
+                            if (!distinguirMayusculas) {
+                                valorCampo = valorCampo.toLowerCase();
+                            }
+                            return valorCampo.contains(distinguirMayusculas ? valorBusquedaFinal : valorBusquedaFinal.toLowerCase());
+                        })
+                        .collect(Collectors.toList());
+            }
+            cargarUsuariosEnTabla(usuariosFiltrados);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar usuarios: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        cargarUsuariosEnTabla(usuariosFiltrados);
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al cargar usuarios: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+        btnBuscarEmpleado.addActionListener(e -> filtrarEmpleados());
     }
 
-    btnBuscarEmpleado.addActionListener(e -> filtrarEmpleados());
-}
+    private void configurarBuscadorEmpleado() {
+        cmbFiltroEmpleado.setModel(new DefaultComboBoxModel<>(new String[]{
+            "ID", "Nombre", "Apellido", "Correo", "Rol", "Telefono"
+        }));
+        cmbFiltroEmpleado.setSelectedIndex(0);
 
+        btnBuscarEmpleado.setText("Buscar");
+        btnBuscarEmpleado.setBackground(new Color(0, 120, 215));
+        btnBuscarEmpleado.setForeground(Color.WHITE);
+        btnBuscarEmpleado.setFont(new Font("Segoe UI", Font.BOLD, 12));
+
+        btnBuscarEmpleado.addActionListener(e -> filtrarEmpleados());
+    }
 
     private void filtrarAvanzadoEmpleados() {
         try {
@@ -1705,48 +1680,103 @@ try {
             JOptionPane.showMessageDialog(this, "Error al filtrar empleados: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        btnBusquedaAvanzada.addActionListener(e -> filtrarAvanzadoEmpleados());
+        btnBusquedaAvanzadaEmpleado.addActionListener(e -> filtrarAvanzadoEmpleados());
     }
 
-    private void verEmpleadoSeleccionado() {
-        int filaSeleccionada = jTable_Empleados.getSelectedRow();
+    private void limpiarFiltrosEmpleado() {
+        jTable_Empleados.setRowSorter(null); // Esto remueve cualquier filtro activo
+
+        // También limpiamos campos de búsqueda si quieres:
+        txtBuscarEmpleado.setText("");
+        txtPresupuestoMinEmpleado.setText("");
+        txtPresupuestoMaxEmpleado.setText("");
+        datePickerFechaInicioEmpleado.setDate(null);
+        datePickerFechaFinEmpleado.setDate(null);
+        chkCoincidenciaMayusculasEmpleado.setSelected(false);
+        cmbFiltroEmpleado.setSelectedIndex(0);
+    }
+
+    private void iniciarOpcionesEmpleado() {
+        JPopupMenu menuOpciones = new JPopupMenu();
+
+        JMenuItem verDetalles = new JMenuItem("Ver detalles");
+        JMenuItem modificar = new JMenuItem("Modificar");
+        JMenuItem eliminar = new JMenuItem("Eliminar");
+
+        verDetalles.addActionListener(e -> verDetallesUsuarioSeleccionado());
+        modificar.addActionListener(e -> editarEmpleadoSeleccionado());
+        eliminar.addActionListener(e -> eliminarEmpleadoSeleccionado());
+
+        menuOpciones.add(verDetalles);
+        menuOpciones.add(modificar);
+        menuOpciones.add(eliminar);
+
+        jTable_Empleados.setComponentPopupMenu(menuOpciones);
+    }
+
+    private Usuario obtenerUsuarioDesdeFila(int filaSeleccionada) throws UsuarioNoEncontradoException, Exception {
+
         if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccione un empleado de la tabla.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+            throw new UsuarioNoEncontradoException("Por favor, seleccione un empleado de la tabla.");
         }
+         //Obtener el valor del correo desde la columna correspondiente
+        String email = (String) jTable_Empleados.getValueAt(filaSeleccionada, 2); // Asumiendo que la columna 2 es el correo
 
-        String correo = (String) jTable_Empleados.getValueAt(filaSeleccionada, 2); // Columna 2: correo
-        try {
-            Usuario usuario = usuarioController.buscarUsuarioPorCorreo(correo);
-            if (usuario != null) {
-                JOptionPane.showMessageDialog(this, "Información del empleado:\n" + usuario, "Empleado", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "No se pudo encontrar el empleado seleccionado.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al obtener información del empleado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+         //Buscar el usuario utilizando el controlador
+        return usuarioController.buscarUsuarioPorCorreo(email);
     }
+
+   private void verDetallesUsuarioSeleccionado() {
+    int filaSeleccionada = jTable_Empleados.getSelectedRow();
+    if (filaSeleccionada == -1) {
+        JOptionPane.showMessageDialog(this, "Por favor, seleccione un usuario para ver los detalles.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    try {
+        Usuario usuario = obtenerUsuarioDesdeFila(filaSeleccionada);
+
+        // Abrir el diálogo de detalles
+        DialogVerDetallesEmpleado dialogo = new DialogVerDetallesEmpleado(this, true);
+        dialogo.mostrarDetallesUsuario(usuario); // Método que debe existir en el diálogo
+        dialogo.setVisible(true);
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error al mostrar los detalles del usuario: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
+    }
+}
+
 
     private void editarEmpleadoSeleccionado() {
-        int filaSeleccionada = jTable_Empleados.getSelectedRow();
-        if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccione un empleado de la tabla.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+          int filaSeleccionada = jTable_Empleados.getSelectedRow();
+    if (filaSeleccionada == -1) {
+        JOptionPane.showMessageDialog(this, "Por favor, seleccione un usuario para modificar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    try {
+        Usuario usuario = obtenerUsuarioDesdeFila(filaSeleccionada);
+
+        // Abrir el diálogo de modificación
+        DialogModificarEmpleado dialogo = new DialogModificarEmpleado(this, true);
+        dialogo.mostrarUsuario(usuario); // Método que debe existir en el diálogo
+        dialogo.setVisible(true);
+
+        // Si el usuario fue modificado, se actualiza la lista
+        if (dialogo.isModificado()) {  // Asumimos que el diálogo tiene un método para verificar modificaciones
+            Usuario usuarioModificado = dialogo.obtenerUsuarioModificado();
+            usuarioController.actualizarUsuario(usuario.getEmail(), usuarioModificado);
+
+            // Recargar la tabla después de modificar
+            List<Usuario> usuarios = usuarioController.listarUsuarios();
+            cargarUsuariosEnTabla(usuarios);
         }
 
-        String correo = (String) jTable_Empleados.getValueAt(filaSeleccionada, 2); // Columna 2: correo
-        try {
-            Usuario usuario = usuarioController.buscarUsuarioPorCorreo(correo);
-            if (usuario != null) {
-                JOptionPane.showMessageDialog(this, "Abrir formulario de edición para: " + usuario.getEmail(), "Editar Empleado", JOptionPane.INFORMATION_MESSAGE);
-                // Implementar lógica de edición
-            } else {
-                JOptionPane.showMessageDialog(this, "Empleado no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al obtener el empleado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error al modificar el usuario: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
+    }
     }
 
     private void eliminarEmpleadoSeleccionado() {
@@ -1771,6 +1801,8 @@ try {
         }
     }
 
+//---------------------------------------------------------------------------------------------------
+//Proyectos
     private void configurarTablaProyectos() {
         jXTableProyectos.setColumnControlVisible(true);
         jXTableProyectos.setHorizontalScrollEnabled(true);
@@ -1802,9 +1834,7 @@ try {
 
     private RolSistema mapearRol(String cargo) throws IllegalArgumentException {
         switch (cargo) {
-            case "Administrador":
-                return RolSistema.ADMINISTRADOR;
-            case "Funcionario público":
+            case "Funcionario publico":
                 return RolSistema.FUNCIONARIO_PUBLICO;
             case "Promotor":
                 return RolSistema.PROMOTOR;
@@ -1812,8 +1842,6 @@ try {
                 return RolSistema.OBRERO;
             case "Inspector municipal":
                 return RolSistema.INSPECTOR_MUNICIPAL;
-            case "Ciudadano":
-                return RolSistema.CIUDADANO;
             default:
                 throw new IllegalArgumentException("El rol proporcionado no es válido: " + cargo);
         }
@@ -1895,8 +1923,8 @@ try {
         Date fechaFin = datePickerFechaFin.getDate();
 
         // Columnas:
-        int colPresupuesto = 6; // ✅ Confirma que Presupuesto está en columna 6
-        int colFechaInicio = 7; // ✅ Confirma que Fecha Inicio está en columna 7
+        int colPresupuesto = 6;
+        int colFechaInicio = 7;
 
         if (fechaInicio != null) {
             filtros.add(RowFilter.dateFilter(RowFilter.ComparisonType.AFTER, new java.sql.Date(fechaInicio.getTime() - 1), colFechaInicio));

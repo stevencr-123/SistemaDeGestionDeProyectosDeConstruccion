@@ -1,14 +1,13 @@
 package repository.impl;
 
-import enums.RolSistema;
-import enums.TipoIdentificacion;
+import model.RolSistema;
+import model.TipoIdentificacion;
 import exceptions.UsuarioNoEncontradoException;
 import model.Usuario;
-import model.Persona;
 import repository.interfaces.IUsuarioRepository;
 import util.JsonManager;
 import java.util.List;
-import model.roles.Administrador;
+import model.Administrador;
 
 public class UsuarioRepositoryJsonImpl implements IUsuarioRepository {
     private static final String JSON_FILE = "C:\\Users\\HP\\OneDrive\\Documentos\\NetBeansProjects"
@@ -29,7 +28,7 @@ public class UsuarioRepositoryJsonImpl implements IUsuarioRepository {
     private void verificarOCrearAdministradorPorDefecto() throws Exception {
     if (!usuarioExiste("admin@proyecto.com")) {
         Administrador adminPersona = Administrador.getInstance(
-                TipoIdentificacion.CEDULA, "00000000", "Admin", "Sistema", "admin@proyecto.com", 20000000);
+                TipoIdentificacion.CEDULA, "1143894331", "Admin", "Sistema", "admin@proyecto.com", 20000000, "3008053431");
         Usuario admin = new Usuario("admin@proyecto.com", "admin@proyecto.com", RolSistema.ADMINISTRADOR, adminPersona);
         guardarUsuario(admin);
         System.out.println("Administrador por defecto creado.");

@@ -1,15 +1,14 @@
+package model;
 
-import enums.TipoIdentificacion;
 import java.time.LocalDateTime;
-import model.Persona;
 
 public class Ciudadano extends Persona {
 
     private LocalDateTime fechaRegistro;
 
     public Ciudadano(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion, String primerNombre,
-                     String primerApellido, String email, double sueldo) {
-        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email, sueldo);
+                     String primerApellido, String email, double sueldo, String telefono) {
+        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email, sueldo, telefono);
         this.fechaRegistro = LocalDateTime.now(); // Registro automático
     }
 

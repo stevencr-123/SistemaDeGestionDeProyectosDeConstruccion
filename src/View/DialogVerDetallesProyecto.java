@@ -18,35 +18,39 @@ public class DialogVerDetallesProyecto extends javax.swing.JDialog {
 
         panelBase = new javax.swing.JPanel();
         etiTItulo = new javax.swing.JLabel();
-        etiCodigo = new javax.swing.JLabel();
-        etiNombre = new javax.swing.JLabel();
-        etiDireccion = new javax.swing.JLabel();
-        etiTipoReparacion = new javax.swing.JLabel();
-        etiPrioridad = new javax.swing.JLabel();
-        etiEstado = new javax.swing.JLabel();
-        etiFechaInicio = new javax.swing.JLabel();
-        etiFechaFinEstimada = new javax.swing.JLabel();
-        etiPresupuesto = new javax.swing.JLabel();
-        txtDireccion = new javax.swing.JTextField();
-        txtTipoReparacion = new javax.swing.JTextField();
-        txtPrioridad = new javax.swing.JTextField();
-        txtEstado = new javax.swing.JTextField();
-        txtPresupuesto = new javax.swing.JTextField();
-        txtFechaInicio = new javax.swing.JTextField();
-        txtCodigo = new javax.swing.JTextField();
-        txtNombre = new javax.swing.JTextField();
-        txtFechaFinEstimada = new javax.swing.JTextField();
-        btnCerrar = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
-        jLabel1 = new javax.swing.JLabel();
-        jSeparator2 = new javax.swing.JSeparator();
-        jLabel2 = new javax.swing.JLabel();
-        jSeparator3 = new javax.swing.JSeparator();
-        jLabel3 = new javax.swing.JLabel();
-        jSeparator4 = new javax.swing.JSeparator();
-        jLabel4 = new javax.swing.JLabel();
+        separadorSecction9 = new javax.swing.JSeparator();
+        separadorSecction4 = new javax.swing.JSeparator();
+        separadorSecction7 = new javax.swing.JSeparator();
+        separadorSecction8 = new javax.swing.JSeparator();
         scrollArea = new javax.swing.JScrollPane();
-        txtDescripcion = new javax.swing.JTextArea();
+        txtArea = new org.jdesktop.swingx.JXTextArea();
+        etiFechaEstimada = new javax.swing.JLabel();
+        DatePickFechaEstimada = new org.jdesktop.swingx.JXDatePicker();
+        txtPresupuesto = new javax.swing.JTextField();
+        etiPresupuesto = new javax.swing.JLabel();
+        separadorPresupuesto = new javax.swing.JSeparator();
+        txtCodigo = new javax.swing.JTextField();
+        etiCodigo = new javax.swing.JLabel();
+        etiNombreProyecto = new javax.swing.JLabel();
+        etiDireccionProyecto = new javax.swing.JLabel();
+        cmbTiporeparacion = new javax.swing.JComboBox<>();
+        etiTipoReparacion = new javax.swing.JLabel();
+        etiPrioridadProyecto = new javax.swing.JLabel();
+        cmbPrioridad = new javax.swing.JComboBox<>();
+        txtDireccion = new javax.swing.JTextField();
+        separadorDireccionProyecto = new javax.swing.JSeparator();
+        separadorNombreProyecto = new javax.swing.JSeparator();
+        txtNombre = new javax.swing.JTextField();
+        btnGuardar = new javax.swing.JButton();
+        separadorSeccion1 = new javax.swing.JSeparator();
+        etiSeccionDatosGenerales = new org.jdesktop.swingx.JXLabel();
+        etiSeccionPlanificacion = new org.jdesktop.swingx.JXLabel();
+        etiDescripcion = new org.jdesktop.swingx.JXLabel();
+        etiDetallesTecnicos = new org.jdesktop.swingx.JXLabel();
+        etiEstadoProyecto = new javax.swing.JLabel();
+        cmbEstado = new javax.swing.JComboBox<>();
+        etiFechaEstimada1 = new javax.swing.JLabel();
+        DatePickFechaInicio = new org.jdesktop.swingx.JXDatePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("DETALLES DEL PROYECTO\n");
@@ -55,163 +59,177 @@ public class DialogVerDetallesProyecto extends javax.swing.JDialog {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelBase.setBackground(new java.awt.Color(255, 255, 255));
-        panelBase.setForeground(new java.awt.Color(255, 255, 255));
+        panelBase.setForeground(new java.awt.Color(0, 0, 0));
         panelBase.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         etiTItulo.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        etiTItulo.setForeground(new java.awt.Color(0, 51, 102));
+        etiTItulo.setForeground(new java.awt.Color(0, 0, 0));
         etiTItulo.setText("              PROYECTO");
-        panelBase.add(etiTItulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 0, 250, 40));
+        panelBase.add(etiTItulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 0, 250, 40));
 
-        etiCodigo.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        etiCodigo.setForeground(new java.awt.Color(0, 0, 0));
-        etiCodigo.setText("Código del proyecto");
-        etiCodigo.setEnabled(false);
-        panelBase.add(etiCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, 40));
+        separadorSecction9.setBackground(new java.awt.Color(0, 0, 0));
+        separadorSecction9.setOpaque(true);
+        panelBase.add(separadorSecction9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 310, -1));
 
-        etiNombre.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        etiNombre.setForeground(new java.awt.Color(0, 0, 0));
-        etiNombre.setText("Nombre del proyecto");
-        etiNombre.setEnabled(false);
-        panelBase.add(etiNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 150, -1));
+        separadorSecction4.setBackground(new java.awt.Color(0, 0, 0));
+        separadorSecction4.setOpaque(true);
+        panelBase.add(separadorSecction4, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 110, 310, -1));
 
-        etiDireccion.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        etiDireccion.setForeground(new java.awt.Color(0, 0, 0));
-        etiDireccion.setText(" Dirección");
-        etiDireccion.setEnabled(false);
-        panelBase.add(etiDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 80, 20));
+        separadorSecction7.setBackground(new java.awt.Color(0, 0, 0));
+        separadorSecction7.setOpaque(true);
+        panelBase.add(separadorSecction7, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 310, 320, -1));
 
-        etiTipoReparacion.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        etiTipoReparacion.setForeground(new java.awt.Color(0, 0, 0));
-        etiTipoReparacion.setText("Tipo de reparación");
-        etiTipoReparacion.setEnabled(false);
-        panelBase.add(etiTipoReparacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, -1, -1));
+        separadorSecction8.setBackground(new java.awt.Color(0, 0, 0));
+        separadorSecction8.setOpaque(true);
+        panelBase.add(separadorSecction8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, 310, -1));
 
-        etiPrioridad.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        etiPrioridad.setForeground(new java.awt.Color(0, 0, 0));
-        etiPrioridad.setText("Prioridad");
-        etiPrioridad.setEnabled(false);
-        panelBase.add(etiPrioridad, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 70, 20));
+        txtArea.setBackground(new java.awt.Color(204, 204, 204));
+        txtArea.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        txtArea.setColumns(20);
+        txtArea.setRows(5);
+        scrollArea.setViewportView(txtArea);
 
-        etiEstado.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        etiEstado.setForeground(new java.awt.Color(0, 0, 0));
-        etiEstado.setText("Estado");
-        etiEstado.setEnabled(false);
-        panelBase.add(etiEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 50, -1));
+        panelBase.add(scrollArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 320, 330, 110));
 
-        etiFechaInicio.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        etiFechaInicio.setForeground(new java.awt.Color(0, 0, 0));
-        etiFechaInicio.setText("Fecha de inicio");
-        etiFechaInicio.setEnabled(false);
-        panelBase.add(etiFechaInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 100, 110, 20));
+        etiFechaEstimada.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        etiFechaEstimada.setForeground(new java.awt.Color(0, 0, 0));
+        etiFechaEstimada.setText("Fecha fin estimada:");
+        panelBase.add(etiFechaEstimada, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 220, -1, 30));
 
-        etiFechaFinEstimada.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        etiFechaFinEstimada.setForeground(new java.awt.Color(0, 0, 0));
-        etiFechaFinEstimada.setText("Fecha de fin estimada");
-        etiFechaFinEstimada.setEnabled(false);
-        panelBase.add(etiFechaFinEstimada, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 140, -1, -1));
+        DatePickFechaEstimada.setBackground(new java.awt.Color(204, 204, 204));
+        DatePickFechaEstimada.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelBase.add(DatePickFechaEstimada, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 220, 160, -1));
 
-        etiPresupuesto.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        txtPresupuesto.setBackground(new java.awt.Color(0, 0, 0, 0));
+        txtPresupuesto.setBorder(null);
+        panelBase.add(txtPresupuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 140, 190, 20));
+
+        etiPresupuesto.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         etiPresupuesto.setForeground(new java.awt.Color(0, 0, 0));
-        etiPresupuesto.setText("Presupuesto");
-        etiPresupuesto.setEnabled(false);
-        panelBase.add(etiPresupuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 180, 90, -1));
+        etiPresupuesto.setText("Presupuesto:");
+        panelBase.add(etiPresupuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 140, -1, -1));
 
-        txtDireccion.setEditable(false);
-        txtDireccion.setForeground(new java.awt.Color(153, 153, 153));
-        panelBase.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 180, 200, -1));
+        separadorPresupuesto.setBackground(new java.awt.Color(0, 0, 0));
+        separadorPresupuesto.setForeground(new java.awt.Color(0, 0, 0));
+        panelBase.add(separadorPresupuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 160, 190, 10));
 
-        txtTipoReparacion.setEditable(false);
-        txtTipoReparacion.setForeground(new java.awt.Color(153, 153, 153));
-        panelBase.add(txtTipoReparacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 280, 200, -1));
+        txtCodigo.setBackground(new java.awt.Color(0, 0, 0, 0));
+        txtCodigo.setForeground(new java.awt.Color(0, 0, 0));
+        txtCodigo.setBorder(null);
+        panelBase.add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 130, 250, 30));
 
-        txtPrioridad.setEditable(false);
-        txtPrioridad.setForeground(new java.awt.Color(153, 153, 153));
-        panelBase.add(txtPrioridad, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 320, 200, -1));
+        etiCodigo.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        etiCodigo.setForeground(new java.awt.Color(0, 0, 0));
+        etiCodigo.setText("Codigo:");
+        panelBase.add(etiCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 50, -1));
 
-        txtEstado.setEditable(false);
-        txtEstado.setForeground(new java.awt.Color(153, 153, 153));
-        panelBase.add(txtEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 360, 200, -1));
+        etiNombreProyecto.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        etiNombreProyecto.setForeground(new java.awt.Color(0, 0, 0));
+        etiNombreProyecto.setText("Nombre:");
+        panelBase.add(etiNombreProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, -1, -1));
 
-        txtPresupuesto.setEditable(false);
-        txtPresupuesto.setForeground(new java.awt.Color(153, 153, 153));
-        panelBase.add(txtPresupuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 180, 200, -1));
+        etiDireccionProyecto.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        etiDireccionProyecto.setForeground(new java.awt.Color(0, 0, 0));
+        etiDireccionProyecto.setText("Direccion:");
+        panelBase.add(etiDireccionProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, 70, 20));
 
-        txtFechaInicio.setEditable(false);
-        txtFechaInicio.setForeground(new java.awt.Color(153, 153, 153));
-        panelBase.add(txtFechaInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 100, 200, -1));
+        cmbTiporeparacion.setBackground(new java.awt.Color(255, 255, 255));
+        cmbTiporeparacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ninguna", "Estructural", "Electrica", "Hidraulica", "Pavimentacion", "Otros" }));
+        cmbTiporeparacion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelBase.add(cmbTiporeparacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 340, 140, 30));
 
-        txtCodigo.setEditable(false);
-        txtCodigo.setForeground(new java.awt.Color(153, 153, 153));
-        txtCodigo.addActionListener(new java.awt.event.ActionListener() {
+        etiTipoReparacion.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        etiTipoReparacion.setForeground(new java.awt.Color(0, 0, 0));
+        etiTipoReparacion.setText("Tipo de reparación:");
+        panelBase.add(etiTipoReparacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, -1, 20));
+
+        etiPrioridadProyecto.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        etiPrioridadProyecto.setForeground(new java.awt.Color(0, 0, 0));
+        etiPrioridadProyecto.setText("Prioridad:");
+        panelBase.add(etiPrioridadProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 400, 70, 20));
+
+        cmbPrioridad.setBackground(new java.awt.Color(255, 255, 255));
+        cmbPrioridad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ninguna", "Urgente", "Alta", "Media", "Baja" }));
+        cmbPrioridad.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelBase.add(cmbPrioridad, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 390, 200, 30));
+
+        txtDireccion.setBackground(new java.awt.Color(0, 0, 0, 0));
+        txtDireccion.setBorder(null);
+        panelBase.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 240, 240, 20));
+
+        separadorDireccionProyecto.setBackground(new java.awt.Color(0, 0, 0));
+        separadorDireccionProyecto.setForeground(new java.awt.Color(0, 0, 0));
+        panelBase.add(separadorDireccionProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 260, 240, 10));
+
+        separadorNombreProyecto.setBackground(new java.awt.Color(0, 0, 0));
+        separadorNombreProyecto.setForeground(new java.awt.Color(0, 0, 0));
+        panelBase.add(separadorNombreProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 210, 250, 10));
+
+        txtNombre.setBackground(new java.awt.Color(0, 0, 0, 0));
+        txtNombre.setBorder(null);
+        panelBase.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 190, 250, 20));
+
+        btnGuardar.setBackground(new java.awt.Color(204, 0, 0));
+        btnGuardar.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btnGuardar.setText("Cerrar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCodigoActionPerformed(evt);
+                btnGuardarActionPerformed(evt);
             }
         });
-        panelBase.add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 100, 200, -1));
+        panelBase.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 450, 160, 40));
 
-        txtNombre.setEditable(false);
-        txtNombre.setForeground(new java.awt.Color(153, 153, 153));
-        panelBase.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 140, 200, -1));
+        separadorSeccion1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        panelBase.add(separadorSeccion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 80, 10, 390));
 
-        txtFechaFinEstimada.setEditable(false);
-        txtFechaFinEstimada.setForeground(new java.awt.Color(153, 153, 153));
-        panelBase.add(txtFechaFinEstimada, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 140, 200, -1));
+        etiSeccionDatosGenerales.setForeground(new java.awt.Color(0, 0, 0));
+        etiSeccionDatosGenerales.setText("Datos generales");
+        etiSeccionDatosGenerales.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        panelBase.add(etiSeccionDatosGenerales, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 150, 20));
 
-        btnCerrar.setBackground(new java.awt.Color(0, 51, 255));
-        btnCerrar.setText("Cerrar");
-        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCerrarActionPerformed(evt);
-            }
-        });
-        panelBase.add(btnCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 420, 120, 40));
-        panelBase.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 400, 10));
+        etiSeccionPlanificacion.setForeground(new java.awt.Color(0, 0, 0));
+        etiSeccionPlanificacion.setText(" Planificación");
+        etiSeccionPlanificacion.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        panelBase.add(etiSeccionPlanificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 80, 130, 20));
 
-        jLabel1.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 153, 255));
-        jLabel1.setText("Información general");
-        panelBase.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 170, 30));
-        panelBase.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 80, 400, 10));
+        etiDescripcion.setForeground(new java.awt.Color(0, 0, 0));
+        etiDescripcion.setText(" Descripción");
+        etiDescripcion.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        panelBase.add(etiDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 280, 110, 20));
 
-        jLabel2.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel2.setText("Planificación");
-        panelBase.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 50, -1, 30));
-        panelBase.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 400, 10));
+        etiDetallesTecnicos.setForeground(new java.awt.Color(0, 0, 0));
+        etiDetallesTecnicos.setText("Detalles técnicos");
+        etiDetallesTecnicos.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        panelBase.add(etiDetallesTecnicos, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, 160, 20));
 
-        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel3.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 204, 0));
-        jLabel3.setText("Detalles técnicos");
-        panelBase.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, -1, -1));
-        panelBase.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 260, 400, 10));
+        etiEstadoProyecto.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        etiEstadoProyecto.setForeground(new java.awt.Color(0, 0, 0));
+        etiEstadoProyecto.setText("Estado:");
+        panelBase.add(etiEstadoProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, 70, 20));
 
-        jLabel4.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 153, 0));
-        jLabel4.setText("Descripción");
-        panelBase.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 240, -1, 20));
+        cmbEstado.setBackground(new java.awt.Color(255, 255, 255));
+        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ninguno", "Planeacion", "En proceso", "Suspendido", "Finalizado" }));
+        cmbEstado.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelBase.add(cmbEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 440, 200, 30));
 
-        txtDescripcion.setEditable(false);
-        txtDescripcion.setColumns(20);
-        txtDescripcion.setForeground(new java.awt.Color(153, 153, 153));
-        txtDescripcion.setRows(5);
-        scrollArea.setViewportView(txtDescripcion);
+        etiFechaEstimada1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        etiFechaEstimada1.setForeground(new java.awt.Color(0, 0, 0));
+        etiFechaEstimada1.setText("Fecha Inicio:");
+        panelBase.add(etiFechaEstimada1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 180, -1, 30));
 
-        panelBase.add(scrollArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 270, 400, 120));
+        DatePickFechaInicio.setBackground(new java.awt.Color(204, 204, 204));
+        DatePickFechaInicio.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelBase.add(DatePickFechaInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 180, 160, -1));
 
-        getContentPane().add(panelBase, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 860, 510));
+        getContentPane().add(panelBase, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 780, 510));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
-    
-    }//GEN-LAST:event_txtCodigoActionPerformed
-
-    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
-                  this.dispose();
-    }//GEN-LAST:event_btnCerrarActionPerformed
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+this.dispose();
+     
+    }//GEN-LAST:event_btnGuardarActionPerformed
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -228,51 +246,89 @@ public class DialogVerDetallesProyecto extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCerrar;
+    private org.jdesktop.swingx.JXDatePicker DatePickFechaEstimada;
+    private org.jdesktop.swingx.JXDatePicker DatePickFechaInicio;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JComboBox<String> cmbEstado;
+    private javax.swing.JComboBox<String> cmbPrioridad;
+    private javax.swing.JComboBox<String> cmbTiporeparacion;
     private javax.swing.JLabel etiCodigo;
-    private javax.swing.JLabel etiDireccion;
-    private javax.swing.JLabel etiEstado;
-    private javax.swing.JLabel etiFechaFinEstimada;
-    private javax.swing.JLabel etiFechaInicio;
-    private javax.swing.JLabel etiNombre;
+    private org.jdesktop.swingx.JXLabel etiDescripcion;
+    private org.jdesktop.swingx.JXLabel etiDetallesTecnicos;
+    private javax.swing.JLabel etiDireccionProyecto;
+    private javax.swing.JLabel etiEstadoProyecto;
+    private javax.swing.JLabel etiFechaEstimada;
+    private javax.swing.JLabel etiFechaEstimada1;
+    private javax.swing.JLabel etiNombreProyecto;
     private javax.swing.JLabel etiPresupuesto;
-    private javax.swing.JLabel etiPrioridad;
+    private javax.swing.JLabel etiPrioridadProyecto;
+    private org.jdesktop.swingx.JXLabel etiSeccionDatosGenerales;
+    private org.jdesktop.swingx.JXLabel etiSeccionPlanificacion;
     private javax.swing.JLabel etiTItulo;
     private javax.swing.JLabel etiTipoReparacion;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JPanel panelBase;
     private javax.swing.JScrollPane scrollArea;
+    private javax.swing.JSeparator separadorDireccionProyecto;
+    private javax.swing.JSeparator separadorNombreProyecto;
+    private javax.swing.JSeparator separadorPresupuesto;
+    private javax.swing.JSeparator separadorSeccion1;
+    private javax.swing.JSeparator separadorSecction4;
+    private javax.swing.JSeparator separadorSecction7;
+    private javax.swing.JSeparator separadorSecction8;
+    private javax.swing.JSeparator separadorSecction9;
+    private org.jdesktop.swingx.JXTextArea txtArea;
     private javax.swing.JTextField txtCodigo;
-    private javax.swing.JTextArea txtDescripcion;
     private javax.swing.JTextField txtDireccion;
-    private javax.swing.JTextField txtEstado;
-    private javax.swing.JTextField txtFechaFinEstimada;
-    private javax.swing.JTextField txtFechaInicio;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPresupuesto;
-    private javax.swing.JTextField txtPrioridad;
-    private javax.swing.JTextField txtTipoReparacion;
     // End of variables declaration//GEN-END:variables
 
-public void mostrarProyecto(Proyecto proyecto) {
-    txtCodigo.setText(proyecto.getCodigo());
-    txtNombre.setText(proyecto.getNombre());
-    txtDireccion.setText(proyecto.getDireccion());
-    txtTipoReparacion.setText(""+proyecto.getTipoReparacion());
-    txtPrioridad.setText(""+proyecto.getPrioridad());
-    txtEstado.setText(""+proyecto.getEstado());
-    txtPresupuesto.setText(String.valueOf(proyecto.getPresupuesto()));
-    txtFechaInicio.setText(proyecto.getFechaInicio().toString());
-    txtFechaFinEstimada.setText(proyecto.getFechaFinEstimada().toString());
-    txtDescripcion.setText(proyecto.getDescripcion());
-}
+ public void mostrarProyecto(Proyecto proyecto) {
+        txtCodigo.setText(proyecto.getCodigo());
+        txtNombre.setText(proyecto.getNombre());
+        txtDireccion.setText(proyecto.getDireccion());
 
+        // Seleccionar el tipo de reparación en el ComboBox
+        cmbTiporeparacion.setSelectedItem(formatearEnumParaComboBox(proyecto.getTipoReparacion().name()));
 
+        // Seleccionar la prioridad en el ComboBox
+        cmbPrioridad.setSelectedItem(formatearEnumParaComboBox(proyecto.getPrioridad().name()));
+
+        // Estado del proyecto (ComboBox)
+        cmbEstado.setSelectedItem(formatearEnumParaComboBox(proyecto.getEstado().name()));
+
+        // Asignar el presupuesto
+        txtPresupuesto.setText(String.valueOf(proyecto.getPresupuesto()));
+
+        // Asignar las fechas usando JDatePicker
+        DatePickFechaInicio.setDate(java.sql.Date.valueOf(proyecto.getFechaInicio()));
+        DatePickFechaEstimada.setDate(java.sql.Date.valueOf(proyecto.getFechaFinEstimada()));
+
+        // Descripción del proyecto
+        txtArea.setText(proyecto.getDescripcion());
+        
+        //Campos no editables
+        txtCodigo.setEnabled(false);
+        txtNombre.setEnabled(false);
+        txtDireccion.setEnabled(false);
+        txtArea.setEnabled(false);
+        txtPresupuesto.setEnabled(false);
+        DatePickFechaInicio.setEnabled(false);
+        DatePickFechaEstimada.setEnabled(false);
+        cmbEstado.setEnabled(false);
+        cmbPrioridad.setEnabled(false);
+        cmbTiporeparacion.setEnabled(false);
+        
+    }
+
+ private String formatearEnumParaComboBox(String enumValue) {
+        // Convierte el valor del enum al formato correcto para el ComboBox
+        return enumValue.charAt(0) + enumValue.substring(1).toLowerCase().replace("_", " ");
+    }
+
+    private String formatearComboBoxParaEnum(String comboBoxValue) {
+        // Convierte el valor del ComboBox al formato correcto para el enum
+        return comboBoxValue.toUpperCase().replace(" ", "_");
+    }
+ 
 }

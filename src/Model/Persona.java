@@ -1,7 +1,5 @@
 package model;
 
-import enums.TipoIdentificacion;
-
 public abstract class Persona {
 
     // atributos
@@ -16,13 +14,14 @@ public abstract class Persona {
     private double salario;
 
     // Constructor completo (campos obligatorios)
-    public Persona(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion, String primerNombre, String primerApellido, String email,double sueldo) {
+    public Persona(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion, String primerNombre, String primerApellido, String email,double sueldo, String telefono) {
         this.tipoIdentificacion = tipoIdentificacion;
         this.numeroIdentificacion = numeroIdentificacion;
         this.primerNombre = primerNombre;
         this.primerApellido = primerApellido;
         this.email = email;
         this.salario = sueldo;
+        this.telefono = telefono;
     }
 
     // Constructor vacío (opcional para frameworks o deserialización JSON)

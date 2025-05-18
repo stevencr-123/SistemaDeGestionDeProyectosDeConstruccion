@@ -1,10 +1,10 @@
 package controller;
 
-import enums.RolSistema;
 import exceptions.AutenticacionException;
 import exceptions.UsuarioYaExisteException;
 import model.Usuario;
 import model.Persona;
+import model.RolSistema;
 import service.interfaces.IUsuarioService;
 import service.impl.UsuarioServiceImpl;
 

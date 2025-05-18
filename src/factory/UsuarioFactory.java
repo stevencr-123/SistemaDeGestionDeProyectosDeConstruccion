@@ -1,6 +1,6 @@
 package factory;
 
-import enums.RolSistema;
+import model.RolSistema;
 import exceptions.RolNoPermitidoException;
 import model.Persona;
 import model.Usuario;

@@ -1,10 +1,9 @@
 package repository.impl;
 
 import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
-import enums.EstadoProyecto;
-import enums.Prioridad;
-import enums.TipoReparacion;
+import model.EstadoProyecto;
+import model.Prioridad;
+import model.TipoReparacion;
 import exceptions.ProyectoNoEncontradoException;
 import model.Proyecto;
 import repository.interfaces.IProyectoRepository;
@@ -13,7 +12,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.Reader;
 import java.io.Writer;
-import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

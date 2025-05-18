@@ -1,7 +1,6 @@
 package model;
 
 import com.google.gson.annotations.SerializedName;
-import enums.RolSistema;
 import java.time.LocalDateTime;
 
 public class Usuario {

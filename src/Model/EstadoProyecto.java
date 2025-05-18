@@ -1,7 +1,4 @@
-package enums;
-
-import java.util.List;
-import java.util.Map;
+package model;
 
 public enum EstadoProyecto {
     PLANEACION, 

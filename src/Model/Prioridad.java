@@ -1,5 +1,5 @@
 
-package enums;
+package model;
 
 public enum Prioridad {
     URGENTE,

@@ -1,17 +1,16 @@
 package util;
 
 import com.google.gson.*;
-import util.RuntimeTypeAdapterFactory;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDateTime;
 import model.Persona;
-import model.roles.Administrador;
-import model.roles.Obrero;
-import model.roles.InspectorMunicipal;
-import model.roles.FuncionarioPublico;
-import model.roles.Promotor;
+import model.Administrador;
+import model.Obrero;
+import model.InspectorMunicipal;
+import model.FuncionarioPublico;
+import model.Promotor;
 
 public class JsonManager<T> {
 

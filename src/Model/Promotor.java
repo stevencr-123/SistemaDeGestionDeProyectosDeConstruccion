@@ -1,6 +1,5 @@
-package model.roles;
+package model;
 
-import enums.TipoIdentificacion;
 import java.time.LocalDateTime;
 import model.Persona;
 
@@ -12,16 +11,16 @@ public class Promotor extends Persona {
     private LocalDateTime fechaRegistro;
 
     public Promotor(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion, String primerNombre,
-                    String primerApellido, String email, double sueldo, String departamento) {
-        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email,sueldo);
+                    String primerApellido, String email, double sueldo, String telefono, String departamento) {
+        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email,sueldo, telefono);
         this.departamento = departamento;
         this.fechaRegistro = LocalDateTime.now();
         this.proyectosActivos = 0;
     }
     
     public Promotor(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion,
-            String primerNombre, String primerApellido, String email, double sueldo) {
-        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email, sueldo);
+            String primerNombre, String primerApellido, String email, double sueldo, String telefono) {
+        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email, sueldo, telefono);
         this.fechaRegistro = LocalDateTime.now();
     }
 

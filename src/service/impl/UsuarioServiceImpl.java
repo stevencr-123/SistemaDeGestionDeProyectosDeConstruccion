@@ -1,8 +1,6 @@
 package service.impl;
 
 import model.Usuario;
-import model.Persona;
-import enums.RolSistema;
 import exceptions.UsuarioNoEncontradoException;
 import exceptions.UsuarioYaExisteException;
 import repository.interfaces.IUsuarioRepository;

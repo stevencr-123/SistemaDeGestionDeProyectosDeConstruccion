@@ -1,57 +1,12 @@
 {
   "usuarios": [
     {
-      "password": "Camilo@Constructora.com",
-      "fechaRegistro": "2025-05-15T18:04:48",
-      "activo": true,
-      "rol": "OBRERO",
-      "persona": {
-        "especialidad": null,
-        "fechaContratacion": "2025-05-15T18:04:48",
-        "seguroLaboral": false,
-        "certificaciones": null,
-        "tipoIdentificacion": "CEDULA",
-        "numeroIdentificacion": "1143289089",
-        "primerNombre": "Camilo",
-        "segundoNombre": null,
-        "primerApellido": "Jurado",
-        "segundoApellido": null,
-        "email": "Camilo@Constructora.com",
-        "telefono": null,
-        "salario": 2500000.0,
-        "type": "Obrero"
-      },
-      "correo": "Camilo@Constructora.com"
-    },
-    {
-      "password": "Carlos@Constructora.com",
-      "fechaRegistro": "2025-05-15T18:06:17",
-      "activo": true,
-      "rol": "INSPECTOR_MUNICIPAL",
-      "persona": {
-        "areaEspecializacion": null,
-        "instrumentosCertificados": null,
-        "fechaRegistro": "2025-05-15T18:06:17",
-        "tipoIdentificacion": "REGISTROCIVIL",
-        "numeroIdentificacion": "1193522891",
-        "primerNombre": "Carlos",
-        "segundoNombre": null,
-        "primerApellido": "Marrugo",
-        "segundoApellido": null,
-        "email": "Carlos@Constructora.com",
-        "telefono": null,
-        "salario": 1.0E7,
-        "type": "InspectorMunicipal"
-      },
-      "correo": "Carlos@Constructora.com"
-    },
-    {
       "password": "admin@proyecto.com",
-      "fechaRegistro": "2025-05-15T18:26:13",
+      "fechaRegistro": "2025-05-17T14:57:20",
       "activo": true,
       "rol": "ADMINISTRADOR",
       "persona": {
-        "fechaRegistro": "2025-05-15T18:26:13",
+        "fechaRegistro": "2025-05-17T14:57:20",
         "tipoIdentificacion": "CEDULA",
         "numeroIdentificacion": "00000000",
         "primerNombre": "Admin",
@@ -60,33 +15,100 @@
         "segundoApellido": null,
         "email": "admin@proyecto.com",
         "telefono": null,
-        "salario": 0.0,
+        "salario": 2.0E7,
         "type": "Administrador"
       },
       "correo": "admin@proyecto.com"
     },
     {
-      "password": "Obrero@constructora.com",
-      "fechaRegistro": "2025-05-16T13:09:43",
+      "password": "Sara@Constructora.com",
+      "fechaRegistro": "2025-05-17T17:55:36",
       "activo": true,
-      "rol": "OBRERO",
+      "rol": "INSPECTOR_MUNICIPAL",
       "persona": {
-        "especialidad": null,
-        "fechaContratacion": "2025-05-16T13:09:43",
-        "seguroLaboral": false,
-        "certificaciones": null,
-        "tipoIdentificacion": "CEDULA",
-        "numeroIdentificacion": "2784622901",
-        "primerNombre": "Juan",
+        "areaEspecializacion": null,
+        "instrumentosCertificados": null,
+        "fechaRegistro": "2025-05-17T17:55:36",
+        "tipoIdentificacion": "TI",
+        "numeroIdentificacion": "1142549645",
+        "primerNombre": "Sara",
         "segundoNombre": null,
-        "primerApellido": "Martinez",
+        "primerApellido": "Palacios",
         "segundoApellido": null,
-        "email": "Obrero@constructora.com",
-        "telefono": null,
-        "salario": 2500000.0,
-        "type": "Obrero"
+        "email": "Sara@Constructora.com",
+        "telefono": "3116906612",
+        "salario": 8000000.0,
+        "type": "InspectorMunicipal"
       },
-      "correo": "Obrero@constructora.com"
+      "correo": "Sara@Constructora.com"
+    },
+    {
+      "password": "Stevenson@Constructora.com",
+      "fechaRegistro": "2025-05-17T17:57:07",
+      "activo": true,
+      "rol": "PROMOTOR",
+      "persona": {
+        "matriculaProfesional": null,
+        "departamento": null,
+        "proyectosActivos": 0,
+        "fechaRegistro": "2025-05-17T17:57:07",
+        "tipoIdentificacion": "CEDULA",
+        "numeroIdentificacion": "1143329888",
+        "primerNombre": "Steven",
+        "segundoNombre": null,
+        "primerApellido": "Caraballo",
+        "segundoApellido": null,
+        "email": "Stevenson@Constructora.com",
+        "telefono": "3116801274",
+        "salario": 1.0E7,
+        "type": "Promotor"
+      },
+      "correo": "Stevenson@Constructora.com"
+    },
+    {
+      "password": "Camilo@Constructora.com",
+      "fechaRegistro": "2025-05-17T17:57:47",
+      "activo": true,
+      "rol": "FUNCIONARIO_PUBLICO",
+      "persona": {
+        "cargo": null,
+        "nivelAcceso": 0,
+        "departamento": null,
+        "fechaRegistro": "2025-05-17T17:57:47",
+        "tipoIdentificacion": "CEDULA",
+        "numeroIdentificacion": "1143289089",
+        "primerNombre": "Camilo",
+        "segundoNombre": null,
+        "primerApellido": "Jurado",
+        "segundoApellido": null,
+        "email": "Camilo@Constructora.com",
+        "telefono": "3216098346",
+        "salario": 2500000.0,
+        "type": "FuncionarioPublico"
+      },
+      "correo": "Camilo@Constructora.com"
+    },
+    {
+      "password": "Carlos@Constructora.com",
+      "fechaRegistro": "2025-05-17T17:58:10",
+      "activo": true,
+      "rol": "INSPECTOR_MUNICIPAL",
+      "persona": {
+        "areaEspecializacion": null,
+        "instrumentosCertificados": null,
+        "fechaRegistro": "2025-05-17T17:58:10",
+        "tipoIdentificacion": "REGISTROCIVIL",
+        "numeroIdentificacion": "1193522891",
+        "primerNombre": "Ismael",
+        "segundoNombre": null,
+        "primerApellido": "Palacios",
+        "segundoApellido": null,
+        "email": "Carlos@Constructora.com",
+        "telefono": "3151472990",
+        "salario": 1.0E7,
+        "type": "InspectorMunicipal"
+      },
+      "correo": "Carlos@Constructora.com"
     }
   ]
 }

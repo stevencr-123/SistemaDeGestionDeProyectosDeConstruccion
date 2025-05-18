@@ -3,7 +3,6 @@ package service.impl;
 import model.Proyecto;
 import repository.interfaces.IProyectoRepository;
 import service.interfaces.IProyectoService;
-import exceptions.ProyectoYaExisteException;
 import exceptions.NombreProyectoExistenteException;
 import exceptions.FechaInvalidaException;
 import exceptions.ProyectoNoEncontradoException;

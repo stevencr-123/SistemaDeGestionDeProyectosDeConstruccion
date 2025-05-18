@@ -1,9 +1,5 @@
 package model;
 
-import enums.EstadoProyecto;
-import enums.Prioridad;
-import enums.TipoReparacion;
-
 import java.time.LocalDate;
 
 public class Proyecto {
