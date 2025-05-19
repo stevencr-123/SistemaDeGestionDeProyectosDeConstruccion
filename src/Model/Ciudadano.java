@@ -1,24 +1,24 @@
 package model;
 
 import model.TipoIdentificacion;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import model.Persona;
 
 public class Ciudadano extends Persona {
 
-    private LocalDate fechaRegistro;
+    private LocalDateTime fechaRegistro;
 
     public Ciudadano(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion, String primerNombre,
-                     String primerApellido, String email) {
-        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email);
-        this.fechaRegistro = LocalDate.now(); // Registro automático
+                     String primerApellido, String email, double sueldo) {
+        super(tipoIdentificacion, numeroIdentificacion, primerNombre, primerApellido, email, sueldo);
+        this.fechaRegistro = LocalDateTime.now(); // Registro automático
     }
 
-    public LocalDate getFechaRegistro() {
+    public LocalDateTime getFechaRegistro() {
         return fechaRegistro;
     }
 
-    public void setFechaRegistro(LocalDate fechaRegistro) {
+    public void setFechaRegistro(LocalDateTime fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
 }

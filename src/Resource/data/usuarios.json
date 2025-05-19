@@ -6,9 +6,93 @@
       "rol": "promotor"
     },
     {
-      "correo": "admin@proyecto.com",
-      "password": "admin123",
-      "rol": "administrador"
+  "correo": "Camilo@Constructora.com",
+  "password": "Camilo@Constructora.com",
+  "fechaRegistro": "2025-05-15T18:04:48",
+  "activo": true,
+  "rol": "OBRERO",
+  "persona": {
+    "especialidad": null,
+    "fechaContratacion": "2025-05-15T18:04:48",
+    "seguroLaboral": false,
+    "certificaciones": null,
+    "tipoIdentificacion": "CEDULA",
+    "numeroIdentificacion": "1143289089",
+    "primerNombre": "Camilo",
+    "segundoNombre": null,
+    "primerApellido": "Jurado",
+    "segundoApellido": null,
+    "email": "Camilo@Constructora.com",
+    "telefono": null,
+    "salario": 2500000.0,
+    "type": "Obrero"
+  },
+      "correo": "Camilo@Constructora.com"
+    },
+    {
+      "password": "Carlos@Constructora.com",
+      "fechaRegistro": "2025-05-15T18:06:17",
+      "activo": true,
+      "rol": "INSPECTOR_MUNICIPAL",
+      "persona": {
+        "areaEspecializacion": null,
+        "instrumentosCertificados": null,
+        "fechaRegistro": "2025-05-15T18:06:17",
+        "tipoIdentificacion": "REGISTROCIVIL",
+        "numeroIdentificacion": "1193522891",
+        "primerNombre": "Carlos",
+        "segundoNombre": null,
+        "primerApellido": "Marrugo",
+        "segundoApellido": null,
+        "email": "Carlos@Constructora.com",
+        "telefono": null,
+        "salario": 1.0E7,
+        "type": "InspectorMunicipal"
+      },
+      "correo": "Carlos@Constructora.com"
+    },
+    {
+      "password": "admin@proyecto.com",
+      "fechaRegistro": "2025-05-15T18:26:13",
+      "activo": true,
+      "rol": "ADMINISTRADOR",
+      "persona": {
+        "fechaRegistro": "2025-05-15T18:26:13",
+        "tipoIdentificacion": "CEDULA",
+        "numeroIdentificacion": "00000000",
+        "primerNombre": "Admin",
+        "segundoNombre": null,
+        "primerApellido": "Sistema",
+        "segundoApellido": null,
+        "email": "admin@proyecto.com",
+        "telefono": null,
+        "salario": 0.0,
+        "type": "Administrador"
+      },
+      "correo": "admin@proyecto.com"
+    },
+    {
+      "password": "Obrero@constructora.com",
+      "fechaRegistro": "2025-05-16T13:09:43",
+      "activo": true,
+      "rol": "OBRERO",
+      "persona": {
+        "especialidad": null,
+        "fechaContratacion": "2025-05-16T13:09:43",
+        "seguroLaboral": false,
+        "certificaciones": null,
+        "tipoIdentificacion": "CEDULA",
+        "numeroIdentificacion": "2784622901",
+        "primerNombre": "Juan",
+        "segundoNombre": null,
+        "primerApellido": "Martinez",
+        "segundoApellido": null,
+        "email": "Obrero@constructora.com",
+        "telefono": null,
+        "salario": 2500000.0,
+        "type": "Obrero"
+      },
+      "correo": "Obrero@constructora.com"
     }
   ]
 }

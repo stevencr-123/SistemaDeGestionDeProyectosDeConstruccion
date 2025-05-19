@@ -1,6 +1,6 @@
-
 package repository.interfaces;
 
+import exceptions.ProyectoNoEncontradoException;
 import java.util.List;
 import Model.Proyecto;
 
@@ -9,5 +9,7 @@ public interface IProyectoRepository {
     List<Proyecto> listarProyectos() throws Exception;
     Proyecto buscarPorCodigo(String codigo) throws Exception;
     void actualizarProyecto(Proyecto proyecto) throws Exception;
-    
+   void eliminarProyecto(String codigo) throws ProyectoNoEncontradoException, Exception;
+    void actualizar(Proyecto proyectoActualizado) throws Exception;
+
 }

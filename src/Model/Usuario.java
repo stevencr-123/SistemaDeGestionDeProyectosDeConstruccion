@@ -1,39 +1,41 @@
 package model;
 
+import com.google.gson.annotations.SerializedName;
 import model.RolSistema;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Usuario {
-    private String nombre;
+
     private String password;
-    private LocalDate fechaRegistro;
+    private LocalDateTime fechaRegistro;
     private boolean activo;
-    private RolSistema rol; // solo un rol
+    private RolSistema rol; 
+
+    @SerializedName("persona")
     private Persona persona;
+
+    @SerializedName("correo")  
     private String email;
 
-    public Usuario(String email, String password, RolSistema rol) {
-        this.email = email;
-        this.password = password;
-        this.rol = rol;
-        this.fechaRegistro = LocalDate.now();
-        this.activo = true;
-    }
+    // Constructor con parámetros
+  public Usuario(String email, String password, RolSistema rol, Persona persona) {
+    System.out.println("Constructor de Usuario llamado con: " + email);
+    this.email = email;
+    this.password = password;
+    this.rol = rol;
+    this.persona = persona;
+    this.fechaRegistro = LocalDateTime.now();
+    this.activo = true;
+}
 
+
+    // Constructor vacío
     public Usuario() {
-        this.fechaRegistro = LocalDate.now();
+        this.fechaRegistro = LocalDateTime.now();
         this.activo = true;
     }
 
     // --- Getters y Setters ---
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -42,11 +44,11 @@ public class Usuario {
         this.password = password;
     }
 
-    public LocalDate getFechaRegistro() {
+    public LocalDateTime getFechaRegistro() {
         return fechaRegistro;
     }
 
-    public void setFechaRegistro(LocalDate fechaRegistro) {
+    public void setFechaRegistro(LocalDateTime fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
 

@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 import model.EstadoProyecto;
 import model.Prioridad;
 import model.TipoReparacion;
+import model.Prioridad;
+import model.TipoReparacion;
+
 import java.time.LocalDate;
 
 public class Proyecto {

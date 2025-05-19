@@ -4,6 +4,13 @@ import Model.Proyecto;
 import Model.Solicitud;
 import repository.interfaces.IProyectoRepository;
 import service.interfaces.IProyectoService;
+import exceptions.ProyectoYaExisteException;
+import exceptions.NombreProyectoExistenteException;
+import exceptions.FechaInvalidaException;
+import exceptions.ProyectoNoEncontradoException;
+import exceptions.ProyectoYaExisteException;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +43,19 @@ public class ProyectoServiceImpl implements IProyectoService {
         }
         return proyectoRepository.buscarPorCodigo(codigo);
     }
+    
+      @Override
+    public void eliminarProyecto(String codigo) throws ProyectoNoEncontradoException, Exception {
+        proyectoRepository.eliminarProyecto(codigo);
+    }
+    
+    @Override
+public void actualizarProyecto(Proyecto proyecto) throws Exception {
+    proyectoRepository.actualizar(proyecto);
+}
 
+    
+    
     @Override
     public List<Proyecto> buscarPorCampo(String campo, String texto, boolean caseSensitive) throws Exception {
         List<Proyecto> proyectos = proyectoRepository.listarProyectos();
@@ -55,18 +74,6 @@ public class ProyectoServiceImpl implements IProyectoService {
             .collect(Collectors.toList());
     }
 
-    @Override
-    public void actualizarProyecto(Proyecto proyecto) throws Exception {
-        validarProyecto(proyecto);
-        
-        // Validar que el proyecto exista
-        Proyecto existente = proyectoRepository.buscarPorCodigo(proyecto.getCodigo());
-        if (existente == null) {
-            throw new Exception("Proyecto no encontrado para actualización");
-        }
-        
-        proyectoRepository.actualizarProyecto(proyecto);
-    }
 
     // Métodos auxiliares
     private void validarProyecto(Proyecto proyecto) throws IllegalArgumentException {

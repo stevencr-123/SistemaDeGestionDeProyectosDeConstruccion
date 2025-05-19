@@ -2,8 +2,11 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-                                                        
-        =======
+                                                                
+        
+                
+        
+        
         
         
         
@@ -104,6 +107,60 @@
             <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Resource/diagramas/DiagramaCasosDeUso.puml</file>
             <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/repository/impl/LicenciaJsonDAO.java</file>
             <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/View/InspectorWindown.java</file>
+        </group>
+        <group>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/repository/interfaces/IObreroRepository.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Resource/data/proyectos.json</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Model/InspectorMunicipal.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/View/FuncionarioWindown.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/util/JsonManager.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/service/interfaces/IFuncionarioService.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Model/Prioridad.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Resource/diagramas/DiagramaDeFuncionalidades.puml</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Resource/data/Obrero.json</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/View/Obrero.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Model/Administrador.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/gestionparaproyectosdeconstruccion/DiagramaDeClases</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/repository/impl/ProyectoRepositoryJsonImpl.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/View/Ciudadano.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Resource/diagramas/DiagramaDeFlujo.puml</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/service/interfaces/IProyectoService.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/View/AdministradorWindown.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Model/Usuario.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Model/TipoIdentificacion.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/repository/interfaces/IProyectoRepository.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Model/Promotor.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/View/DialogModificarProyecto.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Resource/data/usuarios.json</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/repository/interfaces/IUsuarioRepository.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Controller/UsuarioController.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Resource/diagramas/DiagramaCasosDeUso.puml</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Model/Solicitud.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/repository/impl/LicenciaJsonDAO.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/repository/impl/UsuarioRepositoryJsonImpl.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/service/impl/ProyectoServiceImpl.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Model/RolSistema.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Model/EstadoProyecto.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/factory/UsuarioFactory.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/exceptions/ProyectoNoEncontradoException.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Model/Ciudadano.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Model/FuncionarioPublico.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Resource/diagramas/DiagramaDeProyecto.puml</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/service/impl/ReporteServiceImpl.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/View/Login.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/repository/interfaces/IGeneralDAO.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/View/PromotorWindown.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Model/Obrero.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Model/Persona.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Model/Proyecto.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/View/CiudadanoWindown.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Model/TipoReparacion.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Controller/ProyectoController.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/service/impl/FuncionarioServiceImpl.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Model/EstadoTarea.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/Resource/diagramas/DiagramaDeClases.puml</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/View/InspectorWindown.java</file>
+            <file>file:/C:/Users/Camilo%20Jurado/OneDrive/Desktop/SistemaDeGestionDeProyectosDeConstruccion/src/service/impl/UsuarioServiceImpl.java</file>
         </group>
     </open-files>
 </project-private>

@@ -5,6 +5,7 @@ import model.Prioridad;
 import model.TipoReparacion;
 import exceptions.FechaInvalidaException;
 import exceptions.NombreProyectoExistenteException;
+import exceptions.ProyectoNoEncontradoException;
 import exceptions.ProyectoYaExisteException;
 import Model.Proyecto;
 import exceptions.ValidacionException;
@@ -142,5 +143,14 @@ public class ProyectoController {
     );
     return proyectos;
 }
+
+public void eliminarProyecto(String codigo) throws ProyectoNoEncontradoException, Exception {
+        proyectoService.eliminarProyecto(codigo);
+    }
+
+public void actualizarProyecto(Proyecto proyecto) throws Exception {
+    proyectoService.actualizarProyecto(proyecto);
+}
+
 
 }

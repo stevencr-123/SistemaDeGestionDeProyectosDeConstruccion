@@ -3,9 +3,9 @@ package view;
 
 import Model.Proyecto;
 
-public class JDialogVerDetallesProyecto extends javax.swing.JDialog {
+public class DialogVerDetallesProyecto extends javax.swing.JDialog {
 
-    public JDialogVerDetallesProyecto(java.awt.Frame parent, boolean modal) {
+    public DialogVerDetallesProyecto(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         this.setLocationRelativeTo(null);
         initComponents();
@@ -160,6 +160,11 @@ public class JDialogVerDetallesProyecto extends javax.swing.JDialog {
 
         btnCerrar.setBackground(new java.awt.Color(0, 51, 255));
         btnCerrar.setText("Cerrar");
+        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarActionPerformed(evt);
+            }
+        });
         panelBase.add(btnCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 420, 120, 40));
         panelBase.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 400, 10));
 
@@ -203,10 +208,14 @@ public class JDialogVerDetallesProyecto extends javax.swing.JDialog {
     private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
     
     }//GEN-LAST:event_txtCodigoActionPerformed
+
+    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+                  this.dispose();
+    }//GEN-LAST:event_btnCerrarActionPerformed
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                JDialogVerDetallesProyecto dialog = new JDialogVerDetallesProyecto(new javax.swing.JFrame(), true);
+                DialogVerDetallesProyecto dialog = new DialogVerDetallesProyecto(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
